@@ -7,7 +7,13 @@
     android:background="?attr/colorPrimary"
     app:elevation="@dimen/default_elevation"
     app:layout_scrollFlags="scroll|enterAlways"
+    android:layout_gravity="bottom"
     app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+    <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:src="@drawable/logo"-->
+        <!--android:contentDescription="@string/app_name" />-->
 
 </android.support.v7.widget.Toolbar>

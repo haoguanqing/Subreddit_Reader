@@ -88,6 +88,4 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             vImageRoot = (FrameLayout) view.findViewById(R.id.vImageRoot);
         }
     }
-
-
 }

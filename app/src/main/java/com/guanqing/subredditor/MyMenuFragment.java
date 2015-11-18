@@ -24,8 +24,7 @@ public class MyMenuFragment extends MenuFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_menu, container,
-                false);
+        View view = inflater.inflate(R.layout.fragment_menu, container, false);
         ivMenuUserProfilePhoto = (ImageView) view.findViewById(R.id.ivMenuUserProfilePhoto);
         setupHeader();
         return  setupReveal(view) ;
@@ -33,9 +32,10 @@ public class MyMenuFragment extends MenuFragment {
 
     private void setupHeader() {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
-        String profilePhoto = "profile photo";
+        //if(ivMenuUserProfilePhoto==null) return;
+
         Picasso.with(getActivity())
-                .load(profilePhoto)
+                .load(R.drawable.profile_icon)
                 .placeholder(R.drawable.img_circle_placeholder)
                 .resize(avatarSize, avatarSize)
                 .centerCrop()

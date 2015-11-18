@@ -16,11 +16,12 @@
             android:layout_margin="12dp" />
 
         <TextView
+            android:id="@+id/ivUserProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="soul.mxn"
+            android:text="Guanqing"
             android:textColor="#2d5d82"
             android:textSize="16sp"
             android:textStyle="bold" />
