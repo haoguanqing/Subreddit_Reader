@@ -1,4 +1,4 @@
-package com.guanqing.subredditor;
+package com.guanqing.subredditor.UI;
 
 import android.annotation.TargetApi;
 import android.content.Context;

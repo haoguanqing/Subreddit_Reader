@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.guanqing.subredditor.UI.CircleTransformation;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 import com.squareup.picasso.Picasso;
 

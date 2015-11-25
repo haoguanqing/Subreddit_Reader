@@ -51,10 +51,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:paddingRight="10dp"
+            android:paddingEnd="10dp"
             />
-
     </RelativeLayout>
 
 </com.mxn.soul.flowingdrawer_core.LeftDrawerLayout>

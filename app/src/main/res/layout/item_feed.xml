@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_feed_top" />
 
-        <com.guanqing.subredditor.SquaredFrameLayout
+        <com.guanqing.subredditor.UI.SquaredFrameLayout
             android:id="@+id/vImageRoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
 
-        </com.guanqing.subredditor.SquaredFrameLayout>
+        </com.guanqing.subredditor.UI.SquaredFrameLayout>
 
         <ImageView
             android:id="@+id/ivFeedBottom"

@@ -1,4 +1,4 @@
-package com.guanqing.subredditor;
+package com.guanqing.subredditor.UI;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
