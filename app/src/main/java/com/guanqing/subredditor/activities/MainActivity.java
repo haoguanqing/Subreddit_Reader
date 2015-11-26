@@ -1,14 +1,11 @@
 package com.guanqing.subredditor.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.guanqing.subredditor.FeedAdapter;
 import com.guanqing.subredditor.MyMenuFragment;
@@ -54,18 +51,6 @@ public class MainActivity extends BaseActivity {
                 mLeftDrawerLayout.toggle();
             }
         });
-
-        ImageView userProfileImage = (ImageView)findViewById(R.id.ivUserProfile);
-        TextView userProfileName = (TextView)findViewById(R.id.ivUserProfileName);
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, null);
-                startActivity(intent);
-            }
-        };
-        userProfileImage.setOnClickListener(listener);
-        userProfileName.setOnClickListener(listener);
 
     }
 

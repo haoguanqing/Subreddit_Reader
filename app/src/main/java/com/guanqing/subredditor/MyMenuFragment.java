@@ -1,13 +1,16 @@
 package com.guanqing.subredditor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.guanqing.subredditor.UI.CircleTransformation;
+import com.guanqing.subredditor.activities.LoginActivity;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +31,18 @@ public class MyMenuFragment extends MenuFragment {
         View view = inflater.inflate(R.layout.fragment_menu, container, false);
         ivMenuUserProfilePhoto = (ImageView) view.findViewById(R.id.ivMenuUserProfilePhoto);
         setupHeader();
+
+        ImageView userProfileImage = (ImageView)view.findViewById(R.id.ivMenuUserProfilePhoto);
+        TextView userProfileName = (TextView)view.findViewById(R.id.ivUserProfileName);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+                startActivity(intent);
+            }
+        };
+        userProfileImage.setOnClickListener(listener);
+        userProfileName.setOnClickListener(listener);
         return  setupReveal(view) ;
     }
 
@@ -42,6 +57,8 @@ public class MyMenuFragment extends MenuFragment {
                 .centerCrop()
                 .transform(new CircleTransformation())
                 .into(ivMenuUserProfilePhoto);
+
+
     }
 
 }
