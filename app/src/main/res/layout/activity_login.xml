@@ -12,22 +12,30 @@
     tools:context="com.guanqing.subredditor.activities.LoginActivity">
 
     <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
+    <LinearLayout
+        android:id="@+id/login_process"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        android:gravity="center">
 
-    <com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/loginLoadingIndicatorView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:indicator="Pacman"
-        app:indicator_color="@color/primary_dark"
-    />
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/avLoadingIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicator="Pacman"
+            app:indicator_color="@color/primary_dark"
+            android:layout_gravity="center"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/logging_in"/>
+    </LinearLayout>
+
 
     <ScrollView
         android:id="@+id/login_form"
@@ -35,21 +43,29 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
+            android:id="@+id/user_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/user_login_icon"
+                android:layout_width="@dimen/global_menu_avatar_size"
+                android:layout_height="@dimen/global_menu_avatar_size"
+                android:src="@drawable/profile_icon"
+                android:layout_gravity="center"
+                android:layout_margin="12dp" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
+                <EditText
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_username"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPersonName"
                     android:maxLines="1"
                     android:singleLine="true" />
 

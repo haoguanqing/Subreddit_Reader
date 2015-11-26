@@ -48,7 +48,6 @@ public class MyMenuFragment extends MenuFragment {
 
     private void setupHeader() {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
-        //if(ivMenuUserProfilePhoto==null) return;
 
         Picasso.with(getActivity())
                 .load(R.drawable.profile_icon)
@@ -57,8 +56,6 @@ public class MyMenuFragment extends MenuFragment {
                 .centerCrop()
                 .transform(new CircleTransformation())
                 .into(ivMenuUserProfilePhoto);
-
-
     }
 
 }
