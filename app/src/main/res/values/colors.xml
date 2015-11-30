@@ -17,4 +17,10 @@
     <color name="photo_placeholder">#ccc</color>
 
     <color name="text_like_counter">#2b5a83</color>
+
+    <color name="ball1">#607D8B</color>
+    <color name="ball2">#CDDC39</color>
+    <color name="ball3">#FF9800</color>
+    <color name="ball4">#F44336</color>
+
 </resources>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.guanqing.subredditor"
-        minSdkVersion 21
+        minSdkVersion 15
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -21,10 +21,17 @@ android {
     lintOptions {
         abortOnError false
     }
+    packagingOptions{
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
 }
 
 repositories{
     jcenter()
+    maven {
+        url "http://dl.bintray.com/glomadrian/maven"
+    }
 }
 
 dependencies {
@@ -47,11 +54,16 @@ dependencies {
 
     //AVLoadingIndicatorView:　https://github.com/81813780/AVLoadingIndicatorView
     //compile 'com.wang.avi:library:1.0.1'
-    compile project(':avLoadingIndicator')
+    //compile project(':avLoadingIndicator')
 
     //picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     compile 'com.mcxiaoke.volley:library:1.0.19'
+
+    //JRAW
+    compile 'net.dean.jraw:JRAW:0.7.1'
+
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
 
 }

@@ -3,24 +3,40 @@ package com.guanqing.subredditor.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.CircleTransformation;
-import com.squareup.picasso.Picasso;
+import com.guanqing.subredditor.Util.ToastUtil;
 
+import net.dean.jraw.RedditClient;
+import net.dean.jraw.http.NetworkException;
+import net.dean.jraw.http.UserAgent;
+import net.dean.jraw.http.oauth.Credentials;
+import net.dean.jraw.http.oauth.OAuthData;
+import net.dean.jraw.http.oauth.OAuthException;
+import net.dean.jraw.http.oauth.OAuthHelper;
+import net.dean.jraw.models.Listing;
+import net.dean.jraw.models.Submission;
+import net.dean.jraw.paginators.Sorting;
+import net.dean.jraw.paginators.SubredditPaginator;
+import net.dean.jraw.paginators.TimePeriod;
+
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,46 +45,38 @@ import java.util.regex.Pattern;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends AppCompatActivity {
+    private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private EditText mUsernameView;
     private EditText mPasswordView;
     private View mLoginFormView;
     private ImageView mLoginIcon;
-    private com.wang.avi.AVLoadingIndicatorView avloadingView;
     private View loginProcessView;
+    private WebView webView;
+
+    //JRAW login instances
+    UserAgent mUserAgent;
+    static RedditClient redditClient;
+
+    private String username;
+    private String password;
+    static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setupActionBar();
+
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
-                    return true;
-                }
-                return false;
-            }
-        });
 
         Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
         Button mRegisterButton = (Button) findViewById(R.id.register_button);
@@ -81,8 +89,13 @@ public class LoginActivity extends AppCompatActivity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mLoginIcon = (ImageView)findViewById(R.id.user_login_icon);
-        avloadingView = (com.wang.avi.AVLoadingIndicatorView)findViewById(R.id.avLoadingIndicator);
         loginProcessView = findViewById(R.id.login_process);
+        webView = (WebView)findViewById(R.id.login_webview);
+
+        username = "";
+        password = "";
+
+        mContext = this;
     }
 
     /**
@@ -100,21 +113,17 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid username, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
         // Reset errors.
         mUsernameView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String username = mUsernameView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        username = mUsernameView.getText().toString();
+        password = mPasswordView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -150,18 +159,17 @@ public class LoginActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(username, password);
-            mAuthTask.execute((Void) null);
+            userLogin();
         }
     }
 
     private boolean isUserNameValid(String username) {
-        //TODO: Replace this with your own logic
         boolean isValid = true;
         int len = username.length();
         if (len>20 || len<3){
             isValid = false;
         }
+        //use regex to validate username
         Pattern pattern = Pattern.compile("[^[-_\\w]]");
         Matcher matcher = pattern.matcher(username);
         if(matcher.find()){
@@ -201,72 +209,126 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * performs user login
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private void userLogin(){
+        mUserAgent = UserAgent.of("Android", "com.guanqing.subredditor", "1.0", "besttth9");
+        redditClient = new RedditClient(mUserAgent);
+        final OAuthHelper helper = redditClient.getOAuthHelper();
+        final net.dean.jraw.http.oauth.Credentials credentials =
+                net.dean.jraw.http.oauth.Credentials.installedApp("p6NSlEAAL8HerQ", "http://haoguanqing.github.io/Tests-Misc-for-Android/");
+        boolean permanent = true;
+        String[] scopes = {"identity", "read"};
 
-        private final String mUsername;
-        private final String mPassword;
+        URL authorizationUrl = helper.getAuthorizationUrl(credentials, permanent, scopes);
 
-        UserLoginTask(String username, String password) {
-            mUsername = username;
-            mPassword = password;
-        }
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.addJavascriptInterface(new jsInterface(), "HTMLOUT");
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+        webView.setWebViewClient(new WebViewClient() {
 
-            try {
-                // Simulate network access.
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mUsername)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                if (url.contains("code=")) {
+                    new UserChallengeTask(helper, credentials).execute(url);
+                    //webView.stopLoading();
                 }
             }
 
-            // TODO: register the new account here.
-            return true;
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.e("HGQ", "onPageFinished: " + url);
+
+                if (url.startsWith("https://www.reddit.com/login")) {
+                    String getButtonJS = "javascript:var els = document.getElementsByClassName('c-btn c-btn-primary c-pull-right');" +
+                            "javascript:els[1].click();";
+                    webView.loadUrl(
+                            "javascript:document.getElementById('user_login').value = '" + username + "';" +
+                                    "javascript:document.getElementById('passwd_login').value = '" + password + "';" +
+                                    getButtonJS
+                    );
+                } else if (url.startsWith("https://www.reddit.com/api/v1/authorize")) {
+                    webView.loadUrl("javascript:document.getElementsByClassName('fancybutton newbutton allow')[0].click();");
+                } else if (url.contains("code=")) {
+                    onBackPressed();
+                }
+            }
+        });
+        webView.loadUrl(authorizationUrl.toExternalForm());
+
+        new AccountRetrieveTask().execute();
+    }
+
+    class jsInterface{
+        public void showHTML(String html){
+            Intent openNewActivity = new Intent("android.intent.action.showHTMLintent");
+            startActivity(openNewActivity);
+        }
+    }
+
+
+    private static final class UserChallengeTask extends AsyncTask<String, Void, OAuthData>{
+        private OAuthHelper helper;
+        private Credentials creds;
+
+        public UserChallengeTask(OAuthHelper helper, Credentials creds){
+            this.helper = helper;
+            this.creds = creds;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+        protected OAuthData doInBackground(String... params) {
+            try{
+                return helper.onUserChallenge(params[0], creds);
+            }catch (OAuthException | NullPointerException e){
+                ToastUtil.show(mContext, "Fail to authenticate");
+                return null;
+            }catch (NetworkException e){
+                ToastUtil.show(mContext, "No network detected");
+                return null;
             }
         }
 
         @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
+        protected void onPostExecute(OAuthData oAuthData) {
+            if(oAuthData!=null){
+                redditClient.authenticate(oAuthData);
+                Log.e("HGQ", "oAuthData not null! Client authenticated! ");
+            }
         }
     }
 
-    private void setupHeader() {
-        int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
 
-        Picasso.with(this)
-                .load(R.drawable.profile_icon)
-                .placeholder(R.drawable.img_circle_placeholder)
-                .resize(avatarSize, avatarSize)
-                .centerCrop()
-                .transform(new CircleTransformation())
-                .into(mLoginIcon);
+    private static final class AccountRetrieveTask extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            try{
+                SubredditPaginator frontPage = new SubredditPaginator(redditClient);
+                // Adjust the request parameters
+                frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
+                frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
+                frontPage.setSorting(Sorting.TOP);         // Default is HOT (Paginator.DEFAULT_SORTING)
+                // This Paginator is now set up to retrieve the highest-scoring links submitted within the past
+                // month, 50 at a time
+
+                // Since Paginator implements Iterator, you can use it just how you would expect to, using next() and hasNext()
+                Listing<Submission> submissions = frontPage.next();
+                for (Submission s : submissions) {
+                    // Print some basic stats about the posts
+                    Log.e("HGQ", "[/r/%s - %s karma] %s\n"+s.getSubredditName()+ s.getScore()+ s.getTitle());
+                }
+
+            }catch (Exception e){
+                e.printStackTrace();
+                Log.e("HGQ", "retrieve task failed");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+        }
     }
 }
 
