@@ -52,10 +52,6 @@ dependencies {
     //bga-refreshlayout
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.1@aar'
 
-    //AVLoadingIndicatorView:　https://github.com/81813780/AVLoadingIndicatorView
-    //compile 'com.wang.avi:library:1.0.1'
-    //compile project(':avLoadingIndicator')
-
     //picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
@@ -65,5 +61,8 @@ dependencies {
     compile 'net.dean.jraw:JRAW:0.7.1'
 
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
+
+    //Eventbus
+    compile 'de.greenrobot:eventbus:2.4.1'
 
 }

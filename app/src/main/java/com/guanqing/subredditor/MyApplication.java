@@ -24,7 +24,6 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //由于Application类本身已经单例，所以直接按以下处理即可。
         myApplication = this;
         requestQueue = Volley.newRequestQueue(this);
         //initImageLoader();

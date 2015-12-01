@@ -1,7 +1,8 @@
-package com.guanqing.subredditor.activities;
+package com.guanqing.subredditor.Activities;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
 import com.guanqing.subredditor.FeedAdapter;
 import com.guanqing.subredditor.MyMenuFragment;
 import com.guanqing.subredditor.R;
@@ -26,6 +28,7 @@ public class MainActivity extends BaseActivity {
 
     private RecyclerView rvFeed;
     private LeftDrawerLayout mLeftDrawerLayout;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends BaseActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         MyMenuFragment mMenuFragment = (MyMenuFragment) fm.findFragmentById(R.id.id_container_menu);
+        mNavigationView = (NavigationView) findViewById(R.id.vNavigation);
         FlowingView mFlowingView = (FlowingView) findViewById(R.id.sv);
         if (mMenuFragment == null) {
             fm.beginTransaction().add(R.id.id_container_menu, mMenuFragment = new MyMenuFragment()).commit();
@@ -45,14 +49,12 @@ public class MainActivity extends BaseActivity {
         mLeftDrawerLayout.setFluidView(mFlowingView);
         mLeftDrawerLayout.setMenuFragment(mMenuFragment);
         setupFeed();
-        findViewById(R.id.myFAB).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AccountRetrieveTask().execute();
-            }
-        });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     protected void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -93,8 +95,12 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private static final class AccountRetrieveTask extends AsyncTask<Void, Void, Void> {
 
+    public void onEvent(FinishAuthenticateEvent event){
+        new AccountRetrieveTask().execute();
+    }
+
+    private static final class AccountRetrieveTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try{
@@ -102,7 +108,7 @@ public class MainActivity extends BaseActivity {
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
-                frontPage.setSorting(Sorting.TOP);         // Default is HOT (Paginator.DEFAULT_SORTING)
+                frontPage.setSorting(Sorting.HOT);         // Default is HOT (Paginator.DEFAULT_SORTING)
                 // This Paginator is now set up to retrieve the highest-scoring links submitted within the past
                 // month, 50 at a time
 
@@ -110,7 +116,7 @@ public class MainActivity extends BaseActivity {
                 Listing<Submission> submissions = frontPage.next();
                 for (Submission s : submissions) {
                     // Print some basic stats about the posts
-                    Log.e("HGQ", "[/r/%s - %s karma] %s\n" + s.getSubredditName() + s.getScore() + s.getTitle());
+                    Log.e("HGQ", "[/r/" + s.getSubredditName() + " - " + s.getScore() + " karma] " + s.getTitle() + "\n" + "https://www.reddit.com" + s.getPermalink() + "\n" + s.getThumbnail());
                 }
 
             }catch (Exception e){

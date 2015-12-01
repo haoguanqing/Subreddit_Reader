@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.activities;
+package com.guanqing.subredditor.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.common.eventbus.EventBus;
+import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.ToastUtil;
 
@@ -30,11 +31,6 @@ import net.dean.jraw.http.oauth.Credentials;
 import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
-import net.dean.jraw.models.Listing;
-import net.dean.jraw.models.Submission;
-import net.dean.jraw.paginators.Sorting;
-import net.dean.jraw.paginators.SubredditPaginator;
-import net.dean.jraw.paginators.TimePeriod;
 
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -44,7 +40,8 @@ import java.util.regex.Pattern;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
+    private static final String CLIEND_ID = "p6NSlEAAL8HerQ";
     private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
 
     /**
@@ -67,9 +64,12 @@ public class LoginActivity extends AppCompatActivity {
     private String password;
     static Context mContext;
 
+    private static EventBus eventBus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        eventBus = new EventBus();
         setContentView(R.layout.activity_login);
         setupActionBar();
 
@@ -163,6 +163,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * check if the input username is valid
+     * @param username
+     * @return
+     */
     private boolean isUserNameValid(String username) {
         boolean isValid = true;
         int len = username.length();
@@ -178,6 +183,11 @@ public class LoginActivity extends AppCompatActivity {
         return isValid;
     }
 
+    /**
+     * check if input password is valid
+     * @param password
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         return password.length() >= 6;
     }
@@ -216,7 +226,7 @@ public class LoginActivity extends AppCompatActivity {
         redditClient = new RedditClient(mUserAgent);
         final OAuthHelper helper = redditClient.getOAuthHelper();
         final net.dean.jraw.http.oauth.Credentials credentials =
-                net.dean.jraw.http.oauth.Credentials.installedApp("p6NSlEAAL8HerQ", "http://haoguanqing.github.io/Tests-Misc-for-Android/");
+                net.dean.jraw.http.oauth.Credentials.installedApp(CLIEND_ID, REDIRECT_URL);
         boolean permanent = true;
         String[] scopes = {"identity", "read"};
 
@@ -231,7 +241,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.contains("code=")) {
                     new UserChallengeTask(helper, credentials).execute(url);
-                    //webView.stopLoading();
                 }
             }
 
@@ -249,14 +258,10 @@ public class LoginActivity extends AppCompatActivity {
                     );
                 } else if (url.startsWith("https://www.reddit.com/api/v1/authorize")) {
                     webView.loadUrl("javascript:document.getElementsByClassName('fancybutton newbutton allow')[0].click();");
-                } else if (url.contains("code=")) {
-                    onBackPressed();
                 }
             }
         });
         webView.loadUrl(authorizationUrl.toExternalForm());
-
-        new AccountRetrieveTask().execute();
     }
 
     class jsInterface{
@@ -266,7 +271,9 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * use the code(credentials) to authenticate the reddit client
+     */
     private static final class UserChallengeTask extends AsyncTask<String, Void, OAuthData>{
         private OAuthHelper helper;
         private Credentials creds;
@@ -293,42 +300,21 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                Log.e("HGQ", "oAuthData not null! Client authenticated! ");
+                eventBus.post(new FinishAuthenticateEvent());
             }
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        eventBus.register(this);
+    }
 
-    private static final class AccountRetrieveTask extends AsyncTask<Void, Void, Void>{
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try{
-                SubredditPaginator frontPage = new SubredditPaginator(redditClient);
-                // Adjust the request parameters
-                frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
-                frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
-                frontPage.setSorting(Sorting.TOP);         // Default is HOT (Paginator.DEFAULT_SORTING)
-                // This Paginator is now set up to retrieve the highest-scoring links submitted within the past
-                // month, 50 at a time
-
-                // Since Paginator implements Iterator, you can use it just how you would expect to, using next() and hasNext()
-                Listing<Submission> submissions = frontPage.next();
-                for (Submission s : submissions) {
-                    // Print some basic stats about the posts
-                    Log.e("HGQ", "[/r/%s - %s karma] %s\n"+s.getSubredditName()+ s.getScore()+ s.getTitle());
-                }
-
-            }catch (Exception e){
-                e.printStackTrace();
-                Log.e("HGQ", "retrieve task failed");
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void v) {
-        }
+    @Override
+    protected void onStop() {
+        eventBus.unregister(this);
+        super.onStop();
     }
 }
 

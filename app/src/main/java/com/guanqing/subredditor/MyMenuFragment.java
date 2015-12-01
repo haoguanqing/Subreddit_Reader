@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.UI.CircleTransformation;
-import com.guanqing.subredditor.activities.LoginActivity;
+import com.guanqing.subredditor.Activities.LoginActivity;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 import com.squareup.picasso.Picasso;
 

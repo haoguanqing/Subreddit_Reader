@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.activities;
+package com.guanqing.subredditor.Activities;
 
 import android.content.Context;
 import android.content.Intent;
