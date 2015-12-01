@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import com.google.common.eventbus.EventBus;
 import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
 import com.guanqing.subredditor.FeedAdapter;
 import com.guanqing.subredditor.MyMenuFragment;
@@ -29,10 +30,12 @@ public class MainActivity extends BaseActivity {
     private RecyclerView rvFeed;
     private LeftDrawerLayout mLeftDrawerLayout;
     private NavigationView mNavigationView;
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        de.greenrobot.event.EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         setupToolbar();
 
@@ -51,11 +54,6 @@ public class MainActivity extends BaseActivity {
         setupFeed();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     protected void setupToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,8 +67,6 @@ public class MainActivity extends BaseActivity {
         });
 
     }
-
-
 
     private void setupFeed() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
@@ -129,5 +125,11 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void v) {
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        de.greenrobot.event.EventBus.getDefault().unregister(this);
     }
 }

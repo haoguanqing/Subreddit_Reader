@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.google.common.eventbus.EventBus;
 import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.ToastUtil;
@@ -35,6 +34,8 @@ import net.dean.jraw.http.oauth.OAuthHelper;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import de.greenrobot.event.EventBus;
 
 
 /**
@@ -64,12 +65,9 @@ public class LoginActivity extends BaseActivity {
     private String password;
     static Context mContext;
 
-    private static EventBus eventBus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        eventBus = new EventBus();
         setContentView(R.layout.activity_login);
         setupActionBar();
 
@@ -194,6 +192,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * Shows the progress UI and hides the login form.
+     * @param show
      */
     private void showProgress(final boolean show) {
         int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
@@ -236,7 +235,6 @@ public class LoginActivity extends BaseActivity {
         webView.addJavascriptInterface(new jsInterface(), "HTMLOUT");
 
         webView.setWebViewClient(new WebViewClient() {
-
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 if (url.contains("code=")) {
@@ -272,7 +270,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     /**
-     * use the code(credentials) to authenticate the reddit client
+     * use the given code(credentials) to authenticate the reddit client
      */
     private static final class UserChallengeTask extends AsyncTask<String, Void, OAuthData>{
         private OAuthHelper helper;
@@ -300,7 +298,7 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                eventBus.post(new FinishAuthenticateEvent());
+                EventBus.getDefault().post(new FinishAuthenticateEvent());
             }
         }
     }
@@ -308,13 +306,17 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        eventBus.register(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected void onStop() {
-        eventBus.unregister(this);
+        EventBus.getDefault().unregister(this);
         super.onStop();
+    }
+
+    public void onEvent(FinishAuthenticateEvent event){
+        onBackPressed();
     }
 }
 
