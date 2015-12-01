@@ -12,12 +12,13 @@ import android.view.View;
 
 import com.google.common.eventbus.EventBus;
 import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
-import com.guanqing.subredditor.FeedAdapter;
+import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.MyMenuFragment;
 import com.guanqing.subredditor.R;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 
+import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Listing;
 import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
@@ -35,7 +36,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        de.greenrobot.event.EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         setupToolbar();
 
@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity {
         };
         rvFeed.setLayoutManager(linearLayoutManager);
 
-        FeedAdapter feedAdapter = new FeedAdapter(this);
+        FrontPageAdapter feedAdapter = new FrontPageAdapter(this);
         rvFeed.setAdapter(feedAdapter);
         feedAdapter.updateItems();
     }
@@ -93,14 +93,19 @@ public class MainActivity extends BaseActivity {
 
 
     public void onEvent(FinishAuthenticateEvent event){
-        new AccountRetrieveTask().execute();
+        new FrontPageRetrieveTask(event.getRedditClient()).execute();
     }
 
-    private static final class AccountRetrieveTask extends AsyncTask<Void, Void, Void> {
+    private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
+        RedditClient redditClient;
+        public FrontPageRetrieveTask(RedditClient client){
+            redditClient = client;
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             try{
-                SubredditPaginator frontPage = new SubredditPaginator(LoginActivity.redditClient);
+                SubredditPaginator frontPage = new SubredditPaginator(redditClient);
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
@@ -116,7 +121,6 @@ public class MainActivity extends BaseActivity {
                 }
 
             }catch (Exception e){
-                e.printStackTrace();
                 Log.e("HGQ", "retrieve task failed");
             }
             return null;
@@ -125,11 +129,5 @@ public class MainActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void v) {
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        de.greenrobot.event.EventBus.getDefault().unregister(this);
     }
 }

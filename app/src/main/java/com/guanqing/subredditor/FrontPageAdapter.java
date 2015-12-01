@@ -5,24 +5,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextSwitcher;
+import android.widget.TextView;
+
+import com.guanqing.subredditor.UI.DynamicHeightNetworkImageView;
+import com.squareup.picasso.Picasso;
 
 
-public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private int itemsCount = 0;
 
-    public FeedAdapter(Context context) {
+    public FrontPageAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.item_feed, parent, false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.list_item_feed, parent, false);
 
         return new CellFeedViewHolder(view);
     }
@@ -36,17 +38,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private void bindDefaultFeedItem(int position, CellFeedViewHolder holder) {
         if (position % 2 == 0) {
-            holder.ivFeedCenter.setImageResource(R.drawable.img_feed_center_1);
-            holder.ivFeedBottom.setImageResource(R.drawable.img_feed_bottom_1);
+            //holder.ivThumbnail.setImageUrl(R.drawable.img_feed_center_1);
+            Picasso.with(context).load("https://i.imgur.com/azJG8TL.gif").into(holder.ivThumbnail);
         } else {
-            holder.ivFeedCenter.setImageResource(R.drawable.img_feed_center_2);
-            holder.ivFeedBottom.setImageResource(R.drawable.img_feed_bottom_2);
+            //holder.ivThumbnail.setImageResource(R.drawable.img_feed_center_2);
+            Picasso.with(context).load("http://i.imgur.com/6c0N9I3.jpg").into(holder.ivThumbnail);
         }
 
         holder.btnComments.setTag(position);
-        holder.btnMore.setTag(position);
-        holder.ivFeedCenter.setTag(holder);
-        holder.btnLike.setTag(holder);
+        holder.ivThumbnail.setTag(holder);
+        holder.btnSave.setTag(holder);
 
     }
 
@@ -66,26 +67,20 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public static class CellFeedViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivFeedCenter;
-        ImageView ivFeedBottom;
+        DynamicHeightNetworkImageView ivThumbnail;
+        TextView ivFeedBottom;
         ImageButton btnComments;
-        ImageButton btnLike;
-        ImageButton btnMore;
-        TextSwitcher tsLikesCounter;
-        ImageView ivUserProfile;
-        FrameLayout vImageRoot;
+        ImageButton btnSave;
+        TextSwitcher tsUpvotesCounter;
 
         public CellFeedViewHolder(View view) {
             super(view);
 
-            ivFeedCenter = (ImageView) view.findViewById(R.id.ivFeedCenter);
-            ivFeedBottom = (ImageView) view.findViewById(R.id.ivFeedBottom);
+            ivThumbnail = (DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
+            ivFeedBottom = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
-            btnLike = (ImageButton) view.findViewById(R.id.btnLike);
-            btnMore = (ImageButton) view.findViewById(R.id.btnMore);
-            tsLikesCounter = (TextSwitcher) view.findViewById(R.id.tsLikesCounter);
-            ivUserProfile = (ImageView) view.findViewById(R.id.ivUserProfile);
-            vImageRoot = (FrameLayout) view.findViewById(R.id.vImageRoot);
+            btnSave = (ImageButton) view.findViewById(R.id.btnSave);
+            tsUpvotesCounter = (TextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
         }
     }
 }

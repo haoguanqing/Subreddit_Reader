@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.guanqing.subredditor.MyApplication;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Created by Guanqing on 2015/11/24.
  */
@@ -61,6 +63,18 @@ public class BaseActivity extends AppCompatActivity{
             intent.putExtras(bundle);
         }
         startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        EventBus.getDefault().unregister(this);
+        super.onStop();
     }
 
 }

@@ -298,21 +298,9 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                EventBus.getDefault().post(new FinishAuthenticateEvent());
+                EventBus.getDefault().post(new FinishAuthenticateEvent(redditClient));
             }
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    protected void onStop() {
-        EventBus.getDefault().unregister(this);
-        super.onStop();
     }
 
     public void onEvent(FinishAuthenticateEvent event){
