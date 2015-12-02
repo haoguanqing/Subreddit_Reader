@@ -55,6 +55,9 @@ dependencies {
     //picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
 
+    //glide
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+
     //Volley
     compile 'com.mcxiaoke.volley:library:1.0.19'
 

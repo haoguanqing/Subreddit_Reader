@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <!--suppress AndroidLintContentDescription -->
-        <com.example.xyzreader.ui.DynamicHeightNetworkImageView
+        <com.guanqing.subredditor.UI.DynamicHeightNetworkImageView
             android:id="@+id/ivFeedThumbnail"
             android:layout_width="match_parent"
             android:layout_height="100dp"
@@ -82,7 +82,7 @@
                     android:layout_height="42dp"
                     android:src="@drawable/ic_arrow_up" />
 
-                <TextSwitcher
+                <com.guanqing.subredditor.UI.UpvoteTextSwitcher
                     android:id="@+id/tsUpvotesCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:text="1990 upvotes"
                         android:textColor="@color/text_like_counter" />
-                </TextSwitcher>
+                </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
             </LinearLayout>
         </LinearLayout>
 

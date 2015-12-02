@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
 
 /**
  * Created by Guanqing on 2015/11/20.
@@ -34,5 +35,9 @@ public class DynamicHeightNetworkImageView extends NetworkImageView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int measuredWidth = getMeasuredWidth();
         setMeasuredDimension(measuredWidth, (int) (measuredWidth / mAspectRatio));
+    }
+
+    public void loadGifUrl(String url){
+        Glide.with(getContext()).load(url).crossFade().into(new DynamicHeightNetworkImageView(getContext()));
     }
 }

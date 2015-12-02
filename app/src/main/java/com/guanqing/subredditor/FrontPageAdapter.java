@@ -6,17 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
-import com.guanqing.subredditor.UI.DynamicHeightNetworkImageView;
-import com.squareup.picasso.Picasso;
+import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private int itemsCount = 0;
+    private boolean isUpvoted = false;
 
     public FrontPageAdapter(Context context) {
         this.context = context;
@@ -36,19 +35,20 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         bindDefaultFeedItem(position, holder);
     }
 
-    private void bindDefaultFeedItem(int position, CellFeedViewHolder holder) {
+    private void bindDefaultFeedItem(int position, final CellFeedViewHolder holder) {
         if (position % 2 == 0) {
-            //holder.ivThumbnail.setImageUrl(R.drawable.img_feed_center_1);
-            Picasso.with(context).load("https://i.imgur.com/azJG8TL.gif").into(holder.ivThumbnail);
+            holder.ivThumbnail.setImageUrl("http://i.imgur.com/6c0N9I3.jpg",
+                    ImageLoaderHelper.getInstance(context).getImageLoader());
         } else {
-            //holder.ivThumbnail.setImageResource(R.drawable.img_feed_center_2);
-            Picasso.with(context).load("http://i.imgur.com/6c0N9I3.jpg").into(holder.ivThumbnail);
+            holder.ivThumbnail.loadGifUrl("http://i.imgur.com/vvThMVa.gif");
         }
+
+
 
         holder.btnComments.setTag(position);
         holder.ivThumbnail.setTag(holder);
-        holder.btnSave.setTag(holder);
-
+        holder.tsUpvotesCounter.setTag(holder);
+        holder.tsUpvotesCounter.setListener(978);
     }
 
     public void updateItems() {
@@ -67,20 +67,20 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public static class CellFeedViewHolder extends RecyclerView.ViewHolder {
-        DynamicHeightNetworkImageView ivThumbnail;
+        com.guanqing.subredditor.UI.DynamicHeightNetworkImageView ivThumbnail;
         TextView ivFeedBottom;
         ImageButton btnComments;
         ImageButton btnSave;
-        TextSwitcher tsUpvotesCounter;
+        UpvoteTextSwitcher tsUpvotesCounter;
 
         public CellFeedViewHolder(View view) {
             super(view);
 
-            ivThumbnail = (DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
+            ivThumbnail = (com.guanqing.subredditor.UI.DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
             ivFeedBottom = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
             btnSave = (ImageButton) view.findViewById(R.id.btnSave);
-            tsUpvotesCounter = (TextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
+            tsUpvotesCounter = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
         }
     }
 }
