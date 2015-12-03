@@ -2,6 +2,7 @@
 <!-- list_item_feed_feed.xml -->
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -19,8 +20,17 @@
         <com.guanqing.subredditor.UI.DynamicHeightNetworkImageView
             android:id="@+id/ivFeedThumbnail"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:background="@color/photo_placeholder" />
+
+        <com.guanqing.subredditor.UI.GifView
+            android:id="@+id/ivGifThumbnail"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/photo_placeholder"
+            />
 
         <TextView
             android:id="@+id/tvFeedTitle"
@@ -28,6 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:maxLines="2"
+            android:textSize="12sp"
             android:text="No description"/>
 
         <LinearLayout
@@ -107,10 +118,11 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="top|start">
         <ImageView
+            android:id="@+id/ivGifIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_gif_black_24dp"/>

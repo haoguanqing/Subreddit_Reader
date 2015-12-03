@@ -6,16 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
+import com.guanqing.subredditor.UI.GifView;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private int itemsCount = 0;
-    private boolean isUpvoted = false;
 
     public FrontPageAdapter(Context context) {
         this.context = context;
@@ -25,30 +26,41 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(context).inflate(R.layout.list_item_feed, parent, false);
 
-        return new CellFeedViewHolder(view);
+        return new FrontPageFeedViewHolder(view);
     }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        final CellFeedViewHolder holder = (CellFeedViewHolder) viewHolder;
+        final FrontPageFeedViewHolder holder = (FrontPageFeedViewHolder) viewHolder;
         bindDefaultFeedItem(position, holder);
     }
 
-    private void bindDefaultFeedItem(int position, final CellFeedViewHolder holder) {
-        if (position % 2 == 0) {
+    private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) {
+        if (position % 3 == 0) {
+            setVIewVisibility(holder, false);
             holder.ivThumbnail.setImageUrl("http://i.imgur.com/6c0N9I3.jpg",
                     ImageLoaderHelper.getInstance(context).getImageLoader());
-        } else {
-            holder.ivThumbnail.loadGifUrl("http://i.imgur.com/vvThMVa.gif");
+
+        } else if (position % 3 == 1) {
+            setVIewVisibility(holder, false);
+            holder.ivThumbnail.setImageUrl("http://i.imgur.com/UbeMyiy.jpg?1",
+                    ImageLoaderHelper.getInstance(context).getImageLoader());
+
+        }else{
+            setVIewVisibility(holder, true);
+            holder.gifView.setMovieResource(R.drawable.loading);
         }
-
-
 
         holder.btnComments.setTag(position);
         holder.ivThumbnail.setTag(holder);
         holder.tsUpvotesCounter.setTag(holder);
         holder.tsUpvotesCounter.setListener(978);
+    }
+
+    private void setVIewVisibility(final FrontPageFeedViewHolder holder, boolean isGif){
+        holder.gifView.setVisibility(isGif ? View.VISIBLE : View.GONE);
+        holder.ivThumbnail.setVisibility(isGif ? View.GONE: View.VISIBLE);
+        holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
     }
 
     public void updateItems() {
@@ -66,14 +78,16 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return itemsCount;
     }
 
-    public static class CellFeedViewHolder extends RecyclerView.ViewHolder {
+    public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
         com.guanqing.subredditor.UI.DynamicHeightNetworkImageView ivThumbnail;
         TextView ivFeedBottom;
         ImageButton btnComments;
         ImageButton btnSave;
         UpvoteTextSwitcher tsUpvotesCounter;
+        GifView gifView;
+        ImageView ivGifIcon;
 
-        public CellFeedViewHolder(View view) {
+        public FrontPageFeedViewHolder(View view) {
             super(view);
 
             ivThumbnail = (com.guanqing.subredditor.UI.DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
@@ -81,6 +95,10 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
             btnSave = (ImageButton) view.findViewById(R.id.btnSave);
             tsUpvotesCounter = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
+            gifView = (GifView) view.findViewById(R.id.ivGifThumbnail);
+            //gifView.setVisibility(View.GONE);
+            ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
+            ivGifIcon.setVisibility(View.GONE);
         }
     }
 }

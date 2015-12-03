@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -76,10 +77,15 @@ public class MainActivity extends BaseActivity {
             }
         };
         rvFeed.setLayoutManager(linearLayoutManager);
-
+        //set adapter
         FrontPageAdapter feedAdapter = new FrontPageAdapter(this);
         rvFeed.setAdapter(feedAdapter);
         feedAdapter.updateItems();
+        //set layout to be staggeredGridLayout
+        int columnCount = getResources().getInteger(R.integer.list_column_count);
+        StaggeredGridLayoutManager sglm =
+                new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
+        rvFeed.setLayoutManager(sglm);
     }
 
     @Override
