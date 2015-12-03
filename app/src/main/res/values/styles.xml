@@ -17,4 +17,9 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"/>
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/zoom_in_dialog</item>
+        <item name="android:windowExitAnimation">@anim/zoom_out_dialog</item>
+    </style>
 </resources>

@@ -9,8 +9,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.UI.GifView;
+import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -48,7 +48,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }else{
             setVIewVisibility(holder, true);
-            holder.gifView.setMovieResource(R.drawable.loading);
+            //Movie movie = (Movie) context.getResources().getDrawable(R.drawable.loading);
+            holder.gifView.setMovieResource(R.drawable.imgur_example);
         }
 
         holder.btnComments.setTag(position);
@@ -64,7 +65,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void updateItems() {
-        itemsCount = 10;
+        itemsCount += 10;
         notifyDataSetChanged();
     }
 
@@ -96,9 +97,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             btnSave = (ImageButton) view.findViewById(R.id.btnSave);
             tsUpvotesCounter = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
             gifView = (GifView) view.findViewById(R.id.ivGifThumbnail);
-            //gifView.setVisibility(View.GONE);
             ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
-            ivGifIcon.setVisibility(View.GONE);
         }
     }
 }
