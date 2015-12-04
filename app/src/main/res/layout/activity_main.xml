@@ -42,7 +42,7 @@
         >
 
         <com.mxn.soul.flowingdrawer_core.FlowingView
-            android:id="@+id/sv"
+            android:id="@+id/flowing_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -58,7 +58,5 @@
             android:paddingEnd="10dp"
             />
     </RelativeLayout>
-
-
 
 </com.mxn.soul.flowingdrawer_core.LeftDrawerLayout>

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.UI.GifView;
-import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -51,17 +50,13 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //Movie movie = (Movie) context.getResources().getDrawable(R.drawable.loading);
             holder.gifView.setMovieResource(R.drawable.imgur_example);
         }
-
-        holder.btnComments.setTag(position);
-        holder.ivThumbnail.setTag(holder);
-        holder.tsUpvotesCounter.setTag(holder);
-        holder.tsUpvotesCounter.setListener(978);
     }
 
     private void setVIewVisibility(final FrontPageFeedViewHolder holder, boolean isGif){
         holder.gifView.setVisibility(isGif ? View.VISIBLE : View.GONE);
         holder.ivThumbnail.setVisibility(isGif ? View.GONE: View.VISIBLE);
         holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
+
     }
 
     public void updateItems() {
@@ -81,10 +76,9 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
         com.guanqing.subredditor.UI.DynamicHeightNetworkImageView ivThumbnail;
-        TextView ivFeedBottom;
+        TextView tvFeedTitle;
         ImageButton btnComments;
-        ImageButton btnSave;
-        UpvoteTextSwitcher tsUpvotesCounter;
+        TextView tvUpvotesCounter;
         GifView gifView;
         ImageView ivGifIcon;
 
@@ -92,10 +86,9 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(view);
 
             ivThumbnail = (com.guanqing.subredditor.UI.DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
-            ivFeedBottom = (TextView) view.findViewById(R.id.tvFeedTitle);
+            tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
-            btnSave = (ImageButton) view.findViewById(R.id.btnSave);
-            tsUpvotesCounter = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter);
+            tvUpvotesCounter = (TextView)view.findViewById(R.id.tvUpvotesCounter);
             gifView = (GifView) view.findViewById(R.id.ivGifThumbnail);
             ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
         }

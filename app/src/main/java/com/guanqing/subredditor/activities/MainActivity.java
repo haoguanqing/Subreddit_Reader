@@ -11,10 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.google.common.eventbus.EventBus;
 import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
-import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.Fragments.LeftDrawerMenuFragment;
+import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
@@ -32,7 +31,6 @@ public class MainActivity extends BaseActivity {
     private RecyclerView rvFeed;
     private LeftDrawerLayout mLeftDrawerLayout;
     private NavigationView mNavigationView;
-    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +44,13 @@ public class MainActivity extends BaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         LeftDrawerMenuFragment mMenuFragment = (LeftDrawerMenuFragment) fm.findFragmentById(R.id.id_container_menu);
         mNavigationView = (NavigationView) findViewById(R.id.vNavigation);
-        FlowingView mFlowingView = (FlowingView) findViewById(R.id.sv);
+        FlowingView mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
         if (mMenuFragment == null) {
             fm.beginTransaction().add(R.id.id_container_menu, mMenuFragment = new LeftDrawerMenuFragment()).commit();
         }
         mLeftDrawerLayout.setFluidView(mFlowingView);
         mLeftDrawerLayout.setMenuFragment(mMenuFragment);
+
         setupFeed();
     }
 

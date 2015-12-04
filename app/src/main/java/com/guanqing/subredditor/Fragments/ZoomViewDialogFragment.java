@@ -21,6 +21,4 @@ public class ZoomViewDialogFragment extends DialogFragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;
     }
-
-
 }

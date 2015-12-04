@@ -44,41 +44,25 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp">
-
-            <ImageButton
-                android:id="@+id/btnSave"
-                android:padding="4dp"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:background="@drawable/btn_feed_action"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_bookmark_border" />
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp">
 
             <ImageButton
                 android:id="@+id/btnComments"
-                android:padding="4dp"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:padding="2dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:background="@drawable/btn_feed_action"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_chat_bubble_outline" />
 
             <TextView
+                android:id="@+id/tvComments"
                 android:gravity="center_vertical|end"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="22dp"
                 android:textColor="@android:color/darker_gray"
                 android:text="24"/>
-
-            <ImageButton
-                android:id="@+id/btnShare"
-                android:padding="4dp"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:background="@drawable/btn_feed_action"
-                android:src="@drawable/ic_share" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -88,30 +72,18 @@
 
                 <ImageView
                     android:id="@+id/ivUpvotes"
-                    android:padding="4dp"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
+                    android:padding="2dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
                     android:src="@drawable/ic_arrow_up" />
 
-                <com.guanqing.subredditor.UI.UpvoteTextSwitcher
-                    android:id="@+id/tsUpvotesCounter"
+                <TextView
+                    android:id="@+id/tvUpvotesCounter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inAnimation="@anim/slide_in_upvotes_counter"
-                    android:outAnimation="@anim/slide_out_upvotes_counter">
+                    android:text="1989"
+                    android:textColor="@android:color/darker_gray" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1989 upvotes"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1990 upvotes"
-                        android:textColor="@color/text_like_counter" />
-                </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
             </LinearLayout>
         </LinearLayout>
 

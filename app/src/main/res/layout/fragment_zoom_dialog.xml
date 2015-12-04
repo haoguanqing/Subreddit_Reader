@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--suppress AndroidLintContentDescription -->
+    <com.guanqing.subredditor.UI.DynamicHeightNetworkImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:background="@color/photo_placeholder" />
+
+    <TextView
+        android:id="@+id/tvFeedTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:maxLines="3"
+        android:textSize="14sp"
+        android:text="No description"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <ImageButton
+            android:id="@+id/btnSave"
+            android:padding="2dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_bookmark_border" />
+
+        <ImageButton
+            android:id="@+id/btnComments"
+            android:padding="4dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_chat_bubble_outline" />
+
+        <TextView
+            android:gravity="center_vertical|end"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:textColor="@android:color/darker_gray"
+            android:text="24 comments"/>
+
+        <ImageButton
+            android:id="@+id/btnShare"
+            android:padding="4dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_share" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end">
+
+            <ImageView
+                android:id="@+id/ivUpvotes"
+                android:padding="2dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_arrow_up" />
+
+            <com.guanqing.subredditor.UI.UpvoteTextSwitcher
+                android:id="@+id/tsUpvotesCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inAnimation="@anim/slide_in_upvotes_counter"
+                android:outAnimation="@anim/slide_out_upvotes_counter">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1989 upvotes"
+                    android:textColor="@android:color/darker_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1990 upvotes"
+                    android:textColor="@color/text_like_counter" />
+            </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
