@@ -11,10 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
+import com.guanqing.subredditor.Events.FinishLoginEvent;
 import com.guanqing.subredditor.Fragments.LeftDrawerMenuFragment;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.Util.ToastUtil;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 
@@ -97,8 +98,9 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    public void onEvent(FinishAuthenticateEvent event){
+    public void onEventMainThread(FinishLoginEvent event){
         new FrontPageRetrieveTask(event.getRedditClient()).execute();
+        ToastUtil.show(this, "Login Successful");
     }
 
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
@@ -111,6 +113,7 @@ public class MainActivity extends BaseActivity {
         protected Void doInBackground(Void... params) {
             try{
                 SubredditPaginator frontPage = new SubredditPaginator(redditClient);
+
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
@@ -123,10 +126,12 @@ public class MainActivity extends BaseActivity {
                 for (Submission s : submissions) {
                     // Print some basic stats about the posts
                     Log.e("HGQ", "[/r/" + s.getSubredditName() + " - " + s.getScore() + " karma] " + s.getTitle() + "\n" + "https://www.reddit.com" + s.getPermalink() + "\n" + s.getThumbnail());
+                    Log.e("HGQ", redditClient.getSubmission(s.getId()).getPermalink());
                 }
 
             }catch (Exception e){
-                Log.e("HGQ", "retrieve task failed");
+                e.printStackTrace();
+                Log.e("HGQ", "retrieve task failed ");
             }
             return null;
         }

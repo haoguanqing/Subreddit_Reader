@@ -6,9 +6,9 @@ import net.dean.jraw.RedditClient;
  * Created by Guanqing on 2015/12/1.
  * Event to post when user logged in and reddit client authenticated
  */
-public class FinishAuthenticateEvent {
+public class FinishLoginEvent {
     private RedditClient redditClient;
-    public FinishAuthenticateEvent(RedditClient client){
+    public FinishLoginEvent(RedditClient client){
         redditClient = client;
     }
 

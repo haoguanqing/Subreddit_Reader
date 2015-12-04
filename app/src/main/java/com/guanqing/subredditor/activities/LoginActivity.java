@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.guanqing.subredditor.Events.FinishAuthenticateEvent;
+import com.guanqing.subredditor.Events.FinishLoginEvent;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.ToastUtil;
 
@@ -298,12 +298,12 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                EventBus.getDefault().post(new FinishAuthenticateEvent(redditClient));
+                EventBus.getDefault().post(new FinishLoginEvent(redditClient));
             }
         }
     }
 
-    public void onEvent(FinishAuthenticateEvent event){
+    public void onEvent(FinishLoginEvent event){
         onBackPressed();
     }
 }

@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.UI.GifView;
 
 
@@ -37,14 +38,14 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) {
         if (position % 3 == 0) {
             setVIewVisibility(holder, false);
-            holder.ivThumbnail.setImageUrl("http://i.imgur.com/6c0N9I3.jpg",
-                    ImageLoaderHelper.getInstance(context).getImageLoader());
-
+//            holder.ivThumbnail.setImageUrl("http://i.imgur.com/6c0N9I3.jpg",
+//                    ImageLoaderHelper.getInstance(context).getImageLoader());
+            Glide.with(context).load("http://i.imgur.com/6c0N9I3.jpg").thumbnail(0.1f).crossFade().into(holder.ivThumbnail);
         } else if (position % 3 == 1) {
             setVIewVisibility(holder, false);
-            holder.ivThumbnail.setImageUrl("http://i.imgur.com/UbeMyiy.jpg?1",
-                    ImageLoaderHelper.getInstance(context).getImageLoader());
-
+//            holder.ivThumbnail.setImageUrl("http://i.imgur.com/UbeMyiy.jpg?1",
+//                    ImageLoaderHelper.getInstance(context).getImageLoader());
+            Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg").thumbnail(0.1f).crossFade().into(holder.ivThumbnail);
         }else{
             setVIewVisibility(holder, true);
             //Movie movie = (Movie) context.getResources().getDrawable(R.drawable.loading);
@@ -75,7 +76,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
-        com.guanqing.subredditor.UI.DynamicHeightNetworkImageView ivThumbnail;
+        ImageView ivThumbnail;
         TextView tvFeedTitle;
         ImageButton btnComments;
         TextView tvUpvotesCounter;
@@ -85,7 +86,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public FrontPageFeedViewHolder(View view) {
             super(view);
 
-            ivThumbnail = (com.guanqing.subredditor.UI.DynamicHeightNetworkImageView) view.findViewById(R.id.ivFeedThumbnail);
+            ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail);
             tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
             tvUpvotesCounter = (TextView)view.findViewById(R.id.tvUpvotesCounter);
