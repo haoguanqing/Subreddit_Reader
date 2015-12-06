@@ -32,7 +32,6 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:indeterminate="true"
-            app:cpb_color="#FFee44"
             app:cpb_colors="@array/progressbarColors"
             app:cpb_rotation_speed="1.0"
             app:cpb_sweep_speed="1.0"

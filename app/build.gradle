@@ -49,11 +49,8 @@ dependencies {
     //Subredditor:  https://github.com/mxn21/FlowingDrawer
     compile 'com.mxn.soul:flowingdrawer-core:1.2.0'
 
-    //bga-refreshlayout
-    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.1@aar'
-
-    //picasso
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    //bga-refreshlayout:  https://github.com/bingoogolapple/BGARefreshLayout-Android
+    compile 'cn.bingoogolapple:bga-refreshlayout:1.1.2@aar'
 
     //Volley
     compile 'com.mcxiaoke.volley:library:1.0.19'
@@ -61,6 +58,8 @@ dependencies {
     //JRAW
     compile 'net.dean.jraw:JRAW:0.7.1'
 
+    //https://github.com/castorflex/SmoothProgressBar
+    compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
 
     //Eventbus

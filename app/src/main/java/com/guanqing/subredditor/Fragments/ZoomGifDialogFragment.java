@@ -8,23 +8,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.UI.GifView;
 import com.guanqing.subredditor.Util.Constants;
 
 /**
- * Created by Guanqing on 2015/12/3.
- * Pop out and show a boarderless image/gif view
+ * Created by Guanqing on 2015/12/4.
  */
-public class ZoomViewDialogFragment extends android.app.DialogFragment {
-    static int[] screenSize;
-    ImageView ivThumbnail;
+public class ZoomGifDialogFragment extends android.app.DialogFragment {
 
-    public static ZoomViewDialogFragment newInstance(){
+    static int[] screenSize;
+
+    public static ZoomGifDialogFragment newInstance(){
         //TODO: new instance
-        ZoomViewDialogFragment fragment = new ZoomViewDialogFragment();
+        ZoomGifDialogFragment fragment = new ZoomGifDialogFragment();
         return fragment;
     }
 
@@ -37,10 +35,9 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
-        ivThumbnail = (ImageView) rootView.findViewById(R.id.ivFeedThumbnail_detail);
-        Glide.with(getActivity()).load("http://i.imgur.com/6c0N9I3.jpg").thumbnail(0.1f).crossFade().into(ivThumbnail);
-
+        final View rootView = inflater.inflate(R.layout.fragment_gif_dialog, container, false);
+        GifView gifView = (GifView) rootView.findViewById(R.id.ivGifThumbnail_detail);
+        gifView.setMovieResource(R.drawable.imgur_example);
         return rootView;
     }
 
@@ -51,20 +48,18 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;
     }
-
     @Override
     public void onResume() {
         super.onResume();
+        int width = screenSize[0] * 10/11;
+        int height = screenSize[1] * 10/11;
 
-        int width = screenSize[0] *10/11;
-        int height = screenSize[1] *10/11;
-
-        /*if (getDialog() == null)
-            return;*/
+        if (getDialog() == null)
+            return;
         if (getResources().getConfiguration().orientation==1){
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }else{
-            getDialog().getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, height);
+            getDialog().getWindow().setLayout(height, width);
         }
     }
 }

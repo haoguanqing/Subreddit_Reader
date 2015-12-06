@@ -9,11 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.guanqing.subredditor.Activities.LoginActivity;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.CircleTransformation;
-import com.guanqing.subredditor.Activities.LoginActivity;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
-import com.squareup.picasso.Picasso;
 
 
 
@@ -50,13 +50,11 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     private void setupHeader() {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
 
-        Picasso.with(getActivity())
-                .load(R.drawable.profile_icon)
+        Glide.with(getActivity())
+                .load(R.drawable.test)
                 .placeholder(R.drawable.img_circle_placeholder)
-                .resize(avatarSize, avatarSize)
-                .centerCrop()
-                .transform(new CircleTransformation())
+                .override(avatarSize, avatarSize)
+                .transform(new CircleTransformation(getActivity()))
                 .into(ivMenuUserProfilePhoto);
     }
-
 }

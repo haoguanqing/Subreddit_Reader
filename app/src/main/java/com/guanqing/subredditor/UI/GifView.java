@@ -268,5 +268,4 @@ public class GifView extends View{
         mVisible = visibility == View.VISIBLE;
         invalidateView();
     }
-
 }

@@ -9,7 +9,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +16,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.Events.FinishLoginEvent;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.UI.CircleTransformation;
 import com.guanqing.subredditor.Util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -37,7 +39,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Guanqing on 2015/12/4.
  */
-public class WelcomeFragment extends DialogFragment{
+public class WelcomeFragment extends android.app.DialogFragment{
     private static final String CLIEND_ID = "p6NSlEAAL8HerQ";
     private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
 
@@ -64,8 +66,10 @@ public class WelcomeFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        //Dialog dialog = super.onCreateDialog(savedInstanceState);
+        Dialog dialog = new Dialog(mContext,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //dialog.getWindow().setLayout(android.view.WindowManager.LayoutParams.MATCH_PARENT, android.view.WindowManager.LayoutParams.MATCH_PARENT);
         return dialog;
     }
 
@@ -73,6 +77,13 @@ public class WelcomeFragment extends DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
+        int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
+        ImageView imageView = (ImageView) rootView.findViewById(R.id.user_login_icon);
+        Glide.with(getActivity())
+                .load(R.drawable.test)
+                .override(avatarSize, avatarSize)
+                .transform(new CircleTransformation(mContext))
+                .into(imageView);
         return rootView;
     }
 
