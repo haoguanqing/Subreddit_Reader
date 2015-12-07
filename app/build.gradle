@@ -36,33 +36,26 @@ repositories{
 
 dependencies {
     //compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile project(":gif_firstframe")
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.+'
     compile 'com.android.support:design:22.+'
     compile 'com.android.support:cardview-v7:22.+'
     compile 'com.android.support:recyclerview-v7:22.+'
     compile 'com.android.support:support-v4:22.+'
-
     //glide:  https://github.com/bumptech/glide/wiki
     compile 'com.github.bumptech.glide:glide:3.6.1'
-
-    //Subredditor:  https://github.com/mxn21/FlowingDrawer
+    //FlowingDrawer:  https://github.com/mxn21/FlowingDrawer
     compile 'com.mxn.soul:flowingdrawer-core:1.2.0'
-
     //bga-refreshlayout:  https://github.com/bingoogolapple/BGARefreshLayout-Android
     compile 'cn.bingoogolapple:bga-refreshlayout:1.1.2@aar'
-
     //Volley
     compile 'com.mcxiaoke.volley:library:1.0.19'
-
     //JRAW
     compile 'net.dean.jraw:JRAW:0.7.1'
-
     //https://github.com/castorflex/SmoothProgressBar
     compile 'com.github.castorflex.smoothprogressbar:library:1.1.0'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.2.0'
-
     //Eventbus
     compile 'de.greenrobot:eventbus:2.4.1'
-
 }

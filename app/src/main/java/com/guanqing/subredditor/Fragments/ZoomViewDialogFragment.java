@@ -11,6 +11,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.Constants;
 
@@ -39,7 +42,21 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
         ivThumbnail = (ImageView) rootView.findViewById(R.id.ivFeedThumbnail_detail);
-        Glide.with(getActivity()).load("http://i.imgur.com/6c0N9I3.jpg").thumbnail(0.1f).crossFade().into(ivThumbnail);
+        Glide.with(getActivity()).load("http://i.imgur.com/6c0N9I3.jpg")
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        //progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .error(R.drawable.error)
+                .thumbnail(0.1f).crossFade().into(ivThumbnail);
 
         return rootView;
     }

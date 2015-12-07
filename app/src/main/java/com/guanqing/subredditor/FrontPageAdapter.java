@@ -2,6 +2,7 @@ package com.guanqing.subredditor;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,11 @@ import com.guanqing.subredditor.Fragments.WelcomeFragment;
 import com.guanqing.subredditor.Fragments.ZoomGifDialogFragment;
 import com.guanqing.subredditor.Fragments.ZoomViewDialogFragment;
 import com.guanqing.subredditor.UI.GifView;
+import com.guanqing.subredditor.Util.Constants;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -30,20 +36,35 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(context).inflate(R.layout.list_item_feed, parent, false);
-       fm = ((Activity) context).getFragmentManager();
+        fm = ((Activity) context).getFragmentManager();
         return new FrontPageFeedViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         final FrontPageFeedViewHolder holder = (FrontPageFeedViewHolder) viewHolder;
-        bindDefaultFeedItem(position, holder);
+        try{
+            bindDefaultFeedItem(position, holder);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
-    private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) {
+    private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
         if (position % 3 == 0) {
             setVIewVisibility(holder, false);
-            Glide.with(context).load("http://i.imgur.com/6c0N9I3.jpg").thumbnail(0.1f).crossFade().into(holder.ivThumbnail);
+
+            /*byte[] byteData = GIFUtil.getFirstFrameOfGif("http://i.imgur.com/ghyUWwq.gif");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteData, 0, byteData.length);*/
+
+            Glide.with(context).load("http://i.imgur.com/Qg7ktUm.gif")
+                    .asBitmap()
+                    //.placeholder(R.drawable.loading)
+                    .error(R.drawable.error)
+                    .override(Constants.getScreenSizeInPixels(context)[0]/2, Constants.getScreenSizeInPixels(context)[0]/2)
+                    .thumbnail(0.1f)
+                    .into(holder.ivThumbnail);
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -53,7 +74,11 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         } else if (position % 3 == 1) {
             setVIewVisibility(holder, false);
-            Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg").thumbnail(0.1f).crossFade().into(holder.ivThumbnail);
+            Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg")
+                    .error(R.drawable.error)
+                    .thumbnail(0.1f)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -63,8 +88,12 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }else{
             setVIewVisibility(holder, true);
-            //Movie movie = (Movie) context.getResources().getDrawable(R.drawable.loading);
-            holder.gifView.setMovieResource(R.drawable.imgur_example);
+            URL url = new URL("http://i.imgur.com/uRY4TKL.gifv");
+            URLConnection ucon = url.openConnection();
+            InputStream is = ucon.getInputStream();
+            Movie movie = Movie.decodeStream(is);
+            holder.gifView.setMovie(movie);
+            //holder.gifView.setMovieResource(R.drawable.imgur_example);
             holder.gifView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
