@@ -37,7 +37,7 @@ public class UpvoteTextSwitcher extends TextSwitcher {
         getInstance().setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                getInstance().setText(isUpvoted ? c + " upvotes" : c + 1 + " upvotes");
+                getInstance().setText(isUpvoted ? c + " karma" : c + 1 + " karma");
                 ToastUtil.show(context, isUpvoted ? "Upvote cancelled" : "Upvoted");
                 isUpvoted = !isUpvoted;
             }

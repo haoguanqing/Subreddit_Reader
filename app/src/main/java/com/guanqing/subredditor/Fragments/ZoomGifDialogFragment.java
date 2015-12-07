@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
@@ -27,6 +28,7 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
     GifView gifView;
     SmoothProgressBar progressBar;
     TextView tvComments;
+    ImageView ivUpvotes;
 
     public static ZoomGifDialogFragment newInstance(){
         //TODO: new instance
@@ -44,27 +46,26 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_gif_dialog, container, false);
-        gifView = (GifView) rootView.findViewById(R.id.ivGifThumbnail_detail);
-        progressBar = (SmoothProgressBar) rootView.findViewById(R.id.pbSmooth_detail);
-        tvComments = (TextView) rootView.findViewById(R.id.tvComments_detail);
-        tsUpvote = (UpvoteTextSwitcher) rootView.findViewById(R.id.tsUpvotesCounter_detail);
+        final View view = inflater.inflate(R.layout.fragment_gif_dialog, container, false);
+        gifView = (GifView) view.findViewById(R.id.ivGifThumbnail_detail);
+        progressBar = (SmoothProgressBar) view.findViewById(R.id.pbSmooth_detail);
+        tvComments = (TextView) view.findViewById(R.id.tvComments_detail);
+        tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
+        ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes);
 
-/*        progressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(getActivity())
-                .interpolator(new DecelerateInterpolator())
-                .sectionsCount(3)
-                .separatorLength(8)         //You should use Resources#getDimensionPixelSize
-                .strokeWidth(8f)            //You should use Resources#getDimension
-                .speed(2f)                 //2 times faster
-                .progressiveStartSpeed(2)
-                .progressiveStopSpeed(3.4f)
-                .reversed(false)
-                .mirrorMode(false)
-                .progressiveStart(true)
-                .build());*/
+        ivUpvotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivUpvotes.setImageDrawable(
+                        ivUpvotes.getDrawable()==getResources().getDrawable(R.drawable.ic_arrow_up) ?
+                                getResources().getDrawable(R.drawable.ic_arrow_up_blue) : getResources().getDrawable(R.drawable.ic_arrow_up));
+                tsUpvote.performClick();
+            }
+        });
+
         gifView.setMovieResource(R.drawable.imgur_example);
         tsUpvote.setListener(1989);
-        return rootView;
+        return view;
     }
 
     @Override

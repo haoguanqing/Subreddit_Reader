@@ -11,16 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:indeterminate="true"
-        app:spb_sections_count="3"
-        app:spb_colors="@array/progressbarColors"
-        app:spb_speed="2.5"
-        app:spb_stroke_width="4dp"
-        app:spb_stroke_separator_length="4dp"
-        app:spb_reversed="false"
-        app:spb_mirror_mode="false"
-        app:spb_progressiveStart_activated="true"
-        app:spb_progressiveStart_speed="1.8"
-        app:spb_progressiveStop_speed="3.4"
+        style="@style/GNowProgressBar"
         />
 
     <!--suppress AndroidLintContentDescription -->
@@ -89,7 +80,8 @@
 
             <ImageView
                 android:id="@+id/ivUpvotes"
-                android:padding="4dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/ic_arrow_up" />
@@ -104,15 +96,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="1989 upvotes"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_gravity="center"
+                    android:text="1989 karma"
                     android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="1990 upvotes"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_gravity="center"
+                    android:text="1990 karma"
                     android:textColor="@color/text_like_counter" />
             </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
         </LinearLayout>

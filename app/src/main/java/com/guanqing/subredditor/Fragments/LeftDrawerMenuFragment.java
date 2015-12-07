@@ -42,17 +42,18 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         };
         ivMenuUserProfilePhoto.setOnClickListener(listener);
         userProfileName.setOnClickListener(listener);
-        setupHeader();
+        setupProfileIcon();
         return  setupReveal(view) ;
     }
 
-    private void setupHeader() {
+    private void setupProfileIcon() {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
 
         Glide.with(getActivity())
-                .load(R.drawable.test)
+                .load(R.drawable.profile_icon)
                 .placeholder(R.drawable.img_circle_placeholder)
                 .override(avatarSize, avatarSize)
+                .error(R.drawable.profile_icon)
                 .transform(new CircleTransformation(getActivity()))
                 .into(ivMenuUserProfilePhoto);
     }

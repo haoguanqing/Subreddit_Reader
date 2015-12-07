@@ -26,6 +26,7 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
     static int[] screenSize;
     ImageView ivThumbnail;
     UpvoteTextSwitcher tsUpvote;
+    ImageView ivUpvotes;
 
     public static ZoomViewDialogFragment newInstance(){
         //TODO: new instance
@@ -42,10 +43,21 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
-        ivThumbnail = (ImageView) rootView.findViewById(R.id.ivFeedThumbnail_detail);
-        tsUpvote = (UpvoteTextSwitcher) rootView.findViewById(R.id.tsUpvotesCounter_detail);
+        final View view = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
+        ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail_detail);
+        tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
+        ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes);
+
         tsUpvote.setListener(1989);
+        ivUpvotes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ivUpvotes.setImageDrawable(
+                        ivUpvotes.getDrawable()==getResources().getDrawable(R.drawable.ic_arrow_up) ?
+                                getResources().getDrawable(R.drawable.ic_arrow_up_blue) : getResources().getDrawable(R.drawable.ic_arrow_up));
+                tsUpvote.performClick();
+            }
+        });
 
         Glide.with(getActivity()).load("http://i.imgur.com/46Vi6an.jpg")
                 .listener(new RequestListener<String, GlideDrawable>() {
@@ -64,7 +76,7 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
                 .crossFade()
                 .thumbnail(0.1f)
                 .into(ivThumbnail);
-        return rootView;
+        return view;
     }
 
     @Override

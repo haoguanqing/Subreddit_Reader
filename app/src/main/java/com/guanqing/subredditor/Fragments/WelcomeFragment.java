@@ -1,5 +1,9 @@
 package com.guanqing.subredditor.Fragments;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +50,7 @@ public class WelcomeFragment extends android.app.DialogFragment{
     private static RedditClient redditClient;
     private UserAgent mUserAgent;
     private WebView webView;
+    ImageView profileIcon;
 
     private static Context mContext;
     private String username;
@@ -60,16 +65,34 @@ public class WelcomeFragment extends android.app.DialogFragment{
         mContext = getActivity();
         username = "besttth8";
         password = "besttth3";
+
+        //TODO: get login status
         loggedIn = false;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        //Dialog dialog = super.onCreateDialog(savedInstanceState);
         Dialog dialog = new Dialog(mContext,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.getWindow().setLayout(android.view.WindowManager.LayoutParams.MATCH_PARENT, android.view.WindowManager.LayoutParams.MATCH_PARENT);
+
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(this, "alpha",  1f, .3f);
+        fadeOut.setDuration(2000);
+        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(this, "alpha", .3f, 1f);
+        fadeIn.setDuration(2000);
+
+        final AnimatorSet mAnimationSet = new AnimatorSet();
+
+        mAnimationSet.play(fadeIn).after(fadeOut);
+
+        mAnimationSet.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                mAnimationSet.start();
+            }
+        });
+        mAnimationSet.start();
         return dialog;
     }
 
@@ -77,21 +100,32 @@ public class WelcomeFragment extends android.app.DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
-        int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
-        ImageView imageView = (ImageView) rootView.findViewById(R.id.user_login_icon);
-        Glide.with(getActivity())
-                .load(R.drawable.profile_icon)
-                .override(avatarSize, avatarSize)
-                .transform(new CircleTransformation(mContext))
-                .into(imageView);
+        profileIcon = (ImageView) rootView.findViewById(R.id.user_login_icon);
+
+        setupProfileIcon();
         return rootView;
+    }
+
+    private void setupProfileIcon() {
+        if(loggedIn) {
+            int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
+            Glide.with(getActivity())
+                    .load(R.drawable.profile_icon)
+                    .placeholder(R.drawable.img_circle_placeholder)
+                    .override(avatarSize, avatarSize)
+                    .error(R.drawable.profile_icon)
+                    .transform(new CircleTransformation(getActivity()))
+                    .into(profileIcon);
+        }else{
+
+        }
     }
 
     private void login(){
         //TODO: get the saved username/password from sharedpref
         if(loggedIn){
-            username = "";
-            password = "";
+            username = "???";
+            password = "???";
         }
         //login to user account
         userLogin();
