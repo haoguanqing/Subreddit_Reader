@@ -114,6 +114,7 @@ public class MainActivity extends BaseActivity {
             try{
                 SubredditPaginator frontPage = new SubredditPaginator(redditClient);
 
+                Log.e("HGQ", redditClient.me().getFullName());
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)

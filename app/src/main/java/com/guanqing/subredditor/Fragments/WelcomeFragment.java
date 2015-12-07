@@ -80,7 +80,7 @@ public class WelcomeFragment extends android.app.DialogFragment{
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.user_login_icon);
         Glide.with(getActivity())
-                .load(R.drawable.test)
+                .load(R.drawable.profile_icon)
                 .override(avatarSize, avatarSize)
                 .transform(new CircleTransformation(mContext))
                 .into(imageView);

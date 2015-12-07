@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.GifView;
+import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
+
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
  * Created by Guanqing on 2015/12/4.
@@ -19,10 +23,15 @@ import com.guanqing.subredditor.Util.Constants;
 public class ZoomGifDialogFragment extends android.app.DialogFragment {
 
     static int[] screenSize;
+    UpvoteTextSwitcher tsUpvote;
+    GifView gifView;
+    SmoothProgressBar progressBar;
+    TextView tvComments;
 
     public static ZoomGifDialogFragment newInstance(){
         //TODO: new instance
         ZoomGifDialogFragment fragment = new ZoomGifDialogFragment();
+        Bundle bundle = new Bundle();
         return fragment;
     }
 
@@ -36,8 +45,25 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_gif_dialog, container, false);
-        GifView gifView = (GifView) rootView.findViewById(R.id.ivGifThumbnail_detail);
+        gifView = (GifView) rootView.findViewById(R.id.ivGifThumbnail_detail);
+        progressBar = (SmoothProgressBar) rootView.findViewById(R.id.pbSmooth_detail);
+        tvComments = (TextView) rootView.findViewById(R.id.tvComments_detail);
+        tsUpvote = (UpvoteTextSwitcher) rootView.findViewById(R.id.tsUpvotesCounter_detail);
+
+/*        progressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(getActivity())
+                .interpolator(new DecelerateInterpolator())
+                .sectionsCount(3)
+                .separatorLength(8)         //You should use Resources#getDimensionPixelSize
+                .strokeWidth(8f)            //You should use Resources#getDimension
+                .speed(2f)                 //2 times faster
+                .progressiveStartSpeed(2)
+                .progressiveStopSpeed(3.4f)
+                .reversed(false)
+                .mirrorMode(false)
+                .progressiveStart(true)
+                .build());*/
         gifView.setMovieResource(R.drawable.imgur_example);
+        tsUpvote.setListener(1989);
         return rootView;
     }
 

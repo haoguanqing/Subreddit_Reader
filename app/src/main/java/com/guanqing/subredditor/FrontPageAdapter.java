@@ -2,7 +2,6 @@ package com.guanqing.subredditor;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,6 @@ import com.guanqing.subredditor.Fragments.ZoomGifDialogFragment;
 import com.guanqing.subredditor.Fragments.ZoomViewDialogFragment;
 import com.guanqing.subredditor.UI.GifView;
 import com.guanqing.subredditor.Util.Constants;
-
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -57,12 +52,12 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             /*byte[] byteData = GIFUtil.getFirstFrameOfGif("http://i.imgur.com/ghyUWwq.gif");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteData, 0, byteData.length);*/
+            int halfWidth = Constants.getScreenSizeInPixels(context)[0]/2;
 
             Glide.with(context).load("http://i.imgur.com/Qg7ktUm.gif")
                     .asBitmap()
-                    //.placeholder(R.drawable.loading)
                     .error(R.drawable.error)
-                    .override(Constants.getScreenSizeInPixels(context)[0]/2, Constants.getScreenSizeInPixels(context)[0]/2)
+                    .override(halfWidth, halfWidth)
                     .thumbnail(0.1f)
                     .into(holder.ivThumbnail);
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +83,12 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             });
         }else{
             setVIewVisibility(holder, true);
-            URL url = new URL("http://i.imgur.com/uRY4TKL.gifv");
+            /*URL url = new URL("http://i.imgur.com/uRY4TKL.gifv");
             URLConnection ucon = url.openConnection();
             InputStream is = ucon.getInputStream();
             Movie movie = Movie.decodeStream(is);
-            holder.gifView.setMovie(movie);
-            //holder.gifView.setMovieResource(R.drawable.imgur_example);
+            holder.gifView.setMovie(movie);*/
+            holder.gifView.setMovieResource(R.drawable.imgur_example);
             holder.gifView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

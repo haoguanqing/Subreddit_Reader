@@ -15,6 +15,7 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
 
 /**
@@ -24,6 +25,7 @@ import com.guanqing.subredditor.Util.Constants;
 public class ZoomViewDialogFragment extends android.app.DialogFragment {
     static int[] screenSize;
     ImageView ivThumbnail;
+    UpvoteTextSwitcher tsUpvote;
 
     public static ZoomViewDialogFragment newInstance(){
         //TODO: new instance
@@ -42,7 +44,10 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
         ivThumbnail = (ImageView) rootView.findViewById(R.id.ivFeedThumbnail_detail);
-        Glide.with(getActivity()).load("http://i.imgur.com/6c0N9I3.jpg")
+        tsUpvote = (UpvoteTextSwitcher) rootView.findViewById(R.id.tsUpvotesCounter_detail);
+        tsUpvote.setListener(1989);
+
+        Glide.with(getActivity()).load("http://i.imgur.com/46Vi6an.jpg")
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -56,8 +61,9 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
                     }
                 })
                 .error(R.drawable.error)
-                .thumbnail(0.1f).crossFade().into(ivThumbnail);
-
+                .crossFade()
+                .thumbnail(0.1f)
+                .into(ivThumbnail);
         return rootView;
     }
 

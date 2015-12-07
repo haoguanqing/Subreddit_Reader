@@ -87,14 +87,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="1989"
+                    android:text="1989 upvotes"
                     android:textColor="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="1990"
+                    android:text="1990 upvotes"
                     android:textColor="@color/text_like_counter" />
             </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
         </LinearLayout>
