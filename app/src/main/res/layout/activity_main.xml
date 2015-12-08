@@ -4,13 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipChildren="false"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--content-->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/container"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appBarLayout"
@@ -22,10 +28,7 @@
                 layout="@layout/view_feed_toolbar" />
         </android.support.design.widget.AppBarLayout>
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+
 
     </android.support.design.widget.CoordinatorLayout>
 

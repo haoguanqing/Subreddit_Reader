@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.guanqing.subredditor.Fragments.MainFragment">
 
     <cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -15,9 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:scrollbarStyle="outsideOverlay" />
 
     </cn.bingoogolapple.refreshlayout.BGARefreshLayout>
-
 </FrameLayout>
