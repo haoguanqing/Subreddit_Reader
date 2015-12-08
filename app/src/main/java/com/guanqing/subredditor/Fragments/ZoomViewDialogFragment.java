@@ -62,7 +62,7 @@ public class ZoomViewDialogFragment extends DialogFragment {
             }
         });
 
-        Glide.with(getActivity()).load("http://i.imgur.com/46Vi6adddn.jpg")
+        Glide.with(getActivity()).load("https://i.imgur.com/r3aIXQ5.jpg")
                 .placeholder(R.drawable.loading)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
@@ -76,7 +76,7 @@ public class ZoomViewDialogFragment extends DialogFragment {
                         return false;
                     }
                 })
-                .error(R.drawable.loading)
+                .error(R.drawable.error)
                 .crossFade()
                 .thumbnail(0.1f)
                 .into(ivThumbnail);
