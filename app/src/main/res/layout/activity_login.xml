@@ -60,10 +60,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/user_login_icon"
+                android:id="@+id/user_avatar"
                 android:layout_width="@dimen/global_menu_avatar_size"
                 android:layout_height="@dimen/global_menu_avatar_size"
-                android:src="@drawable/profile_icon"
+                android:src="@drawable/avatar"
                 android:layout_gravity="center"
                 android:layout_margin="12dp" />
 

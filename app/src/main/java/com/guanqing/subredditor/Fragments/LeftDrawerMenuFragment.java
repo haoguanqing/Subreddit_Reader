@@ -50,10 +50,10 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
 
         Glide.with(getActivity())
-                .load(R.drawable.profile_icon)
+                .load(R.drawable.avatar)
                 .placeholder(R.drawable.img_circle_placeholder)
                 .override(avatarSize, avatarSize)
-                .error(R.drawable.profile_icon)
+                .error(R.drawable.avatar)
                 .transform(new CircleTransformation(getActivity()))
                 .into(ivMenuUserProfilePhoto);
     }

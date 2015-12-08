@@ -3,6 +3,7 @@ package com.guanqing.subredditor.Fragments;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 /**
  * Created by Guanqing on 2015/12/4.
  */
-public class ZoomGifDialogFragment extends android.app.DialogFragment {
+public class ZoomGifDialogFragment extends DialogFragment {
 
     static int[] screenSize;
     UpvoteTextSwitcher tsUpvote;
@@ -33,7 +34,8 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
     public static ZoomGifDialogFragment newInstance(){
         //TODO: new instance
         ZoomGifDialogFragment fragment = new ZoomGifDialogFragment();
-        Bundle bundle = new Bundle();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,9 +48,8 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_gif_dialog, container, false);
+        final View view = inflater.inflate(R.layout.dialog_gif_zoom, container, false);
         gifView = (GifView) view.findViewById(R.id.ivGifThumbnail_detail);
-        progressBar = (SmoothProgressBar) view.findViewById(R.id.pbSmooth_detail);
         tvComments = (TextView) view.findViewById(R.id.tvComments_detail);
         tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
         ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes);
@@ -72,7 +73,7 @@ public class ZoomGifDialogFragment extends android.app.DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation_zoom;
         return dialog;
     }
     @Override

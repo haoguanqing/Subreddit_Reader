@@ -2,23 +2,15 @@
 <LinearLayout
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
-    <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-        android:id="@+id/pbSmooth_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:indeterminate="true"
-        style="@style/GNowProgressBar"
-        />
 
     <!--suppress AndroidLintContentDescription -->
     <com.guanqing.subredditor.UI.GifView
         android:id="@+id/ivGifThumbnail_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:background="@color/photo_placeholder" />
@@ -113,4 +105,6 @@
             </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
         </LinearLayout>
     </LinearLayout>
+
+
 </LinearLayout>

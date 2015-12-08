@@ -3,6 +3,7 @@ package com.guanqing.subredditor.Fragments;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import com.guanqing.subredditor.Util.Constants;
  * Created by Guanqing on 2015/12/3.
  * Pop out and show a boarderless image/gif view
  */
-public class ZoomViewDialogFragment extends android.app.DialogFragment {
+public class ZoomViewDialogFragment extends DialogFragment {
     static int[] screenSize;
     ImageView ivThumbnail;
     UpvoteTextSwitcher tsUpvote;
@@ -31,6 +32,8 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
     public static ZoomViewDialogFragment newInstance(){
         //TODO: new instance
         ZoomViewDialogFragment fragment = new ZoomViewDialogFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -43,7 +46,7 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_zoom_dialog, container, false);
+        final View view = inflater.inflate(R.layout.dialog_zoom, container, false);
         ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail_detail);
         tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
         ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes);
@@ -59,7 +62,8 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
             }
         });
 
-        Glide.with(getActivity()).load("http://i.imgur.com/46Vi6an.jpg")
+        Glide.with(getActivity()).load("http://i.imgur.com/46Vi6adddn.jpg")
+                .placeholder(R.drawable.loading)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override
                     public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
@@ -72,7 +76,7 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
                         return false;
                     }
                 })
-                .error(R.drawable.error)
+                .error(R.drawable.loading)
                 .crossFade()
                 .thumbnail(0.1f)
                 .into(ivThumbnail);
@@ -83,7 +87,7 @@ public class ZoomViewDialogFragment extends android.app.DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Dialog dialog = super.onCreateDialog(savedInstanceState);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation_zoom;
         return dialog;
     }
 

@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity {
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mLoginIcon = (ImageView)findViewById(R.id.user_login_icon);
+        mLoginIcon = (ImageView)findViewById(R.id.user_avatar);
         loginProcessView = findViewById(R.id.login_process);
         webView = (WebView)findViewById(R.id.login_webview);
 

@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +12,7 @@ import android.view.View;
 
 import com.guanqing.subredditor.Events.FinishLoginEvent;
 import com.guanqing.subredditor.Fragments.LeftDrawerMenuFragment;
+import com.guanqing.subredditor.Fragments.WelcomeFragment;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.ToastUtil;
@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private RecyclerView rvFeed;
     private LeftDrawerLayout mLeftDrawerLayout;
     private NavigationView mNavigationView;
+    private FlowingView mFlowingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +46,15 @@ public class MainActivity extends BaseActivity {
         FragmentManager fm = getSupportFragmentManager();
         LeftDrawerMenuFragment mMenuFragment = (LeftDrawerMenuFragment) fm.findFragmentById(R.id.id_container_menu);
         mNavigationView = (NavigationView) findViewById(R.id.vNavigation);
-        FlowingView mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
+        mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
         if (mMenuFragment == null) {
             fm.beginTransaction().add(R.id.id_container_menu, mMenuFragment = new LeftDrawerMenuFragment()).commit();
         }
         mLeftDrawerLayout.setFluidView(mFlowingView);
         mLeftDrawerLayout.setMenuFragment(mMenuFragment);
 
+        WelcomeFragment fragment = new WelcomeFragment();
+        fragment.show(fm.beginTransaction(), "welcome_dialog");
         setupFeed();
     }
 
@@ -70,13 +73,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupFeed() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this) {
-            @Override
-            protected int getExtraLayoutSpace(RecyclerView.State state) {
-                return 300;
-            }
-        };
-        rvFeed.setLayoutManager(linearLayoutManager);
         //set adapter
         FrontPageAdapter feedAdapter = new FrontPageAdapter(this);
         rvFeed.setAdapter(feedAdapter);
@@ -100,7 +96,7 @@ public class MainActivity extends BaseActivity {
 
     public void onEventMainThread(FinishLoginEvent event){
         new FrontPageRetrieveTask(event.getRedditClient()).execute();
-        ToastUtil.show(this, "Login Successful");
+        ToastUtil.show(this, "Login Successfully");
     }
 
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
@@ -114,7 +110,7 @@ public class MainActivity extends BaseActivity {
             try{
                 SubredditPaginator frontPage = new SubredditPaginator(redditClient);
 
-                Log.e("HGQ", redditClient.me().getFullName());
+                //Log.e("HGQ", redditClient.me().getFullName());
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)

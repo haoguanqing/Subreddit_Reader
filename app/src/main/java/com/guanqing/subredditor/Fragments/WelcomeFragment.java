@@ -13,6 +13,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.Events.FinishLoginEvent;
@@ -43,14 +45,15 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Guanqing on 2015/12/4.
  */
-public class WelcomeFragment extends android.app.DialogFragment{
+public class WelcomeFragment extends DialogFragment{
     private static final String CLIEND_ID = "p6NSlEAAL8HerQ";
     private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
 
     private static RedditClient redditClient;
     private UserAgent mUserAgent;
     private WebView webView;
-    ImageView profileIcon;
+    ImageView ivUserAvatar;
+    TextView tvTelcomeText;
 
     private static Context mContext;
     private String username;
@@ -63,6 +66,7 @@ public class WelcomeFragment extends android.app.DialogFragment{
         EventBus.getDefault().register(this);
 
         mContext = getActivity();
+        //default username and password if user does not login
         username = "besttth8";
         password = "besttth3";
 
@@ -70,29 +74,20 @@ public class WelcomeFragment extends android.app.DialogFragment{
         loggedIn = false;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getDialog() == null) {return;}
+        //set fade in/out animation for the dialog
+        getDialog().getWindow().setWindowAnimations(
+                R.style.dialog_animation_fade);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Dialog dialog = new Dialog(mContext,android.R.style.Theme_Black_NoTitleBar_Fullscreen);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(this, "alpha",  1f, .3f);
-        fadeOut.setDuration(2000);
-        ObjectAnimator fadeIn = ObjectAnimator.ofFloat(this, "alpha", .3f, 1f);
-        fadeIn.setDuration(2000);
-
-        final AnimatorSet mAnimationSet = new AnimatorSet();
-
-        mAnimationSet.play(fadeIn).after(fadeOut);
-
-        mAnimationSet.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                mAnimationSet.start();
-            }
-        });
-        mAnimationSet.start();
         return dialog;
     }
 
@@ -100,24 +95,31 @@ public class WelcomeFragment extends android.app.DialogFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
-        profileIcon = (ImageView) rootView.findViewById(R.id.user_login_icon);
+        ivUserAvatar = (ImageView) rootView.findViewById(R.id.user_avatar);
 
         setupProfileIcon();
         return rootView;
     }
 
     private void setupProfileIcon() {
+        int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
         if(loggedIn) {
-            int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
+            //TODO
             Glide.with(getActivity())
-                    .load(R.drawable.profile_icon)
+                    .load(R.drawable.avatar_purple)
                     .placeholder(R.drawable.img_circle_placeholder)
                     .override(avatarSize, avatarSize)
-                    .error(R.drawable.profile_icon)
+                    .error(R.drawable.avatar_purple)
                     .transform(new CircleTransformation(getActivity()))
-                    .into(profileIcon);
+                    .into(ivUserAvatar);
         }else{
-
+            Glide.with(getActivity())
+                    .load(R.drawable.avatar_purple)
+                    .placeholder(R.drawable.img_circle_placeholder)
+                    .override(avatarSize, avatarSize)
+                    .error(R.drawable.avatar_purple)
+                    .transform(new CircleTransformation(getActivity()))
+                    .into(ivUserAvatar);
         }
     }
 

@@ -18,9 +18,14 @@
 
     <style name="Widget.GifMoviewView" parent="@android:style/Widget"/>
 
-    <style name="DialogAnimation">
+    <style name="dialog_animation_zoom">
         <item name="android:windowEnterAnimation">@anim/zoom_in_dialog</item>
         <item name="android:windowExitAnimation">@anim/zoom_out_dialog</item>
+    </style>
+
+    <style name="dialog_animation_fade">
+        <item name="android:windowEnterAnimation">@anim/fade_in_dialog</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_dialog</item>
     </style>
 
 
@@ -30,9 +35,9 @@
         <item name="spb_speed">1.7</item>
         <item name="spb_progressiveStart_speed">2</item>
         <item name="spb_progressiveStop_speed">3.6</item>
-        <item name="spb_interpolator">spb_interpolator_acceleratedecelerate</item>
+        <item name="spb_interpolator">spb_interpolator_accelerate</item>
         <item name="spb_mirror_mode">false</item>
-        <item name="spb_reversed">true</item>
+        <item name="spb_reversed">false</item>
         <item name="spb_colors">@array/progressbarColors</item>
         <item name="spb_progressiveStart_activated">true</item>
         <item name="spb_generate_background_with_colors">false</item>
