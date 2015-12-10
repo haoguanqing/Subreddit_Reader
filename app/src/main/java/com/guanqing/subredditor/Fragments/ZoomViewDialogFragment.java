@@ -56,13 +56,20 @@ public class ZoomViewDialogFragment extends DialogFragment {
             @Override
             public void onClick(View v) {
                 ivUpvotes.setImageDrawable(
-                        ivUpvotes.getDrawable()==getResources().getDrawable(R.drawable.ic_arrow_up) ?
+                        ivUpvotes.getDrawable() == getResources().getDrawable(R.drawable.ic_arrow_up) ?
                                 getResources().getDrawable(R.drawable.ic_arrow_up_blue) : getResources().getDrawable(R.drawable.ic_arrow_up));
                 tsUpvote.performClick();
             }
         });
 
-        Glide.with(getActivity()).load("https://i.imgur.com/r3aIXQ5.jpg")
+        ivThumbnail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        Glide.with(getActivity()).load("http://i.imgur.com/j1DWGOB.jpg")
                 .placeholder(R.drawable.loading)
                 .listener(new RequestListener<String, GlideDrawable>() {
                     @Override

@@ -64,7 +64,13 @@ public class ZoomGifDialogFragment extends DialogFragment {
             }
         });
 
-        gifView.setMovieResource(R.drawable.imgur_example);
+        gifView.setMovieResource(R.drawable.giphy_example);
+        gifView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
         tsUpvote.setListener(1989);
         return view;
     }

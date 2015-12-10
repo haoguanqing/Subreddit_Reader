@@ -47,7 +47,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
-        if (position % 2 == 0) {
+        if (position % 4 == 0) {
             setVIewVisibility(true);
             int halfWidth = Constants.getScreenSizeInPixels(context)[0]/2;
 
@@ -65,9 +65,37 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     fragment.show(fm, "zoom dialog");
                 }
             });
-        } else if (position % 2 == 1) {
+        } else if (position % 4 == 1) {
             setVIewVisibility(false);
             Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg")
+                    .error(R.drawable.error)
+                    .thumbnail(0.1f)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
+            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ZoomGifDialogFragment fragment = ZoomGifDialogFragment.newInstance();
+                    fragment.show(fm, "zoom dialog");
+                }
+            });
+        }else if (position % 4 == 2) {
+            setVIewVisibility(false);
+            Glide.with(context).load("http://i.imgur.com/by0E4RK.jpg")
+                    .error(R.drawable.error)
+                    .thumbnail(0.1f)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
+            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ZoomGifDialogFragment fragment = ZoomGifDialogFragment.newInstance();
+                    fragment.show(fm, "zoom dialog");
+                }
+            });
+        }else if (position % 4 == 3) {
+            setVIewVisibility(false);
+            Glide.with(context).load("http://i.imgur.com/ae3Nc5M.jpg")
                     .error(R.drawable.error)
                     .thumbnail(0.1f)
                     .crossFade()
@@ -87,7 +115,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void updateItems() {
-        itemsCount += 10;
+        itemsCount += 20;
         notifyDataSetChanged();
     }
 
