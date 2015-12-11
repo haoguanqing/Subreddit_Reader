@@ -21,6 +21,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
  * Created by Guanqing on 2015/12/4.
+ * Pop out and show a boarderless gif dialog view
  */
 public class ZoomGifDialogFragment extends DialogFragment {
 

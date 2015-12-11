@@ -21,7 +21,7 @@ import com.guanqing.subredditor.Util.Constants;
 
 /**
  * Created by Guanqing on 2015/12/3.
- * Pop out and show a boarderless image/gif view
+ * Pop out and show a boarderless image view
  */
 public class ZoomViewDialogFragment extends DialogFragment {
     static int[] screenSize;
@@ -101,16 +101,16 @@ public class ZoomViewDialogFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-
         int width = screenSize[0] *10/11;
         int height = screenSize[1] *10/11;
-
-        /*if (getDialog() == null)
-            return;*/
+        //error check
+        if (getDialog() == null)
+            return;
+        //set view size
         if (getResources().getConfiguration().orientation==1){
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }else{
-            getDialog().getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, height);
+            getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
         }
     }
 }
