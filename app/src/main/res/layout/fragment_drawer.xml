@@ -10,8 +10,16 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/transparent"
-        app:headerLayout="@layout/view_global_menu_header"
+        app:headerLayout="@layout/menu_header"
         app:itemIconTint="#8b8b8b"
         app:itemTextColor="#666666"
-        app:menu="@menu/drawer_menu"/>
+        app:menu="@menu/drawer_menu">
+
+        <com.guanqing.subredditor.UI.AnimatedExpandableListView.AnimatedExpandableListView
+            android:id="@+id/lvExpandable"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="88dp">
+        </com.guanqing.subredditor.UI.AnimatedExpandableListView.AnimatedExpandableListView>
+    </android.support.design.widget.NavigationView>
 </RelativeLayout>

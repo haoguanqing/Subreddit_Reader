@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         LeftDrawerMenuFragment mMenuFragment = (LeftDrawerMenuFragment) fm.findFragmentById(R.id.id_container_menu);
-        mLeftDrawerLayout = (LeftDrawerLayout) findViewById(R.id.id_drawerlayout);
+        mLeftDrawerLayout = (LeftDrawerLayout) findViewById(R.id.leftDrawer);
         mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
         if (mMenuFragment == null) {
             fm.beginTransaction().add(R.id.id_container_menu, mMenuFragment = new LeftDrawerMenuFragment()).commit();
@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 mLeftDrawerLayout.toggle();
             }
         });
-
     }
 
     @Override

@@ -31,6 +31,11 @@ import net.dean.jraw.http.oauth.OAuthData;
 import net.dean.jraw.http.oauth.OAuthException;
 import net.dean.jraw.http.oauth.OAuthHelper;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -247,14 +252,15 @@ public class LoginActivity extends BaseActivity {
                 Log.e("HGQ", "onPageFinished: " + url);
 
                 if (url.startsWith("https://www.reddit.com/login")) {
-                    String getButtonJS = "javascript:var els = document.getElementsByClassName('c-btn c-btn-primary c-pull-right');" +
+                    String clickButtonJS = "javascript:var els = document.getElementsByClassName('c-btn c-btn-primary c-pull-right');" +
                             "javascript:els[1].click();";
                     webView.loadUrl(
                             "javascript:document.getElementById('user_login').value = '" + username + "';" +
                                     "javascript:document.getElementById('passwd_login').value = '" + password + "';" +
-                                    getButtonJS
+                                    clickButtonJS
                     );
                 } else if (url.startsWith("https://www.reddit.com/api/v1/authorize")) {
+                    new GetAvatarTask().execute(url);
                     webView.loadUrl("javascript:document.getElementsByClassName('fancybutton newbutton allow')[0].click();");
                 }
             }
@@ -303,8 +309,32 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    //get user's avatar image utilizing Jsoup
+    private static final class GetAvatarTask extends AsyncTask<String, Void, String>{
+        @Override
+        protected String doInBackground(String... params) {
+            try{
+                Document document = Jsoup.connect(params[0]).get();
+                Element element = document.getElementsByClass("icon").first();
+                String avatarUrl = element.attr("src");
+                Log.e("HGQ", avatarUrl);
+                //TODO: SAVE AVATAR IMAGE
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+
     public void onEvent(FinishLoginEvent event){
         onBackPressed();
     }
+
 }
 

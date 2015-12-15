@@ -30,7 +30,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.list_item_feed, parent, false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.feed_list_item, parent, false);
         fm = ((FragmentActivity) context).getSupportFragmentManager();
         return new FrontPageFeedViewHolder(view);
     }

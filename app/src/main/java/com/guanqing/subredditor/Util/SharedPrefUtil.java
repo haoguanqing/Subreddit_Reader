@@ -2,6 +2,7 @@ package com.guanqing.subredditor.Util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 
 /**
  * Created by Guanqing on 2015/12/1.
@@ -18,13 +19,14 @@ public class SharedPrefUtil {
      * @param context
      * @param username
      * @param password
-     * @param avatarFile
+     * @param avatarUri
      */
-    public static void login(Context context, String username, String password, String avatarFile){
+    public static void login(Context context, String username, String password, Uri avatarUri){
+        String uri = avatarUri.toString();
         SharedPreferences.Editor editor = context.getSharedPreferences(USER_PREFS, 0).edit();
         editor.putString(USER_NAME_KEY, username)
                 .putString(USER_PASSWORD_KEY, password)
-                .putString(USER_AVATAR_KEY, avatarFile)
+                .putString(USER_AVATAR_KEY, uri)
                 .apply();
     }
 
@@ -42,10 +44,10 @@ public class SharedPrefUtil {
      * @param context
      * @return avatarFilePath
      */
-    public static String getAvatarFilePath(Context context){
-        return context.getSharedPreferences(USER_PREFS, 0).getString(USER_AVATAR_KEY, null);
+    public static Uri getAvatarFilePath(Context context){
+        String uri =  context.getSharedPreferences(USER_PREFS, 0).getString(USER_AVATAR_KEY, null);
+        return Uri.parse(uri);
     }
-
 
     /**
      * clear all user data when logout

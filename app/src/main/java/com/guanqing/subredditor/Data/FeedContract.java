@@ -13,11 +13,8 @@ public class FeedContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_FEEDS = "feeds";
-    public static final String PATH_AUTHORS = "authors";
-    public static final String PATH_CATEGORIES = "categories";
 
-
-    public static final class BookEntry implements BaseColumns {
+    public static final class FeedEntry implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_FEEDS).build();
 
 

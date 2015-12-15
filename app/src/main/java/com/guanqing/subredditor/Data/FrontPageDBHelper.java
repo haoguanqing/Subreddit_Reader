@@ -11,7 +11,7 @@ public class FrontPageDBHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "FRONT_PAGE_DATABASE";
     private static String[] SUBREDDIT_NAMES;
     private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_NAME = "front_page_table";
+    private static final String FRONT_PAGE_TABLE_NAME = "front_page_table";
     private static final String _ID = "_id";
     private static final String SUBMISSION_ID = "submission_id";
     private static final String THUMBNAIL_URL = "thumbnail_url";
@@ -27,12 +27,12 @@ public class FrontPageDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(createSQLTable(TABLE_NAME));
+        db.execSQL(createSQLTable(FRONT_PAGE_TABLE_NAME));
 
         if(SUBREDDIT_NAMES ==null){return;}
+        //create a table to save contents for each subreddit
         for (String subreddit: SUBREDDIT_NAMES){
-            String SQL_CREATE_SUBREDDIT_TABLE = createSQLTable(subreddit);
-            db.execSQL(SQL_CREATE_SUBREDDIT_TABLE);
+            db.execSQL(createSQLTable(subreddit));
         }
     }
 
@@ -50,7 +50,7 @@ public class FrontPageDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP IF EXISTS "+ TABLE_NAME);
+        db.execSQL("DROP IF EXISTS "+ FRONT_PAGE_TABLE_NAME);
         onCreate(db);
     }
 }
