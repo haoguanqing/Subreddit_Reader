@@ -5,12 +5,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
+import com.guanqing.subredditor.R;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 
 /**
  * Created by Guanqing on 2015/12/6.
@@ -51,19 +57,43 @@ public class ImageUtil {
      * @return Uri
      */
     @Nullable
-    private Uri saveAvatarImage(Context context, Bitmap bm){
+    public static Uri saveAvatarImage(Context context, String avatarUrl){
         try {
+            URL url = new URL(avatarUrl);
+            InputStream is = url.openStream();
             File file = new File(context.getExternalCacheDir()+"/avatar.png");
-            FileOutputStream fOut = new FileOutputStream(file);
-            bm.compress(Bitmap.CompressFormat.PNG, 100, fOut);
-            fOut.flush();
-            fOut.close();
+            FileOutputStream os = new FileOutputStream(file);
+            byte[] b = new byte[2048];
+            int length;
+
+            while ((length = is.read(b)) != -1) {
+                os.write(b, 0, length);
+            }
+            is.close();
+            os.close();
             return Uri.fromFile(file);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
     }
+
+    public static Drawable getAvatarImage(Context context, Uri uri){
+        try {
+            InputStream inputStream = context.getContentResolver().openInputStream(uri);
+            return Drawable.createFromStream(inputStream, uri.toString() );
+        } catch (FileNotFoundException e) {
+            return context.getResources().getDrawable(R.drawable.avatar);
+        }
+    }
+
+
+
+
+
+
+
+
 
     //define the size of the view to perfectly fit the screen
     public static int[] getSuitableViewSize(int screenWidth, int screenHeight, int imageWidth, int imageHeight){

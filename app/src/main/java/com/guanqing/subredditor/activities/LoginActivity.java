@@ -6,6 +6,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,8 +20,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.guanqing.subredditor.Events.FinishLoginEvent;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.Events.LoginEvent;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.Util.ImageUtil;
+import com.guanqing.subredditor.Util.SharedPrefUtil;
 import com.guanqing.subredditor.Util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -34,8 +38,8 @@ import net.dean.jraw.http.oauth.OAuthHelper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,8 +70,8 @@ public class LoginActivity extends BaseActivity {
     UserAgent mUserAgent;
     static RedditClient redditClient;
 
-    private String username;
-    private String password;
+    private static String username;
+    private static String password;
     static Context mContext;
 
     @Override
@@ -304,35 +308,47 @@ public class LoginActivity extends BaseActivity {
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                EventBus.getDefault().post(new FinishLoginEvent(redditClient));
+                EventBus.getDefault().post(new FinishLoginActivityEvent(redditClient));
             }
         }
     }
 
-    //get user's avatar image utilizing Jsoup
+    //get user's avatar image utilizing Jsoup and login after retrieving the image
     private static final class GetAvatarTask extends AsyncTask<String, Void, String>{
         @Override
         protected String doInBackground(String... params) {
             try{
                 Document document = Jsoup.connect(params[0]).get();
-                Element element = document.getElementsByClass("icon").first();
-                String avatarUrl = element.attr("src");
-                Log.e("HGQ", avatarUrl);
-                //TODO: SAVE AVATAR IMAGE
-            }catch (IOException e){
+                Elements sources = document.select("[src]");
+                String avatarUrl = "";
+                //get user's avatar
+                for (Element src : sources){
+                    if (src.tagName().equals("img")) {
+                        avatarUrl = src.attr("abs:src");
+                        break;
+                    }
+                }
+                Log.e("HGQ", "avatar url: " + avatarUrl);
+                Uri avatarUri = ImageUtil.saveAvatarImage(mContext, avatarUrl);
+                SharedPrefUtil.login(mContext, username, password, avatarUri);
+            }catch (Exception e){
                 e.printStackTrace();
+                Log.e("HGQ", "get avatar failed");
+                //login using default avatar
+                Uri uri = Uri.parse("android.resource://" + mContext.getResources().getString(R.string.package_name) + "/drawable/avatar");
+                SharedPrefUtil.login(mContext, username, password, uri);
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            EventBus.getDefault().post(new LoginEvent());
         }
     }
 
 
-    public void onEvent(FinishLoginEvent event){
+    public void onEvent(FinishLoginActivityEvent event){
         onBackPressed();
     }
 

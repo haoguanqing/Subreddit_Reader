@@ -2,10 +2,10 @@ package com.guanqing.subredditor.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.Fragments.LeftDrawerMenuFragment;
 import com.guanqing.subredditor.Fragments.MainFragment;
 import com.guanqing.subredditor.Fragments.WelcomeFragment;
@@ -14,7 +14,7 @@ import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     private LeftDrawerLayout mLeftDrawerLayout;
     private FlowingView mFlowingView;
@@ -36,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         mLeftDrawerLayout = (LeftDrawerLayout) findViewById(R.id.leftDrawer);
         mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
         if (mMenuFragment == null) {
-            fm.beginTransaction().add(R.id.id_container_menu, mMenuFragment = new LeftDrawerMenuFragment()).commit();
+            mMenuFragment = new LeftDrawerMenuFragment();
+            fm.beginTransaction()
+                    .add(R.id.id_container_menu, mMenuFragment).commit();
         }
         mLeftDrawerLayout.setFluidView(mFlowingView);
         mLeftDrawerLayout.setMenuFragment(mMenuFragment);
@@ -68,5 +70,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void onEvent(FinishLoginActivityEvent event){
+        mLeftDrawerLayout.closeDrawer();
     }
 }

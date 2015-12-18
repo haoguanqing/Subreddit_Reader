@@ -32,7 +32,7 @@
 
     <!--menu-->
     <RelativeLayout
-        android:layout_width="280dp"
+        android:layout_width="260dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:clipChildren="false"
@@ -49,11 +49,10 @@
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginEnd="25dp"
             android:paddingRight="10dp"
-            android:paddingEnd="10dp"
-            />
+            android:paddingEnd="10dp" />
     </RelativeLayout>
 
 </com.mxn.soul.flowingdrawer_core.LeftDrawerLayout>

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guanqing.subredditor.Events.FinishLoginEvent;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Util.NetworkUtil;
@@ -33,7 +33,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  */
 public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
-    private BGARefreshLayout rlRefreshLayout;
+    private BGARefreshLayout mRefreshLayout;
     private RecyclerView rvFeed;
     private boolean mIsNetworkEnabled;
 
@@ -55,7 +55,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        rlRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rlBGARefresh);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rlBGARefresh);
         rvFeed = (RecyclerView)view.findViewById(R.id.rvFeed);
         setupFeed();
         return view;
@@ -75,7 +75,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        // 在这里加载最新数据
+        // refresh and load more data
 
         if (mIsNetworkEnabled) {
             // if network is available, load data
@@ -93,7 +93,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    rlRefreshLayout.endRefreshing();
+                    mRefreshLayout.endRefreshing();
                     //mDatas.addAll(0, DataEngine.loadNewData());
                     //mAdapter.setDatas(mDatas);
                 }
@@ -101,7 +101,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         } else {
             // network unavailable, finish drag down refreshing
             ToastUtil.show(getActivity(), "Network unavailable");
-            rlRefreshLayout.endRefreshing();
+            mRefreshLayout.endRefreshing();
         }
     }
 
@@ -125,14 +125,14 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     // 加载完毕后在UI线程结束加载更多
-                    rlRefreshLayout.endLoadingMore();
+                    mRefreshLayout.endLoadingMore();
                     //mAdapter.addDatas(DataEngine.loadMoreData());
                 }
             }.execute();
 
             return true;
         } else {
-            // network unavailable, return false，不显示正在加载更多
+            // network unavailable, return false
             ToastUtil.show(getActivity(), "Network unavailable");
             return false;
         }
@@ -140,18 +140,15 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     // code access to begin refreshing
     public void beginRefreshing() {
-        rlRefreshLayout.beginRefreshing();
+        mRefreshLayout.beginRefreshing();
     }
 
     // code access to automatically load more
     public void beginLoadingMore() {
-        rlRefreshLayout.beginLoadingMore();
+        mRefreshLayout.beginLoadingMore();
     }
 
-    public void onEventMainThread(FinishLoginEvent event){
-        new FrontPageRetrieveTask(event.getRedditClient()).execute();
-        ToastUtil.show(getActivity(), "Login Successfully");
-    }
+
 
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
         RedditClient redditClient;
@@ -164,7 +161,6 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
             try{
                 SubredditPaginator frontPage = new SubredditPaginator(redditClient);
 
-                //Log.e("HGQ", redditClient.me().getFullName());
                 // Adjust the request parameters
                 frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
@@ -190,5 +186,9 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         @Override
         protected void onPostExecute(Void v) {
         }
+    }
+
+    public void onEvent(FinishLoginActivityEvent event){
+        new FrontPageRetrieveTask(event.getRedditClient()).execute();
     }
 }

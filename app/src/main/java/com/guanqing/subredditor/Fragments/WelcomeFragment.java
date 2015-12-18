@@ -1,9 +1,5 @@
 package com.guanqing.subredditor.Fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,7 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Events.FinishLoginEvent;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.CircleTransformation;
 import com.guanqing.subredditor.Util.ToastUtil;
@@ -215,12 +211,12 @@ public class WelcomeFragment extends DialogFragment{
         protected void onPostExecute(OAuthData oAuthData) {
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
-                EventBus.getDefault().post(new FinishLoginEvent(redditClient));
+                EventBus.getDefault().post(new FinishLoginActivityEvent(redditClient));
             }
         }
     }
 
-    public void onEventMainThread(FinishLoginEvent event){
+    public void onEventMainThread(FinishLoginActivityEvent event){
         dismiss();
     }
 
