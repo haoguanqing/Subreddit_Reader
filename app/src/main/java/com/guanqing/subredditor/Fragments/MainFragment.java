@@ -7,14 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.Util.NetworkUtil;
 import com.guanqing.subredditor.Util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -35,7 +31,6 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     private BGARefreshLayout mRefreshLayout;
     private RecyclerView rvFeed;
-    private boolean mIsNetworkEnabled;
 
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
@@ -45,28 +40,24 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mIsNetworkEnabled = NetworkUtil.isInternetConnected(getActivity());
+    protected void initView(Bundle savedInstanceState) {
+        setContentView(R.layout.fragment_main);
+        mRefreshLayout = getViewById(R.id.rlBGARefresh);
+        rvFeed = getViewById(R.id.rvFeed);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_main, container, false);
-        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rlBGARefresh);
-        rvFeed = (RecyclerView)view.findViewById(R.id.rvFeed);
-        setupFeed();
-        return view;
+    protected void setListener() {
+        mRefreshLayout.setDelegate(this);
     }
 
-    private void setupFeed() {
+    @Override
+    protected void processLogic(Bundle savedInstanceState) {
         //set adapter
         FrontPageAdapter feedAdapter = new FrontPageAdapter(getActivity());
         rvFeed.setAdapter(feedAdapter);
         feedAdapter.updateItems();
-        //set layout to be staggeredGridLayout
+        //set layout to be staggeredGridLayout with 2 columns
         int columnCount = getResources().getInteger(R.integer.list_column_count);
         StaggeredGridLayoutManager sglm =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
@@ -77,7 +68,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         // refresh and load more data
 
-        if (mIsNetworkEnabled) {
+        if (isNetworkEnabled()) {
             // if network is available, load data
             new AsyncTask<Void, Void, Void>() {
 
@@ -109,7 +100,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         // load more data
 
-        if (mIsNetworkEnabled) {
+        if (isNetworkEnabled()) {
             new AsyncTask<Void, Void, Void>() {
 
                 @Override
@@ -124,7 +115,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    // 加载完毕后在UI线程结束加载更多
+                    // load more on UI thread
                     mRefreshLayout.endLoadingMore();
                     //mAdapter.addDatas(DataEngine.loadMoreData());
                 }

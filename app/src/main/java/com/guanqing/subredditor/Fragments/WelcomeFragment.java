@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
@@ -42,8 +43,7 @@ import de.greenrobot.event.EventBus;
  * Created by Guanqing on 2015/12/4.
  */
 public class WelcomeFragment extends DialogFragment{
-    private static final String CLIEND_ID = "p6NSlEAAL8HerQ";
-    private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
+
 
     private static RedditClient redditClient;
     private UserAgent mUserAgent;
@@ -133,12 +133,14 @@ public class WelcomeFragment extends DialogFragment{
      * performs user login
      */
     private void userLogin(){
+        final String CLIENT_ID = getString(R.string.client_id);
+        final String REDIRECT_URL = getString(R.string.redirect_url);
 
         mUserAgent = UserAgent.of("Android", "com.guanqing.subredditor", "1.0", "besttth9");
         redditClient = new RedditClient(mUserAgent);
         final OAuthHelper helper = redditClient.getOAuthHelper();
         final net.dean.jraw.http.oauth.Credentials credentials =
-                net.dean.jraw.http.oauth.Credentials.installedApp(CLIEND_ID, REDIRECT_URL);
+                net.dean.jraw.http.oauth.Credentials.installedApp(CLIENT_ID, REDIRECT_URL);
         boolean permanent = true;
         String[] scopes = {"identity", "read"};
 
@@ -176,6 +178,7 @@ public class WelcomeFragment extends DialogFragment{
     }
 
     class jsInterface{
+        @JavascriptInterface
         public void showHTML(String html){
             Intent openNewActivity = new Intent("android.intent.action.showHTMLintent");
             startActivity(openNewActivity);

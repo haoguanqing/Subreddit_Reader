@@ -2,6 +2,8 @@ package com.guanqing.subredditor.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.guanqing.subredditor.Activities.BaseActivity;
+import com.guanqing.subredditor.App;
+import com.guanqing.subredditor.Util.NetworkUtil;
 
 import de.greenrobot.event.EventBus;
 
@@ -19,17 +23,21 @@ public abstract class BaseFragment extends Fragment {
     protected String TAG;
     protected BaseActivity mActivity;
     protected View mContentView;
+    protected App mApp;
+    protected boolean mIsNetworkEnabled;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        mIsNetworkEnabled = NetworkUtil.isInternetConnected(getActivity());
     }
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         TAG = this.getClass().getSimpleName();
         mActivity = (BaseActivity) activity;
+        mApp = App.getInstance();
     }
 
     @Override
@@ -53,6 +61,29 @@ public abstract class BaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
+    protected void setContentView(@LayoutRes int layoutResID) {
+        mContentView = LayoutInflater.from(mApp).inflate(layoutResID, null);
+    }
+
+    /**
+     * find and return view
+     *
+     * @param id   view id
+     * @param <VT> View class
+     * @return
+     */
+    protected <VT extends View> VT getViewById(@IdRes int id) {
+        return (VT) mContentView.findViewById(id);
+    }
+
+    //
+    protected boolean isNetworkEnabled(){
+        return mIsNetworkEnabled;
+    }
+
+
+
 
 
     /**

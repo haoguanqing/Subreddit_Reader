@@ -43,4 +43,14 @@ public class UpvoteTextSwitcher extends TextSwitcher {
             }
         });
     }
+
+
+    //provide access from outside the switcher to set text
+    public void upVote(int count){
+        getInstance().setText(isUpvoted ? count + " karma" : count + 1 + " karma");
+    }
+
+    public void downVote(int count){
+        getInstance().setText(isUpvoted ? count + " karma" : count -1 + " karma");
+    }
 }

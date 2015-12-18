@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.guanqing.subredditor.MyApplication;
+import com.guanqing.subredditor.App;
 
 import de.greenrobot.event.EventBus;
 
@@ -16,7 +16,7 @@ import de.greenrobot.event.EventBus;
 public class BaseActivity extends AppCompatActivity{
 
 
-    protected MyApplication mMyApplication;
+    protected App mApp;
     protected Resources mResources;
     protected Context mContext;
 
@@ -29,8 +29,8 @@ public class BaseActivity extends AppCompatActivity{
 
     private void initConfigure() {
         mContext = this;
-        if (null == mMyApplication) {
-            mMyApplication = MyApplication.getInstance();
+        if (null == mApp) {
+            mApp = App.getInstance();
         }
         mResources = getResources();
     }
