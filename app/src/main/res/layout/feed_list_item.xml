@@ -33,8 +33,6 @@
             android:layout_margin="4dp"
             android:maxLines="2"
             android:textSize="12sp"
-            android:background="#99cccccc"
-            android:textColor="@android:color/white"
             android:text="No description"/>
 
         <LinearLayout

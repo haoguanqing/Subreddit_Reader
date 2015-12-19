@@ -20,6 +20,7 @@ import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
 
+import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
 /**
@@ -53,10 +54,15 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     @Override
     protected void processLogic(Bundle savedInstanceState) {
+        //set refreshing layout
+        //mRefreshLayout.setCustomHeaderView(DataEngine.getCustomHeaderView(mApp), true);
+        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mApp, true));
+
         //set adapter
         FrontPageAdapter feedAdapter = new FrontPageAdapter(getActivity());
         rvFeed.setAdapter(feedAdapter);
         feedAdapter.updateItems();
+
         //set layout to be staggeredGridLayout with 2 columns
         int columnCount = getResources().getInteger(R.integer.list_column_count);
         StaggeredGridLayoutManager sglm =
