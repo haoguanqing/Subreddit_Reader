@@ -1,7 +1,8 @@
 package com.guanqing.subredditor.Util;
 
-import android.content.Context;
 import android.widget.Toast;
+
+import com.guanqing.subredditor.App;
 
 /**
  * Created by Guanqing on 2015/11/25.
@@ -9,11 +10,11 @@ import android.widget.Toast;
 public class ToastUtil {
     private static Toast toast;
 
-    public static void show(Context context, String text) {
+    public static void show(String text) {
         if (toast != null) {
             toast.cancel();
         }
-        toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(App.getInstance(), text, Toast.LENGTH_SHORT);
         toast.show();
     }
 }

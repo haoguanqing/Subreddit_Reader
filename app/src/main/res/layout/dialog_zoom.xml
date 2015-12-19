@@ -106,7 +106,7 @@
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
                         android:text="1990 karma"
-                        android:textColor="@color/text_like_counter" />
+                        android:textColor="@color/text_upvote_counter" />
                 </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
             </LinearLayout>
         </LinearLayout>

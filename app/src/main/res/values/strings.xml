@@ -4,6 +4,12 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Sign in</string>
 
+    <!-- Main fragment refresh strings -->
+    <string name="pulldown_refresh_text">pull to refresh</string>
+    <string name="release_refresh_text">release to refresh</string>
+    <string name="refreshing_text">loading&#8230;</string>
+    <string name="loading_more_text">loading more&#8230;</string>
+
     <!-- Strings related to login -->
     <string name="client_id">p6NSlEAAL8HerQ</string>
     <string name="redirect_url">http://haoguanqing.github.io/Tests-Misc-for-Android/</string>

@@ -8,6 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#666666"
+        android:text="test"
         android:layout_gravity="center_vertical"/>
 
 </LinearLayout>

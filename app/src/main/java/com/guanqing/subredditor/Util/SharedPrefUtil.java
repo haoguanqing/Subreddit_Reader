@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 
+import com.guanqing.subredditor.App;
+
 /**
  * Created by Guanqing on 2015/12/1.
  */
@@ -16,14 +18,13 @@ public class SharedPrefUtil {
 
     /**
      * save user information when login
-     * @param context
      * @param username
      * @param password
      * @param avatarUri
      */
     public static void login(Context context, String username, String password, Uri avatarUri){
         String uri = avatarUri.toString();
-        SharedPreferences.Editor editor = context.getSharedPreferences(USER_PREFS, 0).edit();
+        SharedPreferences.Editor editor = App.getInstance().getSharedPreferences(USER_PREFS, 0).edit();
         editor.putString(USER_NAME_KEY, username)
                 .putString(USER_PASSWORD_KEY, password)
                 .putString(USER_AVATAR_KEY, uri)
@@ -32,29 +33,34 @@ public class SharedPrefUtil {
 
     /**
      * get user name
-     * @param context
      * @return username
      */
-    public static String getUserName(Context context){
-        return context.getSharedPreferences(USER_PREFS, 0).getString(USER_NAME_KEY, null);
+    public static String getUserName(){
+        return App.getInstance().getSharedPreferences(USER_PREFS, 0).getString(USER_NAME_KEY, null);
+    }
+
+    /**
+     * get password
+     * @return password
+     */
+    public static String getPassword(){
+        return App.getInstance().getSharedPreferences(USER_PREFS, 0).getString(USER_PASSWORD_KEY, null);
     }
 
     /**
      * get user's avatar's file path
-     * @param context
      * @return avatarFilePath
      */
-    public static Uri getAvatarFilePath(Context context){
-        String uri =  context.getSharedPreferences(USER_PREFS, 0).getString(USER_AVATAR_KEY, null);
+    public static Uri getAvatarFilePath(){
+        String uri =  App.getInstance().getSharedPreferences(USER_PREFS, 0).getString(USER_AVATAR_KEY, null);
         return Uri.parse(uri);
     }
 
     /**
      * clear all user data when logout
-     * @param context
      */
-    public static void logout(Context context){
-        SharedPreferences pref = context.getSharedPreferences(USER_PREFS, 0);
+    public static void logout(){
+        SharedPreferences pref = App.getInstance().getSharedPreferences(USER_PREFS, 0);
         pref.edit().clear().apply();
     }
 }

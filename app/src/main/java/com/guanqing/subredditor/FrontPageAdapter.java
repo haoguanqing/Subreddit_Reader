@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Fragments.ZoomGifDialogFragment;
-import com.guanqing.subredditor.Fragments.ZoomViewDialogFragment;
+import com.guanqing.subredditor.Fragments.ZoomGifDialog;
+import com.guanqing.subredditor.Fragments.ZoomDialog;
 import com.guanqing.subredditor.Util.Constants;
 
 
@@ -47,13 +47,13 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
-        if (position % 4 == 0) {
-            setVIewVisibility(true);
+        if (position % 5 == 0) {
+            setGifIconVisible(true);
             int halfWidth = Constants.getScreenSizeInPixels(context)[0]/2;
 
             Glide.with(context).load("http://i.imgur.com/58aBBpZ.gif")
                     .asBitmap()
-                    .placeholder(R.drawable.error)
+                    .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
                     .override(halfWidth, halfWidth)
                     .thumbnail(0.1f)
@@ -61,13 +61,14 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ZoomViewDialogFragment fragment = ZoomViewDialogFragment.newInstance();
+                    ZoomDialog fragment = ZoomDialog.newInstance();
                     fragment.show(fm, "zoom dialog");
                 }
             });
-        } else if (position % 4 == 1) {
-            setVIewVisibility(false);
+        } else if (position % 5 == 1) {
+            setGifIconVisible(false);
             Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg")
+                    .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
                     .thumbnail(0.1f)
                     .crossFade()
@@ -75,13 +76,14 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ZoomGifDialogFragment fragment = ZoomGifDialogFragment.newInstance();
+                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
                     fragment.show(fm, "zoom dialog");
                 }
             });
-        }else if (position % 4 == 2) {
-            setVIewVisibility(false);
+        }else if (position % 5 == 2) {
+            setGifIconVisible(false);
             Glide.with(context).load("http://i.imgur.com/by0E4RK.jpg")
+                    .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
                     .thumbnail(0.1f)
                     .crossFade()
@@ -89,13 +91,14 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ZoomGifDialogFragment fragment = ZoomGifDialogFragment.newInstance();
+                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
                     fragment.show(fm, "zoom dialog");
                 }
             });
-        }else if (position % 4 == 3) {
-            setVIewVisibility(false);
+        }else if (position % 5 == 3) {
+            setGifIconVisible(false);
             Glide.with(context).load("http://i.imgur.com/ae3Nc5M.jpg")
+                    .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
                     .thumbnail(0.1f)
                     .crossFade()
@@ -103,14 +106,30 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ZoomGifDialogFragment fragment = ZoomGifDialogFragment.newInstance();
+                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
+                    fragment.show(fm, "zoom dialog");
+                }
+            });
+        }
+        else if (position % 5 == 4) {
+            setGifIconVisible(false);
+            Glide.with(context).load("http://i.imgur.com/7LabzAX.jpg")
+                    .placeholder(R.drawable.avatar_loading)
+                    .error(R.drawable.error)
+                    .thumbnail(0.1f)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
+            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
                     fragment.show(fm, "zoom dialog");
                 }
             });
         }
     }
 
-    private void setVIewVisibility(boolean isGif){
+    private void setGifIconVisible(boolean isGif){
         holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
     }
 

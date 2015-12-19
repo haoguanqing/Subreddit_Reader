@@ -92,9 +92,9 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                final String selected = ((ChildItem) adapter.getChild(
+                final String selected = (adapter.getChild(
                         groupPosition, childPosition)).getTitle();
-                ToastUtil.show(context, selected);
+                ToastUtil.show(selected);
                 return true;
             }
         });
@@ -142,8 +142,8 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     }
 
     public void onEventMainThread(LoginEvent event){
-        String username = SharedPrefUtil.getUserName(context);
-        Uri uri = SharedPrefUtil.getAvatarFilePath(context);
+        String username = SharedPrefUtil.getUserName();
+        Uri uri = SharedPrefUtil.getAvatarFilePath();
         setupProfileIcon(uri);
         ivMenuUserProfilePhoto.invalidate();
         tvUsername.setText(username);
@@ -151,11 +151,11 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     }
 
     private void logout(){
-        SharedPrefUtil.logout(context);
+        SharedPrefUtil.logout();
         setupProfileIcon();
         ivMenuUserProfilePhoto.invalidate();
         tvUsername.setText("Login");
         tvUsername.invalidate();
-        ToastUtil.show(context, "Logout");
+        ToastUtil.show("Logout");
     }
 }

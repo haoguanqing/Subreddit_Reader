@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#FFC107</color>
 
     <!-- style -->
     <color name="primary">#607D8B</color>
@@ -16,7 +16,8 @@
 
     <color name="photo_placeholder">#ccc</color>
 
-    <color name="text_like_counter">#2b5a83</color>
+    <color name="text_upvote_counter">#2b5a83</color>
+    <color name="text_downvote_counter">#a9383b</color>
 
     <color name="ball1">#607D8B</color>
     <color name="ball2">#CDDC39</color>

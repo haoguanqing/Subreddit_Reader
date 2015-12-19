@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -95,7 +96,7 @@ public class LoginActivity extends BaseActivity {
         });
 
         mLoginFormView = findViewById(R.id.login_form);
-        mLoginIcon = (ImageView)findViewById(R.id.user_avatar);
+        mLoginIcon = (ImageView)findViewById(R.id.ivAvatar);
         loginProcessView = findViewById(R.id.login_process);
         webView = (WebView)findViewById(R.id.login_webview);
 
@@ -273,6 +274,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     class jsInterface{
+        @JavascriptInterface
         public void showHTML(String html){
             Intent openNewActivity = new Intent("android.intent.action.showHTMLintent");
             startActivity(openNewActivity);
@@ -296,10 +298,10 @@ public class LoginActivity extends BaseActivity {
             try{
                 return helper.onUserChallenge(params[0], creds);
             }catch (OAuthException | NullPointerException e){
-                ToastUtil.show(mContext, "Fail to authenticate");
+                ToastUtil.show("Fail to authenticate");
                 return null;
             }catch (NetworkException e){
-                ToastUtil.show(mContext, "No network detected");
+                ToastUtil.show("No network detected");
                 return null;
             }
         }

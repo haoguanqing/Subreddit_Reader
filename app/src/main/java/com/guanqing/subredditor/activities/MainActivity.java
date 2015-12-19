@@ -8,7 +8,7 @@ import android.view.View;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.Fragments.LeftDrawerMenuFragment;
 import com.guanqing.subredditor.Fragments.MainFragment;
-import com.guanqing.subredditor.Fragments.WelcomeFragment;
+import com.guanqing.subredditor.Fragments.WelcomeDialog;
 import com.guanqing.subredditor.R;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity {
         fm = getSupportFragmentManager();
 
         //show the welcome screen when app runs
-        WelcomeFragment fragment = new WelcomeFragment();
+        WelcomeDialog fragment = new WelcomeDialog();
         fragment.show(fm.beginTransaction(), "welcome_dialog");
 
         setContentView(R.layout.activity_main);

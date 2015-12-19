@@ -56,7 +56,12 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     protected void processLogic(Bundle savedInstanceState) {
         //set refreshing layout
         //mRefreshLayout.setCustomHeaderView(DataEngine.getCustomHeaderView(mApp), true);
-        mRefreshLayout.setRefreshViewHolder(new BGANormalRefreshViewHolder(mApp, true));
+        BGANormalRefreshViewHolder refreshViewHolder = new BGANormalRefreshViewHolder(mApp, true);
+        refreshViewHolder.setPullDownRefreshText(getString(R.string.pulldown_refresh_text));
+        refreshViewHolder.setReleaseRefreshText(getString(R.string.release_refresh_text));
+        refreshViewHolder.setRefreshingText(getString(R.string.refreshing_text));
+        refreshViewHolder.setLoadingMoreText(getString(R.string.loading_more_text));
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
 
         //set adapter
         FrontPageAdapter feedAdapter = new FrontPageAdapter(getActivity());
@@ -97,7 +102,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
             }.execute();
         } else {
             // network unavailable, finish drag down refreshing
-            ToastUtil.show(getActivity(), "Network unavailable");
+            ToastUtil.show("Network unavailable");
             mRefreshLayout.endRefreshing();
         }
     }
@@ -130,7 +135,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
             return true;
         } else {
             // network unavailable, return false
-            ToastUtil.show(getActivity(), "Network unavailable");
+            ToastUtil.show("Network unavailable");
             return false;
         }
     }
@@ -146,7 +151,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     }
 
 
-
+    //load some dummy data
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
         RedditClient redditClient;
         public FrontPageRetrieveTask(RedditClient client){
@@ -182,6 +187,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
         @Override
         protected void onPostExecute(Void v) {
+
         }
     }
 
