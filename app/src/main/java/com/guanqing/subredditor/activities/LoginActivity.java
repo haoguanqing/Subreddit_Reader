@@ -52,8 +52,8 @@ import de.greenrobot.event.EventBus;
  * A login screen that offers login via email/password.
  */
 public class LoginActivity extends BaseActivity {
-    private static final String CLIEND_ID = "p6NSlEAAL8HerQ";
-    private static final String REDIRECT_URL = "http://haoguanqing.github.io/Tests-Misc-for-Android/";
+    private static String CLIEND_ID;
+    private static String REDIRECT_URL;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -80,6 +80,9 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         setupActionBar();
+
+        CLIEND_ID  = getString(R.string.client_id);
+        REDIRECT_URL = getString(R.string.redirect_url);
 
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
