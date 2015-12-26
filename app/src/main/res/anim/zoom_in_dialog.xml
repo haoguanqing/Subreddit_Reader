@@ -7,14 +7,14 @@
         android:fromYScale="0.0"
         android:toYScale="1.0"
         android:fillAfter="false"
-        android:duration="250"
+        android:duration="200"
         android:pivotX = "50%"
         android:pivotY = "0%"
         />
     <translate
         android:fromYDelta="100%"
         android:toYDelta="0"
-        android:duration="250"
+        android:duration="200"
         android:interpolator="@android:anim/accelerate_interpolator"
         />
 </set>

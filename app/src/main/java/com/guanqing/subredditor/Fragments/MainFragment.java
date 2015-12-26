@@ -4,6 +4,7 @@ package com.guanqing.subredditor.Fragments;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.util.Log;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.StaggeredModel;
 import com.guanqing.subredditor.Util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -19,6 +21,9 @@ import net.dean.jraw.models.Submission;
 import net.dean.jraw.paginators.Sorting;
 import net.dean.jraw.paginators.SubredditPaginator;
 import net.dean.jraw.paginators.TimePeriod;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -32,6 +37,9 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     private BGARefreshLayout mRefreshLayout;
     private RecyclerView rvFeed;
+    private static FrontPageAdapter mAdapter;
+    private FragmentManager fm;
+    private RedditClient redditClient = null;
 
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
@@ -45,6 +53,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         setContentView(R.layout.fragment_main);
         mRefreshLayout = getViewById(R.id.rlBGARefresh);
         rvFeed = getViewById(R.id.rvFeed);
+        fm = getActivity().getSupportFragmentManager();
     }
 
     @Override
@@ -64,9 +73,13 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
 
         //set adapter
-        FrontPageAdapter feedAdapter = new FrontPageAdapter(getActivity());
+        /*FrontPageAdapter feedAdapter = new FrontPageAdapter(getActivity());
         rvFeed.setAdapter(feedAdapter);
-        feedAdapter.updateItems();
+        feedAdapter.updateItems();*/
+
+        //set adapter
+        mAdapter = new FrontPageAdapter(getActivity());
+        rvFeed.setAdapter(mAdapter);
 
         //set layout to be staggeredGridLayout with 2 columns
         int columnCount = getResources().getInteger(R.integer.list_column_count);
@@ -154,6 +167,8 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     //load some dummy data
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
         RedditClient redditClient;
+        List<StaggeredModel> data = new ArrayList<>();
+
         public FrontPageRetrieveTask(RedditClient client){
             redditClient = client;
         }
@@ -164,7 +179,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                 SubredditPaginator frontPage = new SubredditPaginator(redditClient);
 
                 // Adjust the request parameters
-                frontPage.setLimit(50);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
+                frontPage.setLimit(40);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
                 frontPage.setTimePeriod(TimePeriod.MONTH); // Default is DAY (Paginator.DEFAULT_TIME_PERIOD)
                 frontPage.setSorting(Sorting.HOT);         // Default is HOT (Paginator.DEFAULT_SORTING)
                 // This Paginator is now set up to retrieve the highest-scoring links submitted within the past
@@ -173,9 +188,15 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                 // Since Paginator implements Iterator, you can use it just how you would expect to, using next() and hasNext()
                 Listing<Submission> submissions = frontPage.next();
                 for (Submission s : submissions) {
+                    StaggeredModel model = new StaggeredModel(
+                            s.getThumbnail(),
+                            s.getTitle(),
+                            s.getScore()
+                    );
+                    data.add(model);
                     // Print some basic stats about the posts
-                    Log.e("HGQ", "[/r/" + s.getSubredditName() + " - " + s.getScore() + " karma] " + s.getTitle() + "\n" + "https://www.reddit.com" + s.getPermalink() + "\n" + s.getThumbnail());
-                    Log.e("HGQ", redditClient.getSubmission(s.getId()).getPermalink());
+                    //Log.e("HGQ", "[/r/" + s.getSubredditName() + " - " + s.getScore() + " karma] " + s.getTitle() + "\n" + "https://www.reddit.com" + s.getPermalink() + "\n" + s.getThumbnail());
+                    //Log.e("HGQ", redditClient.getSubmission(s.getId()).getPermalink());
                 }
 
             }catch (Exception e){
@@ -187,11 +208,13 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
         @Override
         protected void onPostExecute(Void v) {
-
+            mAdapter.setData(data);
         }
     }
 
     public void onEvent(FinishLoginActivityEvent event){
-        new FrontPageRetrieveTask(event.getRedditClient()).execute();
+        redditClient = event.getRedditClient();
+        new FrontPageRetrieveTask(redditClient).execute();
+        beginRefreshing();
     }
 }

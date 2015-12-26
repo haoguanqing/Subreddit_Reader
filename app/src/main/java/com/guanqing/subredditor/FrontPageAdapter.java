@@ -12,12 +12,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Fragments.ZoomGifDialog;
 import com.guanqing.subredditor.Fragments.ZoomDialog;
-import com.guanqing.subredditor.Util.Constants;
+import com.guanqing.subredditor.Fragments.ZoomGifDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private List<StaggeredModel> dataSet;
 
     private Context context;
     private int itemsCount = 0;
@@ -26,6 +29,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public FrontPageAdapter(Context context) {
         this.context = context;
+        dataSet = new ArrayList<>();
     }
 
     @Override
@@ -43,115 +47,154 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
-        if (position % 5 == 0) {
-            setGifIconVisible(true);
-            int halfWidth = Constants.getScreenSizeInPixels(context)[0]/2;
+        StaggeredModel model = dataSet.get(position);
+        View.OnClickListener clickListener;
+        boolean isGif = false;
 
-            Glide.with(context).load("http://i.imgur.com/58aBBpZ.gif")
+        if (model.imageUrl!=null){
+            if (model.imageUrl.endsWith(".gif") || model.imageUrl.endsWith(".gifv")) {
+                isGif = true;
+                if (model.imageUrl.endsWith(".gifv")) {
+                    model.imageUrl = model.imageUrl.substring(0, model.imageUrl.length() - 1);
+                }
+            }
+        }
+
+        //set gif icon visibility
+        holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
+
+        if (isGif){
+            //---- if image is gif --------------------------------------------------
+            clickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //show new detailed gif dialog
+                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
+                    fragment.show(fm, "zoom dialog");
+                }
+            };
+
+            //set image res and onClickListener
+            Glide.with(context).load(model.imageUrl)
                     .asBitmap()
                     .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
-                    .override(halfWidth, halfWidth)
                     .thumbnail(0.1f)
                     .into(holder.ivThumbnail);
-            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
+
+            holder.ivThumbnail.setOnClickListener(clickListener);
+
+            //set gif icon visible
+            holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
+
+            //set title text
+            if (model.imageUrl==null){
+                holder.tvFeedTitle.setMaxLines(5);
+            }
+            //set title text and onClickListener
+            holder.tvFeedTitle.setText(model.title);
+            holder.tvFeedTitle.setOnClickListener(clickListener);
+        }else {
+
+            //---- if image is not gif or is null ------------------------------------
+            clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //show new detailed dialog
                     ZoomDialog fragment = ZoomDialog.newInstance();
                     fragment.show(fm, "zoom dialog");
                 }
-            });
-        } else if (position % 5 == 1) {
-            setGifIconVisible(false);
-            Glide.with(context).load("http://i.imgur.com/33GXeGQ.jpg")
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error)
-                    .thumbnail(0.1f)
-                    .crossFade()
-                    .into(holder.ivThumbnail);
-            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
-                    fragment.show(fm, "zoom dialog");
-                }
-            });
-        }else if (position % 5 == 2) {
-            setGifIconVisible(false);
-            Glide.with(context).load("http://i.imgur.com/by0E4RK.jpg")
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error)
-                    .thumbnail(0.1f)
-                    .crossFade()
-                    .into(holder.ivThumbnail);
-            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
-                    fragment.show(fm, "zoom dialog");
-                }
-            });
-        }else if (position % 5 == 3) {
-            setGifIconVisible(false);
-            Glide.with(context).load("http://i.imgur.com/ae3Nc5M.jpg")
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error)
-                    .thumbnail(0.1f)
-                    .crossFade()
-                    .into(holder.ivThumbnail);
-            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
-                    fragment.show(fm, "zoom dialog");
-                }
-            });
+            };
+
+            if (model.imageUrl == null) {
+                //if there is no pic, do not inflate imageview & increase the maxLines of the title to 4
+                holder.tvFeedTitle.setMaxLines(4);
+            } else {
+                //set image res and onClickListener
+                Glide.with(context).load(model.imageUrl)
+                        .placeholder(R.drawable.avatar_loading)
+                        .error(R.drawable.error)
+                        .thumbnail(0.1f)
+                        .crossFade()
+                        .into(holder.ivThumbnail);
+
+                holder.ivThumbnail.setOnClickListener(clickListener);
+            }
+
+            //set title text and onClickListener
+            holder.tvFeedTitle.setText(model.title);
+            holder.tvFeedTitle.setOnClickListener(clickListener);
         }
-        else if (position % 5 == 4) {
-            setGifIconVisible(false);
-            Glide.with(context).load("http://i.imgur.com/7LabzAX.jpg")
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error)
-                    .thumbnail(0.1f)
-                    .crossFade()
-                    .into(holder.ivThumbnail);
-            holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
-                    fragment.show(fm, "zoom dialog");
-                }
-            });
-        }
-    }
-
-    private void setGifIconVisible(boolean isGif){
-        holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
-    }
-
-    public void updateItems() {
-        itemsCount += 20;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return 1;
     }
 
     @Override
     public int getItemCount() {
-        return itemsCount;
+        return dataSet.size();
+    }
+
+    /**
+     * get the current data in adapter
+     *
+     * @return dataSet
+     */
+    public List<StaggeredModel> getData() {
+        return dataSet;
+    }
+
+    /**
+     * add data to the top of the data list
+     *
+     * @param data
+     */
+    public void addNewData(List<StaggeredModel> data) {
+        if (data != null) {
+            dataSet.addAll(0, data);
+            notifyItemRangeInserted(0, data.size());
+        }
+    }
+
+    /**
+     * add data to the end of the data list
+     *
+     * @param data
+     */
+    public void addMoreData(List<StaggeredModel> data) {
+        if (data != null) {
+            dataSet.addAll(dataSet.size(), data);
+            notifyItemRangeInserted(dataSet.size(), data.size());
+        }
+    }
+
+    /**
+     * set new data; if null, clear the data list
+     *
+     * @param data
+     */
+    public void setData(List<StaggeredModel> data) {
+        if (data != null) {
+            dataSet = data;
+        } else {
+            dataSet.clear();
+        }
+        notifyDataSetChanged();
+    }
+
+    /**
+     * clear the data list
+     */
+    public void clear() {
+        dataSet.clear();
+        notifyDataSetChanged();
     }
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
         ImageView ivThumbnail;
         TextView tvFeedTitle;
         ImageButton btnComments;
+        TextView tvCommentsNum;
         TextView tvUpvotesCounter;
         ImageView ivGifIcon;
 
@@ -161,6 +204,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail);
             tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
+            tvCommentsNum = (TextView) view.findViewById(R.id.tvCommentsNum);
             tvUpvotesCounter = (TextView)view.findViewById(R.id.tvUpvotesCounter);
             ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
         }

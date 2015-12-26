@@ -14,6 +14,8 @@
             android:id="@+id/ivAvatar"
             android:layout_width="@dimen/global_menu_avatar_size_large"
             android:layout_height="@dimen/global_menu_avatar_size_large"
+            android:elevation="4dp"
+            android:alpha="0.8"
             android:src="@drawable/avatar"
             android:layout_gravity="center"
             android:layout_margin="12dp" />

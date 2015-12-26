@@ -51,7 +51,7 @@
                 android:src="@drawable/ic_chat_bubble_outline" />
 
             <TextView
-                android:id="@+id/tvComments_detail"
+                android:id="@+id/tvCommentsNum"
                 android:gravity="center_vertical|end"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"

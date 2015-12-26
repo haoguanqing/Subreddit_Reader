@@ -7,4 +7,10 @@ public class StaggeredModel {
     String imageUrl;
     String title;
     int karma;
+
+    public StaggeredModel(String imageUrl, String title, int karma){
+        this.imageUrl = imageUrl;
+        this.title = title;
+        this.karma = karma;
+    }
 }
