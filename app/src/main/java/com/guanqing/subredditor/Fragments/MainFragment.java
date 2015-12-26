@@ -191,7 +191,9 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     StaggeredModel model = new StaggeredModel(
                             s.getThumbnail(),
                             s.getTitle(),
+                            s.getCommentCount(),
                             s.getScore()
+
                     );
                     data.add(model);
                     // Print some basic stats about the posts

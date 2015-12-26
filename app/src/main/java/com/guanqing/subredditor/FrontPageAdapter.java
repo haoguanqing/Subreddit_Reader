@@ -43,13 +43,13 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
         holder = (FrontPageFeedViewHolder) viewHolder;
         try{
-            bindDefaultFeedItem(position, holder);
+            bindFeedItem(position, holder);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
-    private void bindDefaultFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
+    private void bindFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
         StaggeredModel model = dataSet.get(position);
         View.OnClickListener clickListener;
         boolean isGif = false;
@@ -67,7 +67,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
 
         if (isGif){
-            //---- if image is gif --------------------------------------------------
+            //if image is gif
             clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -90,16 +90,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             //set gif icon visible
             holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
 
-            //set title text
-            if (model.imageUrl==null){
-                holder.tvFeedTitle.setMaxLines(5);
-            }
-            //set title text and onClickListener
-            holder.tvFeedTitle.setText(model.title);
-            holder.tvFeedTitle.setOnClickListener(clickListener);
         }else {
-
-            //---- if image is not gif or is null ------------------------------------
+            //if image is not gif or is null
             clickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -124,10 +116,13 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 holder.ivThumbnail.setOnClickListener(clickListener);
             }
 
-            //set title text and onClickListener
-            holder.tvFeedTitle.setText(model.title);
-            holder.tvFeedTitle.setOnClickListener(clickListener);
         }
+
+        //set title text and onClickListener
+        holder.tvFeedTitle.setText(model.title);
+        holder.tvFeedTitle.setOnClickListener(clickListener);
+        //set comment number
+        holder.tvCommentsNum.setText(model.commentCount+"");
     }
 
     @Override
@@ -204,7 +199,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail);
             tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
-            tvCommentsNum = (TextView) view.findViewById(R.id.tvCommentsNum);
+            tvCommentsNum = (TextView) view.findViewById(R.id.tvCommentCount);
             tvUpvotesCounter = (TextView)view.findViewById(R.id.tvUpvotesCounter);
             ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
         }
