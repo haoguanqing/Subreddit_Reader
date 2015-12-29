@@ -187,6 +187,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
                 // Since Paginator implements Iterator, you can use it just how you would expect to, using next() and hasNext()
                 Listing<Submission> submissions = frontPage.next();
+                int i=0;
                 for (Submission s : submissions) {
                     StaggeredModel model = new StaggeredModel(
                             s.getId(),
@@ -198,8 +199,10 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     );
                     data.add(model);
                     // Print some basic stats about the posts
-                    //Log.e("HGQ", "[/r/" + s.getSubredditName() + " - " + s.getScore() + " karma] " + s.getTitle() + "\n" + "https://www.reddit.com" + s.getPermalink() + "\n" + s.getThumbnail());
-                    //Log.e("HGQ", redditClient.getSubmission(s.getId()).getPermalink());
+                    if (i++<5) {
+                        Log.e("HGQ", "getFullName:" + s.getFullName() + "getScore: " + s.getScore() + " \ngetTitle: " + s.getTitle() + "\ngetPermalink: https://www.reddit.com" + s.getPermalink() + "\ngetThumbnail: " + s.getThumbnail());
+                        Log.e("HGQ", "getCreated: "+ s.getCreated() + " getUrl: " + s.getUrl());
+                    }
                 }
 
             }catch (Exception e){
