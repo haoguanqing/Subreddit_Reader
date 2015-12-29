@@ -9,13 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.StaggeredModel;
 import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
 
@@ -24,16 +24,18 @@ import com.guanqing.subredditor.Util.Constants;
  * Pop out and show a boarderless image view
  */
 public class ZoomDialog extends DialogFragment {
-    static int[] screenSize;
-    ImageView ivThumbnail;
-    UpvoteTextSwitcher tsUpvote;
-    ImageView ivUpvotes;
+    public static final String SUBMISSION_MODEL_KEY = "ZoomDialog.SUBMISSION_MODEL_KEY";
 
-    public static ZoomDialog newInstance(){
-        //TODO: new instance
+    static int[] screenSize;
+
+
+    protected StaggeredModel model;
+
+    public static ZoomDialog newInstance(StaggeredModel model){
         ZoomDialog fragment = new ZoomDialog();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(SUBMISSION_MODEL_KEY, model);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -42,51 +44,52 @@ public class ZoomDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         screenSize = Constants.getScreenSizeInPixels(getActivity());
+
+        if(getArguments()!=null) {
+            model = getArguments().getParcelable(SUBMISSION_MODEL_KEY);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //inflate the views and find views by id
         final View view = inflater.inflate(R.layout.dialog_zoom, container, false);
-        ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail_detail);
-        tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
-        ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes);
+        final ViewHolder holder = new ViewHolder(view);
 
-        tsUpvote.setListener(1989);
-        ivUpvotes.setOnClickListener(new View.OnClickListener() {
+        //set title of the submission
+        holder.tvTitle.setText(model.getTitle());
+
+        //set comments count
+        holder.tvCommentCount.setText(model.getCommentCount() + "");
+
+        //change text and pic after user upvotes a submission
+        holder.tsUpvote.setCurrentText(model.getKarma() + "");
+        holder.tsUpvote.setListener(model.getKarma());
+        holder.ivUpvotes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ivUpvotes.setImageDrawable(
-                        ivUpvotes.getDrawable() == getResources().getDrawable(R.drawable.ic_arrow_up) ?
+                holder.ivUpvotes.setImageDrawable(
+                        holder.ivUpvotes.getDrawable() == getResources().getDrawable(R.drawable.ic_arrow_up) ?
                                 getResources().getDrawable(R.drawable.ic_arrow_up_blue) : getResources().getDrawable(R.drawable.ic_arrow_up));
-                tsUpvote.performClick();
+                holder.tsUpvote.performClick();
             }
         });
 
-        ivThumbnail.setOnClickListener(new View.OnClickListener() {
+        //dismiss the dialog when user clicks the image
+        holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
 
-        Glide.with(getActivity()).load("http://i.imgur.com/j1DWGOB.jpg")
+        //inflate the image
+        Glide.with(getActivity()).load(model.getImageUrl())
                 .placeholder(R.drawable.avatar_loading)
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        //progressBar.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
                 .error(R.drawable.error)
                 .crossFade()
                 .thumbnail(0.1f)
-                .into(ivThumbnail);
+                .into(holder.ivThumbnail);
         return view;
     }
 
@@ -101,16 +104,48 @@ public class ZoomDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
+        //calculate suitable width and height for the detailed view
         int width = screenSize[0] *10/11;
         int height = screenSize[1] *10/11;
         //error check
         if (getDialog() == null)
             return;
-        //set view size
+        //set view size to fit the screen
         if (getResources().getConfiguration().orientation==1){
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }else{
             getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+
+
+    private class ViewHolder{
+        protected View view;
+
+        ImageView ivThumbnail;
+        ImageButton btnSave;
+        ImageButton btnShare;
+        ImageButton btnComments;
+        TextView tvCommentCount;
+        TextView tvTitle;
+        UpvoteTextSwitcher tsUpvote;
+        ImageView ivUpvotes;
+
+        public ViewHolder(View view){
+            this.view = view;
+            findViews();
+        }
+
+        void findViews(){
+            ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail_detail);
+            btnSave = (ImageButton) view.findViewById(R.id.btnSave_detail);
+            btnShare = (ImageButton) view.findViewById(R.id.btnShare_detail);
+            btnComments = (ImageButton) view.findViewById(R.id.btnComments_detail);
+            tvCommentCount = (TextView) view.findViewById(R.id.tvCommentCount_detail);
+            tvTitle = (TextView) view.findViewById(R.id.tvFeedTitle_detail);
+            tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
+            ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes_detail);
         }
     }
 }

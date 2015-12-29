@@ -189,6 +189,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                 Listing<Submission> submissions = frontPage.next();
                 for (Submission s : submissions) {
                     StaggeredModel model = new StaggeredModel(
+                            s.getId(),
                             s.getThumbnail(),
                             s.getTitle(),
                             s.getCommentCount(),

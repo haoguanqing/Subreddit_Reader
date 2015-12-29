@@ -23,7 +23,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private List<StaggeredModel> dataSet;
 
     private Context context;
-    private int itemsCount = 0;
+
     private FragmentManager fm;
     private FrontPageFeedViewHolder holder;
 
@@ -50,7 +50,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void bindFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
-        StaggeredModel model = dataSet.get(position);
+        final StaggeredModel model = dataSet.get(position);
         View.OnClickListener clickListener;
         boolean isGif = false;
 
@@ -65,6 +65,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         //set gif icon visibility
         holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
+
+        holder.tvUpvotesCounter.setText(model.karma+"");
 
         if (isGif){
             //if image is gif
@@ -96,7 +98,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     //show new detailed dialog
-                    ZoomDialog fragment = ZoomDialog.newInstance();
+                    ZoomDialog fragment = ZoomDialog.newInstance(model);
                     fragment.show(fm, "zoom dialog");
                 }
             };
@@ -107,7 +109,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             } else {
                 //set image res and onClickListener
                 Glide.with(context).load(model.imageUrl)
-                        .placeholder(R.drawable.avatar_loading)
+                        //.placeholder(R.drawable.avatar_loading)
                         .error(R.drawable.error)
                         .thumbnail(0.1f)
                         .crossFade()

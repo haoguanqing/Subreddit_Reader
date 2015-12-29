@@ -63,6 +63,7 @@
                 android:src="@drawable/ic_chat_bubble_outline" />
 
             <TextView
+                android:id="@+id/tvCommentCount_detail"
                 android:gravity="center_vertical|end"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
@@ -76,7 +77,7 @@
                 android:gravity="center_vertical|end">
 
                 <ImageView
-                    android:id="@+id/ivUpvotes"
+                    android:id="@+id/ivUpvotes_detail"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
                     android:layout_width="32dp"
@@ -96,7 +97,7 @@
                         android:layout_gravity="center"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="1989 karma"
+                        android:text="0 karma"
                         android:textColor="@android:color/darker_gray" />
 
                     <TextView
@@ -105,7 +106,7 @@
                         android:layout_gravity="center"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="1990 karma"
+                        android:text="1 karma"
                         android:textColor="@color/text_upvote_counter" />
                 </com.guanqing.subredditor.UI.UpvoteTextSwitcher>
             </LinearLayout>
