@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.view.WindowManager;
 
+import com.guanqing.subredditor.App;
 import com.guanqing.subredditor.R;
 
 import java.io.File;
@@ -23,7 +24,11 @@ import java.net.URL;
  */
 public class ImageUtil {
 
-    //create a circular image
+    /**
+     * create a circular image from bitmap source
+     * @param source
+     * @return circularBitmap
+     */
     public static Bitmap getCircularBitmapImage(Bitmap source) {
         int size = Math.min(source.getWidth(), source.getHeight());
         int x = (source.getWidth() - size) / 2;
@@ -44,10 +49,15 @@ public class ImageUtil {
         return bitmap;
     }
 
-    // Convert pixel to dip
-    public int getDipsFromPixel(Context context, float pixels) {
+
+    /**
+     * convert pixel to dip
+     * @param pixels
+     * @return dip
+     */
+    public int getDipsFromPixel(float pixels) {
         // Get the screen's density scale
-        final float scale = context.getResources().getDisplayMetrics().density;
+        final float scale = App.getInstance().getResources().getDisplayMetrics().density;
         // Convert the dps to pixels, based on density scale
         return (int) (pixels * scale + 0.5f);
     }
@@ -78,6 +88,11 @@ public class ImageUtil {
         }
     }
 
+
+    /**
+     * get user's avatar from cache; default if not exist
+     * @return drawable
+     */
     public static Drawable getAvatarImage(Context context, Uri uri){
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
@@ -86,6 +101,12 @@ public class ImageUtil {
             return context.getResources().getDrawable(R.drawable.avatar);
         }
     }
+
+
+
+
+
+
 
 
 
