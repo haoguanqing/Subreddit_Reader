@@ -54,11 +54,11 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         View.OnClickListener clickListener;
         boolean isGif = false;
 
-        if (model.imageUrl!=null){
-            if (model.imageUrl.endsWith(".gif") || model.imageUrl.endsWith(".gifv")) {
+        if (model.thumbnailUrl !=null){
+            if (model.thumbnailUrl.endsWith(".gif") || model.thumbnailUrl.endsWith(".gifv")) {
                 isGif = true;
-                if (model.imageUrl.endsWith(".gifv")) {
-                    model.imageUrl = model.imageUrl.substring(0, model.imageUrl.length() - 1);
+                if (model.thumbnailUrl.endsWith(".gifv")) {
+                    model.thumbnailUrl = model.thumbnailUrl.substring(0, model.thumbnailUrl.length() - 1);
                 }
             }
         }
@@ -80,7 +80,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             };
 
             //set image res and onClickListener
-            Glide.with(context).load(model.imageUrl)
+            Glide.with(context).load(model.thumbnailUrl)
                     .asBitmap()
                     .placeholder(R.drawable.avatar_loading)
                     .error(R.drawable.error)
@@ -103,12 +103,12 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             };
 
-            if (model.imageUrl == null) {
+            if (model.thumbnailUrl == null) {
                 //if there is no pic, do not inflate imageview & increase the maxLines of the title to 4
-                holder.tvFeedTitle.setMaxLines(4);
+                holder.tvFeedTitle.setMaxLines(5);
             } else {
                 //set image res and onClickListener
-                Glide.with(context).load(model.imageUrl)
+                Glide.with(context).load(model.thumbnailUrl)
                         //.placeholder(R.drawable.avatar_loading)
                         .error(R.drawable.error)
                         .thumbnail(0.1f)
@@ -134,7 +134,6 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /**
      * get the current data in adapter
-     *
      * @return dataSet
      */
     public List<StaggeredModel> getData() {
@@ -143,7 +142,6 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /**
      * add data to the top of the data list
-     *
      * @param data
      */
     public void addNewData(List<StaggeredModel> data) {
@@ -155,7 +153,6 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /**
      * add data to the end of the data list
-     *
      * @param data
      */
     public void addMoreData(List<StaggeredModel> data) {
@@ -167,7 +164,6 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     /**
      * set new data; if null, clear the data list
-     *
      * @param data
      */
     public void setData(List<StaggeredModel> data) {
@@ -186,6 +182,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         dataSet.clear();
         notifyDataSetChanged();
     }
+
+
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
         ImageView ivThumbnail;

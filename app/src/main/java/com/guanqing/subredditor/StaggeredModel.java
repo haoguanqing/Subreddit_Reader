@@ -8,22 +8,25 @@ import android.os.Parcelable;
  */
 public class StaggeredModel implements Parcelable {
     String id;
-    String imageUrl;
     String title;
+    String thumbnailUrl;
+    String link;
     int commentCount;
     int karma;
 
-    public StaggeredModel(String id, String imageUrl, String title, int commentCount, int karma){
+    public StaggeredModel(String id, String title, String thumbnailUrl, String link, int commentCount, int karma){
         this.id = id;
-        this.imageUrl = imageUrl;
         this.title = title;
+        this.thumbnailUrl = thumbnailUrl;
+        this.link = link;
         this.commentCount = commentCount;
         this.karma = karma;
     }
 
     protected StaggeredModel(Parcel in) {
         id = in.readString();
-        imageUrl = in.readString();
+        thumbnailUrl = in.readString();
+        link = in.readString();
         title = in.readString();
         commentCount = in.readInt();
         karma = in.readInt();
@@ -37,7 +40,8 @@ public class StaggeredModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(imageUrl);
+        dest.writeString(thumbnailUrl);
+        dest.writeString(link);
         dest.writeString(title);
         dest.writeInt(commentCount);
         dest.writeInt(karma);
@@ -60,8 +64,8 @@ public class StaggeredModel implements Parcelable {
         return id;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
     public String getTitle() {
@@ -74,5 +78,9 @@ public class StaggeredModel implements Parcelable {
 
     public int getKarma() {
         return karma;
+    }
+
+    public String getLink() {
+        return link;
     }
 }

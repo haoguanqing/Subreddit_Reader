@@ -49,13 +49,13 @@ public class UpvoteTextSwitcher extends TextSwitcher {
 
     //provide access from outside the switcher to set text as well as text color after votes
     public void upVote(int count){
-        setText(isUpvoted ? count + " karma" : count + 1 + " karma");
+        setText(isUpvoted ? count + "" : count + 1 + "");
         TextView textView = (TextView) getChildAt(1);
         textView.setTextColor(getResources().getColor(R.color.text_upvote_counter));
     }
 
     public void downVote(int count) {
-        setText(isUpvoted ? count + " karma" : count -1 + " karma");
+        setText(isUpvoted ? count + "" : count -1 + "");
         TextView textView = (TextView) getChildAt(1);
         textView.setTextColor(getResources().getColor(R.color.text_downvote_counter));
     }

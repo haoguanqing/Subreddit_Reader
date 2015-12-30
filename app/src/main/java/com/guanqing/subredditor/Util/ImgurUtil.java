@@ -1,5 +1,7 @@
 package com.guanqing.subredditor.Util;
 
+import android.support.annotation.Nullable;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,13 +12,13 @@ import java.net.URL;
 /**
  * Created by Guanqing on 2015/12/29.
  */
-public class ImgurAPI {
-    public static final String NOT_IMGUR = "ImgurAPI.NOT_IMGUR";
-    public static final String IS_IMAGE = "ImgurAPI.IS_IMAGE";
-    public static final String IS_GIF = "ImgurAPI.IS_GIF";
-    public static final String IS_URL = "ImgurAPI.IS_URL";
-    public static final String IS_GALLERY = "ImgurAPI.IS_GALLERY";
-    public static final String ERROR = "ImgurAPI.ERROR";
+public class ImgurUtil {
+    public static final String NOT_IMGUR = "ImgurUtil.NOT_IMGUR";
+    public static final String IS_IMAGE = "ImgurUtil.IS_IMAGE";
+    public static final String IS_GIF = "ImgurUtil.IS_GIF";
+    public static final String IS_URL = "ImgurUtil.IS_URL";
+    public static final String IS_GALLERY = "ImgurUtil.IS_GALLERY";
+    public static final String ERROR = "ImgurUtil.ERROR";
 
     public static String isImgur(String url){
         if (!url.contains("imgur")){
@@ -36,9 +38,14 @@ public class ImgurAPI {
         }
     }
 
-    public static String getImage(String url) throws Exception{
-        url = convertImgurUrl(url);
-        String json = readUrl(url);
+    /**
+     * get image link via Imgur API
+     * @param webpageUrl
+     * @return imageUrl
+     */
+    public static String getLink(String webpageUrl) throws Exception{
+        webpageUrl = convertImgurUrl(webpageUrl);
+        String json = readUrl(webpageUrl);
         JSONObject data = new JSONObject(json).getJSONObject("data");
         if(data.getString("type").equals("image/gif")){
             return data.getString("mp4");
@@ -46,9 +53,30 @@ public class ImgurAPI {
         return data.getString("link");
     }
 
-    public static String[] getImagesFromGallery(String url) throws Exception{
-        url = convertGalleryUrl(url);
-        String json = readUrl(url);
+
+    /**
+     * get the image link in another way
+     * when caught FileNotFoundException connecting to the Imgur API
+     * @param url
+     * @return suedoImageUrl
+     */
+    @Nullable
+    public static String getLinkWhenError(String url){
+        if(url==null) return null;
+        //download the file as MP4 first since we don't know what format it is
+        //if Glide failed to decode the file, rename the file to JPG
+        return url.replace("imgur.com", "i.imgur.com") + ".mp4";
+    }
+
+    /**
+     * get the links from an imgur gallery via Imgur API
+     * @param webpageUrl
+     * @return imageLinks
+     * @throws Exception
+     */
+    public static String[] getLinksFromGallery(String webpageUrl) throws Exception{
+        webpageUrl = convertGalleryUrl(webpageUrl);
+        String json = readUrl(webpageUrl);
         JSONObject data = new JSONObject(json).getJSONObject("data");
         int imagesCount = data.getInt("images_count");
         JSONArray images = data.getJSONArray("images");
@@ -62,15 +90,11 @@ public class ImgurAPI {
     }
 
     private static String convertImgurUrl(String url){
-        url = url.replace("http://imgur.com/", "");
-        url = "https://api.imgur.com/3/image/" + url;
-        return url;
+        return url.replace("http://imgur.com/", "https://api.imgur.com/3/image/");
     }
 
     private static String convertGalleryUrl(String url){
-        url = url.replace("http://imgur.com/", "");
-        url = "https://api.imgur.com/3/gallery/" + url;
-        return url;
+        return url.replace("http://imgur.com/", "https://api.imgur.com/3/gallery/");
     }
 
     //read json string from url
