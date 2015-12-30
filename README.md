@@ -1,5 +1,11 @@
 # Subredditor
 
-In progress
+An Android Reddit client optimized for viewing media images/videos.
 
- ![ScreenShot](http://i.imgur.com/KG6CB3A.gif)
+-----------------------------------------
+
+**ABOUT**
+
+This project uses the Reddit API to fetch user data and display the contents to the end user. What makes it different from other clients in the market is its focus on media images, including animated ones (GIFs), and the methods used to download the data which are efficient and reliable. 
+
+The app will focus on rendering the best quality image possible in large views instead of downloading the full version of it so as to minimize network usage as some media content tend to be large in size. In terms of animated contents, this app will utilize the MP4 format from Imgur API instead of GIF in order to minimize network data consumption (e.g. 200+ KB in MP4 vs 10+ MB in GIF).
