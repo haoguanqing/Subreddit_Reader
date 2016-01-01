@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit;
+package com.guanqing.subredditor.Retrofit.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,11 +6,12 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Guanqing on 2016/1/1.
  */
-public class ImgurImage {
+public class BaseModel {
 
-    @SerializedName("data")
+    @SerializedName("imageData")
     @Expose
-    private Data data;
+    private ImageData imageData;
+
     @SerializedName("success")
     @Expose
     private boolean success;
@@ -21,19 +22,19 @@ public class ImgurImage {
     /**
      *
      * @return
-     * The data
+     * The imageData
      */
-    public Data getData() {
-        return data;
+    public ImageData getImageData() {
+        return imageData;
     }
 
     /**
      *
-     * @param data
-     * The data
+     * @param imageData
+     * The imageData
      */
-    public void setData(Data data) {
-        this.data = data;
+    public void setImageData(ImageData imageData) {
+        this.imageData = imageData;
     }
 
     /**
@@ -47,29 +48,10 @@ public class ImgurImage {
 
     /**
      *
-     * @param success
-     * The success
-     */
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
-
-    /**
-     *
      * @return
      * The status
      */
     public int getStatus() {
         return status;
     }
-
-    /**
-     *
-     * @param status
-     * The status
-     */
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
 }

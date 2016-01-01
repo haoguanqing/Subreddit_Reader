@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guanqing.subredditor.Activities.BaseActivity;
+import com.guanqing.subredditor.UI.Activities.BaseActivity;
 import com.guanqing.subredditor.App;
 import com.guanqing.subredditor.Util.NetworkUtil;
 

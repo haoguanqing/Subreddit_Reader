@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI;
+package com.guanqing.subredditor.UI.UI;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

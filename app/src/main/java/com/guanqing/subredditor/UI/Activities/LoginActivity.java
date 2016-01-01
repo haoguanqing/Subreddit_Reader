@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Activities;
+package com.guanqing.subredditor.UI.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

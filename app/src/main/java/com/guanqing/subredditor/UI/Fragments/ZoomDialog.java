@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -15,8 +15,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.Retrofit.ImgurClient;
+import com.guanqing.subredditor.Retrofit.ImgurService;
 import com.guanqing.subredditor.StaggeredModel;
-import com.guanqing.subredditor.UI.UpvoteTextSwitcher;
+import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
 
 /**
@@ -44,7 +46,8 @@ public class ZoomDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         screenSize = Constants.getScreenSizeInPixels(getActivity());
-
+        //set up imgur REST client
+        ImgurClient.getInstance().configureRestAdapter();
         if(getArguments()!=null) {
             model = getArguments().getParcelable(SUBMISSION_MODEL_KEY);
         }
@@ -83,6 +86,8 @@ public class ZoomDialog extends DialogFragment {
             }
         });
 
+
+        ImgurService service = ImgurClient.getInstance().getClient(ImgurService.class);
         //inflate the image
         Glide.with(getActivity()).load(model.getLink())
                 .placeholder(R.drawable.avatar_loading)

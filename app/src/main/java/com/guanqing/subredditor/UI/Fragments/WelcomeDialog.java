@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.CircleTransformation;
+import com.guanqing.subredditor.UI.UI.CircleTransformation;
 import com.guanqing.subredditor.Util.ImageUtil;
 import com.guanqing.subredditor.Util.SharedPrefUtil;
 import com.guanqing.subredditor.Util.ToastUtil;

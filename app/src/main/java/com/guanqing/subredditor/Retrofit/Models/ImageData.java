@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit;
+package com.guanqing.subredditor.Retrofit.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Guanqing on 2016/1/1.
  */
-public class Data {
+public class ImageData {
 
     @SerializedName("id")
     @Expose

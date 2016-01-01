@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Fragments.ZoomDialog;
-import com.guanqing.subredditor.Fragments.ZoomGifDialog;
+import com.guanqing.subredditor.UI.Fragments.ZoomDialog;
+import com.guanqing.subredditor.UI.Fragments.ZoomGifDialog;
 
 import java.util.ArrayList;
 import java.util.List;

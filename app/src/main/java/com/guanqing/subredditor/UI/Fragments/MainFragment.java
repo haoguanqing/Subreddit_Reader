@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 
 import android.os.AsyncTask;

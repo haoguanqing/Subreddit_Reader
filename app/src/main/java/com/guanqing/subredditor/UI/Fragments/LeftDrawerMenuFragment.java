@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,14 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Activities.LoginActivity;
+import com.guanqing.subredditor.UI.Activities.LoginActivity;
 import com.guanqing.subredditor.Events.LoginEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.AnimatedExpandableListView.AnimatedExpandableListView;
-import com.guanqing.subredditor.UI.AnimatedExpandableListView.ChildItem;
-import com.guanqing.subredditor.UI.AnimatedExpandableListView.ExpandableListAdapter;
-import com.guanqing.subredditor.UI.AnimatedExpandableListView.GroupItem;
-import com.guanqing.subredditor.UI.CircleTransformation;
+import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.AnimatedExpandableListView;
+import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.ChildItem;
+import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.ExpandableListAdapter;
+import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.GroupItem;
+import com.guanqing.subredditor.UI.UI.CircleTransformation;
 import com.guanqing.subredditor.Util.ImageUtil;
 import com.guanqing.subredditor.Util.SharedPrefUtil;
 import com.guanqing.subredditor.Util.ToastUtil;
