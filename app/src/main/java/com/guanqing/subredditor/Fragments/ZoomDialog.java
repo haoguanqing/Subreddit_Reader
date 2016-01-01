@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -103,7 +104,7 @@ public class ZoomDialog extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-/*        //calculate suitable width and height for the detailed view
+        //calculate suitable width and height for the detailed view
         int width = screenSize[0] *10/11;
         int height = screenSize[1] *10/11;
         //error check
@@ -114,7 +115,7 @@ public class ZoomDialog extends DialogFragment {
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }else{
             getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
-        }*/
+        }
     }
 
 
