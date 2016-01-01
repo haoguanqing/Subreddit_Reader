@@ -12,7 +12,7 @@ import android.util.Log;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.StaggeredModel;
+import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.Util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -162,7 +162,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     //load some dummy data
     private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
         RedditClient redditClient;
-        List<StaggeredModel> data = new ArrayList<>();
+        List<FrontPageModel> data = new ArrayList<>();
 
         public FrontPageRetrieveTask(RedditClient client){
             redditClient = client;
@@ -183,7 +183,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                 Listing<Submission> submissions = frontPage.next();
                 int i=0;
                 for (Submission s : submissions) {
-                    StaggeredModel model = new StaggeredModel(
+                    FrontPageModel model = new FrontPageModel(
                             s.getId(),
                             s.getTitle(),
                             s.getThumbnail(),

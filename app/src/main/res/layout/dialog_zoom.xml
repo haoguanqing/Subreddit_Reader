@@ -25,6 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
             android:maxLines="3"
+            android:ellipsize="end"
             android:textSize="14sp"
             android:text="No description"/>
 

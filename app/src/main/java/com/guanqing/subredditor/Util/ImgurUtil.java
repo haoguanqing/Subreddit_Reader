@@ -13,29 +13,28 @@ import java.net.URL;
  * Created by Guanqing on 2015/12/29.
  */
 public class ImgurUtil {
-    public static final String NOT_IMGUR = "ImgurUtil.NOT_IMGUR";
-    public static final String IS_IMAGE = "ImgurUtil.IS_IMAGE";
-    public static final String IS_GIF = "ImgurUtil.IS_GIF";
-    public static final String IS_URL = "ImgurUtil.IS_URL";
-    public static final String IS_GALLERY = "ImgurUtil.IS_GALLERY";
-    public static final String ERROR = "ImgurUtil.ERROR";
+    public enum LinkType {NOT_IMGUR, IMAGE, GIF, IMGUR_LINK, IMGUR_GALLERY, ERROR};
 
-    public static String isImgur(String url){
+    public static LinkType getLinkType(String url){
         if (!url.contains("imgur")){
-            return NOT_IMGUR;
+            return LinkType.NOT_IMGUR;
         }else if(url.startsWith("http://i.imgur.com/")){
             if(url.endsWith(".gifv") || url.endsWith(".gif")){
-                return IS_GIF;
+                return LinkType.GIF;
             }else{
-                return IS_IMAGE;
+                return LinkType.IMAGE;
             }
         }else if (url.startsWith("http://imgur.com/gallery/")){
-            return IS_GALLERY;
+            return LinkType.IMGUR_GALLERY;
         }else if (url.startsWith("http://imgur.com/")){
-            return IS_URL;
+            return LinkType.IMGUR_LINK;
         }else{
-            return ERROR;
+            return LinkType.ERROR;
         }
+    }
+
+    public static String getId(String link){
+        return link.substring(link.lastIndexOf("/"), link.length());
     }
 
     /**

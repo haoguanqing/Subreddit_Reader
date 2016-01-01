@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,25 @@ import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Retrofit.ImgurClient;
 import com.guanqing.subredditor.Retrofit.ImgurService;
-import com.guanqing.subredditor.StaggeredModel;
+import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
+import com.guanqing.subredditor.Util.ImgurUtil;
 
 /**
  * Created by Guanqing on 2015/12/3.
  * Pop out and show a boarderless image view
  */
 public class ZoomDialog extends DialogFragment {
+    public static final String DIALOG_FLAG = "ZoomDialog.DIALOG_FLAG";
     public static final String SUBMISSION_MODEL_KEY = "ZoomDialog.SUBMISSION_MODEL_KEY";
 
     static int[] screenSize;
 
 
-    protected StaggeredModel model;
+    protected FrontPageModel model;
 
-    public static ZoomDialog newInstance(StaggeredModel model){
+    public static ZoomDialog newInstance(FrontPageModel model){
         ZoomDialog fragment = new ZoomDialog();
         Bundle bundle = new Bundle();
         bundle.putParcelable(SUBMISSION_MODEL_KEY, model);
@@ -45,11 +48,22 @@ public class ZoomDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //get screen size in pixels
         screenSize = Constants.getScreenSizeInPixels(getActivity());
         //set up imgur REST client
         ImgurClient.getInstance().configureRestAdapter();
+
         if(getArguments()!=null) {
+            //get the data passed in
             model = getArguments().getParcelable(SUBMISSION_MODEL_KEY);
+        }
+
+        //dismiss any dialog which is currently showing on top
+        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ZoomDialog.DIALOG_FLAG);
+        if (prev != null){
+            ZoomDialog df = (ZoomDialog) prev;
+            df.dismiss();
+            getActivity().getSupportFragmentManager().beginTransaction().remove(prev);
         }
     }
 
@@ -121,6 +135,15 @@ public class ZoomDialog extends DialogFragment {
         }else{
             getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
         }
+    }
+
+    private String getImageLink(String link){
+        //TODO
+        switch (ImgurUtil.getLinkType(link)){
+            case ImgurUtil.IS_URL:
+
+        }
+        return null;
     }
 
 

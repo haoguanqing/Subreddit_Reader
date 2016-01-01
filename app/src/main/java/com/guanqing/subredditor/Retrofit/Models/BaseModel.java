@@ -8,34 +8,12 @@ import com.google.gson.annotations.SerializedName;
  */
 public class BaseModel {
 
-    @SerializedName("imageData")
-    @Expose
-    private ImageData imageData;
-
     @SerializedName("success")
     @Expose
     private boolean success;
     @SerializedName("status")
     @Expose
     private int status;
-
-    /**
-     *
-     * @return
-     * The imageData
-     */
-    public ImageData getImageData() {
-        return imageData;
-    }
-
-    /**
-     *
-     * @param imageData
-     * The imageData
-     */
-    public void setImageData(ImageData imageData) {
-        this.imageData = imageData;
-    }
 
     /**
      *

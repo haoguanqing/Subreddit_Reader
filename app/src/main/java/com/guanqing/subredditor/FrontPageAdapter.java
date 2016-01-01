@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +13,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.guanqing.subredditor.Retrofit.ImgurClient;
+import com.guanqing.subredditor.Retrofit.ImgurService;
+import com.guanqing.subredditor.Retrofit.Models.GalleryModel;
+import com.guanqing.subredditor.Retrofit.Models.ImageModel;
 import com.guanqing.subredditor.UI.Fragments.ZoomDialog;
-import com.guanqing.subredditor.UI.Fragments.ZoomGifDialog;
+import com.guanqing.subredditor.Util.ImgurUtil;
+import com.squareup.okhttp.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<StaggeredModel> dataSet;
+    private List<FrontPageModel> dataSet;
 
     private Context context;
 
@@ -34,8 +45,9 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(context).inflate(R.layout.feed_list_item, parent, false);
+        final View view = LayoutInflater.from(context).inflate(R.layout.frontpage_list_item, parent, false);
         fm = ((FragmentActivity) context).getSupportFragmentManager();
+        ImgurClient.getInstance().configureRestAdapter();
         return new FrontPageFeedViewHolder(view);
     }
 
@@ -50,81 +62,42 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     private void bindFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
-        final StaggeredModel model = dataSet.get(position);
-        View.OnClickListener clickListener;
+
+        final FrontPageModel frontpageModel = dataSet.get(position);
+        // configure a proper onClickListener for each case
+        // imgur image, gif, gallery, not imgur, etc.
+        View.OnClickListener onClickListener = getProperOnClickListener(frontpageModel);
         boolean isGif = false;
-
-        if (model.thumbnailUrl !=null){
-            if (model.thumbnailUrl.endsWith(".gif") || model.thumbnailUrl.endsWith(".gifv")) {
-                isGif = true;
-                if (model.thumbnailUrl.endsWith(".gifv")) {
-                    model.thumbnailUrl = model.thumbnailUrl.substring(0, model.thumbnailUrl.length() - 1);
-                }
-            }
+        //detect whether the content is animated gif
+        if (frontpageModel.link.endsWith(".gif") || frontpageModel.link.endsWith(".gifv")){
+            isGif = true;
         }
-
         //set gif icon visibility
         holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
 
-        holder.tvUpvotesCounter.setText(model.karma+"");
-
-        if (isGif){
-            //if image is gif
-            clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //show new detailed gif dialog
-                    ZoomGifDialog fragment = ZoomGifDialog.newInstance();
-                    fragment.show(fm, "zoom dialog");
-                }
-            };
-
+        if (frontpageModel.thumbnailUrl == null) {
+            //if there is no pic, do not inflate imageview & increase the maxLines of the title to 5
+            holder.ivThumbnail.setImageResource(android.R.color.transparent);
+            holder.tvFeedTitle.setMaxLines(5);
+        } else {
             //set image res and onClickListener
-            Glide.with(context).load(model.thumbnailUrl)
-                    .asBitmap()
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error)
+            Glide.with(context).load(frontpageModel.thumbnailUrl)
+                    //.placeholder(R.drawable.avatar_loading)
+                    .error(R.drawable.error_gray)
                     .thumbnail(0.1f)
+                    .crossFade()
                     .into(holder.ivThumbnail);
 
-            holder.ivThumbnail.setOnClickListener(clickListener);
-
-            //set gif icon visible
-            holder.ivGifIcon.setVisibility(isGif ? View.VISIBLE : View.GONE);
-
-        }else {
-            //if image is not gif or is null
-            clickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //show new detailed dialog
-                    ZoomDialog fragment = ZoomDialog.newInstance(model);
-                    fragment.show(fm, "zoom dialog");
-                }
-            };
-
-            if (model.thumbnailUrl == null) {
-                //if there is no pic, do not inflate imageview & increase the maxLines of the title to 4
-                holder.tvFeedTitle.setMaxLines(5);
-            } else {
-                //set image res and onClickListener
-                Glide.with(context).load(model.thumbnailUrl)
-                        //.placeholder(R.drawable.avatar_loading)
-                        .error(R.drawable.error)
-                        .thumbnail(0.1f)
-                        .crossFade()
-                        .into(holder.ivThumbnail);
-
-                holder.ivThumbnail.setOnClickListener(clickListener);
-            }
-
+            holder.ivThumbnail.setOnClickListener(onClickListener);
         }
 
+        //set karma number
+        holder.tvKarma.setText(frontpageModel.karma + "");
         //set title text and onClickListener
-        holder.tvFeedTitle.setText(model.title);
-        holder.tvFeedTitle.setOnClickListener(clickListener);
+        holder.tvFeedTitle.setText(frontpageModel.title);
+        holder.tvFeedTitle.setOnClickListener(onClickListener);
         //set comment number
-        holder.tvCommentsNum.setText(model.commentCount+"");
+        holder.tvCommentsNum.setText(frontpageModel.commentCount+"");
     }
 
     @Override
@@ -136,7 +109,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * get the current data in adapter
      * @return dataSet
      */
-    public List<StaggeredModel> getData() {
+    public List<FrontPageModel> getData() {
         return dataSet;
     }
 
@@ -144,7 +117,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * add data to the top of the data list
      * @param data
      */
-    public void addNewData(List<StaggeredModel> data) {
+    public void addNewData(List<FrontPageModel> data) {
         if (data != null) {
             dataSet.addAll(0, data);
             notifyItemRangeInserted(0, data.size());
@@ -155,7 +128,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * add data to the end of the data list
      * @param data
      */
-    public void addMoreData(List<StaggeredModel> data) {
+    public void addMoreData(List<FrontPageModel> data) {
         if (data != null) {
             dataSet.addAll(dataSet.size(), data);
             notifyItemRangeInserted(dataSet.size(), data.size());
@@ -166,7 +139,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * set new data; if null, clear the data list
      * @param data
      */
-    public void setData(List<StaggeredModel> data) {
+    public void setData(List<FrontPageModel> data) {
         if (data != null) {
             dataSet = data;
         } else {
@@ -184,13 +157,111 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
+    /**
+     * =====================================================================================
+     * ============================== HELPER FUNCTIONS =====================================
+     * =====================================================================================
+     */
+    private View.OnClickListener getProperOnClickListener(final FrontPageModel frontpageModel){
+        View.OnClickListener onClickListener;
+        ImgurService service;
+
+        //detect link type
+        ImgurUtil.LinkType linkType = ImgurUtil.getLinkType(frontpageModel.link);
+        switch (linkType){
+            case NOT_IMGUR:
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: new webview
+                    }
+                };
+            case IMGUR_GALLERY:
+                //get the links of the images in the gallery using Imgur API
+                service = ImgurClient.getInstance().getClient(ImgurService.class);
+                Call<GalleryModel> galleryCall = service.getGallery(ImgurUtil.getId(frontpageModel.link));
+                galleryCall.enqueue(new Callback<GalleryModel>() {
+                    @Override
+                    public void onResponse(Response<GalleryModel> response, Retrofit retrofit) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+
+                    }
+                });
+                //set on click listener
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //TODO: new gallery view
+
+                    }
+                };
+            case IMGUR_LINK:
+                //get the link of the image using Imgur API
+                service = ImgurClient.getInstance().getClient(ImgurService.class);
+                Call<ImageModel> imageCall = service.getImage(ImgurUtil.getId(frontpageModel.link));
+                imageCall.enqueue(new Callback<ImageModel>() {
+                    @Override
+                    public void onResponse(Response<ImageModel> response, Retrofit retrofit) {
+                        ImageModel image = response.body();
+
+                        if (image == null) {
+                            //404 or the response cannot be converted to ImageModel.
+                            ResponseBody responseBody = response.errorBody();
+                            if (responseBody != null) {
+                                Log.e("HGQ","responseBody = " + responseBody.toString());
+                            } else {
+                                Log.e("HGQ","responseBody = null");
+                            }
+                        } else {
+                            //200
+                            if (image.getData().isAnimated()){
+                                frontpageModel.setLink(image.getData().getMp4());
+                            }else{
+                                frontpageModel.setLink(image.getData().getLink());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Throwable t) {
+                        Log.e("HGQ", "t = " + t.getMessage());
+                    }
+                });
+
+                //set on click listener
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                    }
+                };
+            default:
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //show new detailed dialog
+                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                    }
+                };
+
+        }
+        return onClickListener;
+    }
+
+
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
         ImageView ivThumbnail;
         TextView tvFeedTitle;
         ImageButton btnComments;
         TextView tvCommentsNum;
-        TextView tvUpvotesCounter;
+        TextView tvKarma;
         ImageView ivGifIcon;
 
         public FrontPageFeedViewHolder(View view) {
@@ -200,7 +271,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
             btnComments = (ImageButton) view.findViewById(R.id.btnComments);
             tvCommentsNum = (TextView) view.findViewById(R.id.tvCommentCount);
-            tvUpvotesCounter = (TextView)view.findViewById(R.id.tvUpvotesCounter);
+            tvKarma = (TextView)view.findViewById(R.id.tvKarma);
             ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
         }
     }

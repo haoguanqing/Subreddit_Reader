@@ -14,7 +14,7 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
 
-    <color name="photo_placeholder">#ccc</color>
+    <color name="photo_placeholder">#ddd</color>
 
     <color name="text_upvote_counter">#2b5a83</color>
     <color name="text_downvote_counter">#a9383b</color>
