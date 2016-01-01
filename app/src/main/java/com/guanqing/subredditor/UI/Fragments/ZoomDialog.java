@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Retrofit.ImgurClient;
 import com.guanqing.subredditor.Retrofit.ImgurService;
-import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
-import com.guanqing.subredditor.Util.ImgurUtil;
 
 /**
  * Created by Guanqing on 2015/12/3.
@@ -56,14 +54,6 @@ public class ZoomDialog extends DialogFragment {
         if(getArguments()!=null) {
             //get the data passed in
             model = getArguments().getParcelable(SUBMISSION_MODEL_KEY);
-        }
-
-        //dismiss any dialog which is currently showing on top
-        Fragment prev = getActivity().getSupportFragmentManager().findFragmentByTag(ZoomDialog.DIALOG_FLAG);
-        if (prev != null){
-            ZoomDialog df = (ZoomDialog) prev;
-            df.dismiss();
-            getActivity().getSupportFragmentManager().beginTransaction().remove(prev);
         }
     }
 
@@ -135,15 +125,6 @@ public class ZoomDialog extends DialogFragment {
         }else{
             getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
         }
-    }
-
-    private String getImageLink(String link){
-        //TODO
-        switch (ImgurUtil.getLinkType(link)){
-            case ImgurUtil.IS_URL:
-
-        }
-        return null;
     }
 
 

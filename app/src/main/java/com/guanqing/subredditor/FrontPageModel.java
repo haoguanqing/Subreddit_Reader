@@ -16,7 +16,7 @@ public class FrontPageModel implements Parcelable {
     String link;
     int commentCount;
     int karma;
-    List<String> links = new ArrayList<>();
+    List<String> links = null;
 
     /**
      *
