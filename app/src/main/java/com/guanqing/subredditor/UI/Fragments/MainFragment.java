@@ -25,6 +25,8 @@ import net.dean.jraw.paginators.TimePeriod;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.bingoogolapple.refreshlayout.BGANormalRefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 
@@ -35,8 +37,9 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
  */
 public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARefreshLayoutDelegate{
 
-    private BGARefreshLayout mRefreshLayout;
-    private RecyclerView rvFeed;
+    @Bind(R.id.rlBGARefresh) BGARefreshLayout mRefreshLayout;
+    @Bind(R.id.rvFeed) RecyclerView rvFeed;
+
     private static FrontPageAdapter mAdapter;
     private FragmentManager fm;
     private RedditClient redditClient = null;
@@ -51,8 +54,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     @Override
     protected void initView(Bundle savedInstanceState) {
         setContentView(R.layout.fragment_main);
-        mRefreshLayout = getViewById(R.id.rlBGARefresh);
-        rvFeed = getViewById(R.id.rvFeed);
+        ButterKnife.bind(this, mContentView);
         fm = getActivity().getSupportFragmentManager();
     }
 

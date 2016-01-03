@@ -40,6 +40,8 @@ import net.dean.jraw.http.oauth.OAuthHelper;
 
 import java.net.URL;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 /**
@@ -51,8 +53,9 @@ public class WelcomeDialog extends DialogFragment{
     private static RedditClient redditClient;
     private UserAgent mUserAgent;
     private WebView webView;
-    ImageView ivUserAvatar;
-    TextView tvWelcomeText;
+
+    @Bind(R.id.ivAvatar) ImageView ivUserAvatar;
+    @Bind(R.id.tvWelcomeText) TextView tvWelcomeText;
 
     private static Context mContext;
     private String username;
@@ -93,13 +96,12 @@ public class WelcomeDialog extends DialogFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.dialog_welcome, container, false);
-        ivUserAvatar = (ImageView) rootView.findViewById(R.id.ivAvatar);
-        tvWelcomeText = (TextView) rootView.findViewById(R.id.tvWelcomeText);
+        final View view = inflater.inflate(R.layout.dialog_welcome, container, false);
+        ButterKnife.bind(this, view);
 
         setupProfileIcon();
         login();
-        return rootView;
+        return view;
     }
 
     private void setupProfileIcon() {

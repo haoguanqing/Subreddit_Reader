@@ -31,22 +31,26 @@ import com.mxn.soul.flowingdrawer_core.MenuFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
 public class LeftDrawerMenuFragment extends MenuFragment {
 
-    private Context context;
-    private ImageView ivMenuUserProfilePhoto;
-    private TextView tvUsername;
-    private AnimatedExpandableListView expandableListView;
+    protected Context mContext;
+
+    @Bind(R.id.ivMenuUserProfilePhoto) ImageView ivMenuUserProfilePhoto;
+    @Bind(R.id.ivUserProfileName) TextView tvUsername;
+    @Bind(R.id.lvExpandable) AnimatedExpandableListView expandableListView;
+    @Bind(R.id.btnLogout) ImageButton btnLogout;
+
     private ExpandableListAdapter adapter;
-    private ImageButton btnLogout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = getActivity();
+        mContext = getActivity();
         EventBus.getDefault().register(this);
     }
 
@@ -59,15 +63,13 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drawer, container, false);
-        ivMenuUserProfilePhoto = (ImageView) view.findViewById(R.id.ivMenuUserProfilePhoto);
-        tvUsername = (TextView) view.findViewById(R.id.ivUserProfileName);
-        btnLogout = (ImageButton)view.findViewById(R.id.btnLogout);
+        ButterKnife.bind(this, view);
 
         //create a listener to launch login activity
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, LoginActivity.class);
+                Intent intent = new Intent(mContext, LoginActivity.class);
                 startActivity(intent);
             }
         };
@@ -84,8 +86,7 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         });
 
         //set contents for expandable listview in the drawer
-        expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.lvExpandable);
-        adapter = new ExpandableListAdapter(context);
+        adapter = new ExpandableListAdapter(mContext);
         setAdapterData();
         expandableListView.setAdapter(adapter);
         //set on subreddit click listener
@@ -115,7 +116,7 @@ public class LeftDrawerMenuFragment extends MenuFragment {
 
     private void setupProfileIcon(Uri uri) {
         int avatarSize = getResources().getDimensionPixelSize(R.dimen.global_menu_avatar_size);
-        Drawable avatar = ImageUtil.getAvatarImage(context, uri);
+        Drawable avatar = ImageUtil.getAvatarImage(mContext, uri);
         Glide.with(getActivity())
                 .load(avatar)
                 .placeholder(R.drawable.img_circle_placeholder)

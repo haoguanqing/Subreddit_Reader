@@ -13,28 +13,32 @@ import com.guanqing.subredditor.R;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends BaseActivity {
 
-    private LeftDrawerLayout mLeftDrawerLayout;
-    private FlowingView mFlowingView;
+    @Bind(R.id.leftDrawer) LeftDrawerLayout mLeftDrawerLayout;
+    @Bind(R.id.flowing_view) FlowingView mFlowingView;
 
-    FragmentManager fm;
+    protected FragmentManager fm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fm = getSupportFragmentManager();
 
-        //show the welcome screen when app runs
+        //show the welcome screen when app runs for the first time
         WelcomeDialog fragment = new WelcomeDialog();
         fragment.show(fm.beginTransaction(), "welcome_dialog");
 
         setContentView(R.layout.activity_main);
+        //bind views
+        ButterKnife.bind(this);
 
         LeftDrawerMenuFragment mMenuFragment = (LeftDrawerMenuFragment) fm.findFragmentById(R.id.id_container_menu);
-        mLeftDrawerLayout = (LeftDrawerLayout) findViewById(R.id.leftDrawer);
-        mFlowingView = (FlowingView) findViewById(R.id.flowing_view);
+
         if (mMenuFragment == null) {
             mMenuFragment = new LeftDrawerMenuFragment();
             fm.beginTransaction()

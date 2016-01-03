@@ -21,17 +21,21 @@ import com.guanqing.subredditor.Retrofit.ImgurService;
 import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Guanqing on 2015/12/3.
  * Pop out and show a boarderless image view
  */
 public class ZoomDialog extends DialogFragment {
+
     public static final String DIALOG_FLAG = "ZoomDialog.DIALOG_FLAG";
     public static final String SUBMISSION_MODEL_KEY = "ZoomDialog.SUBMISSION_MODEL_KEY";
 
+    // an array storing the width and height of current screen
     static int[] screenSize;
-
-
+    // model containing all data of this submission
     protected FrontPageModel model;
 
     public static ZoomDialog newInstance(FrontPageModel model){
@@ -129,32 +133,21 @@ public class ZoomDialog extends DialogFragment {
 
 
 
-    private class ViewHolder{
+    protected class ViewHolder{
         protected View view;
 
-        ImageView ivThumbnail;
-        ImageButton btnSave;
-        ImageButton btnShare;
-        ImageButton btnComments;
-        TextView tvCommentCount;
-        TextView tvTitle;
-        UpvoteTextSwitcher tsUpvote;
-        ImageView ivUpvotes;
+        @Bind(R.id.ivFeedThumbnail_detail) protected ImageView ivThumbnail;
+        @Bind(R.id.btnSave_detail) protected ImageButton btnSave;
+        @Bind(R.id.btnShare_detail) protected ImageButton btnShare;
+        @Bind(R.id.btnComments_detail) protected ImageButton btnComments;
+        @Bind(R.id.tvCommentCount_detail) protected TextView tvCommentCount;
+        @Bind(R.id.tvFeedTitle_detail) protected TextView tvTitle;
+        @Bind(R.id.tsUpvotesCounter_detail) protected UpvoteTextSwitcher tsUpvote;
+        @Bind(R.id.ivUpvotes_detail) protected ImageView ivUpvotes;
 
         public ViewHolder(View view){
             this.view = view;
-            findViews();
-        }
-
-        void findViews(){
-            ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail_detail);
-            btnSave = (ImageButton) view.findViewById(R.id.btnSave_detail);
-            btnShare = (ImageButton) view.findViewById(R.id.btnShare_detail);
-            btnComments = (ImageButton) view.findViewById(R.id.btnComments_detail);
-            tvCommentCount = (TextView) view.findViewById(R.id.tvCommentCount_detail);
-            tvTitle = (TextView) view.findViewById(R.id.tvFeedTitle_detail);
-            tsUpvote = (UpvoteTextSwitcher) view.findViewById(R.id.tsUpvotesCounter_detail);
-            ivUpvotes = (ImageView) view.findViewById(R.id.ivUpvotes_detail);
+            ButterKnife.bind(this, view);
         }
     }
 }
