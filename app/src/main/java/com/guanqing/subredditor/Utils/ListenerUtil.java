@@ -269,8 +269,9 @@ public class ListenerUtil {
                 frontpageModel.setLink(url.replace("/a/", "/gallery/"));
 
             case IMGUR_GALLERY:
-                //get the links of the images in the gallery using Imgur API
+                //get the data of the images in the gallery with Imgur API
                 service = client.getClient(ImgurService.class);
+                //make asynchronous REST calls
                 Call<GalleryModel> galleryCall = service.getGallery(ImgurUtil.getLinkId(url));
                 galleryCall.enqueue(new Callback<GalleryModel>() {
                     @Override
@@ -317,8 +318,9 @@ public class ListenerUtil {
                 break;
 
             case IMGUR_LINK:
-                //get the link of the image using Imgur API
+                //get the link of the image with Imgur API
                 service = client.getClient(ImgurService.class);
+                //make asynchronous REST calls
                 Call<ImageModel> imageCall = service.getImage(ImgurUtil.getLinkId(url));
                 imageCall.enqueue(new Callback<ImageModel>() {
                     @Override

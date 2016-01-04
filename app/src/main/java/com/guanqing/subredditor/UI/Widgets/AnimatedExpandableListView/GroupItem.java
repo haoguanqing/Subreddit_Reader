@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.ui.AnimatedExpandableListView;
+package com.guanqing.subredditor.UI.Widgets.AnimatedExpandableListView;
 
 import android.widget.TextView;
 

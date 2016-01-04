@@ -18,7 +18,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-
+/**
+ * Created by Guanqing on 2015/12/20.
+ */
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<FrontPageModel> dataSet;
 

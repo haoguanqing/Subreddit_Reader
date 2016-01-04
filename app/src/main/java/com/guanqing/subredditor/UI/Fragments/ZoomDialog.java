@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher;
+import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
 import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
 import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
@@ -102,9 +102,9 @@ public class ZoomDialog extends DialogFragment {
             int height = Float.valueOf(width / model.getAspectRatio()).intValue();
             Glide.with(getActivity()).load(model.getLink())
                     .placeholder(R.drawable.avatar_loading)
+                    .override(width, height)
                     .error(R.drawable.error_gray)
                     .thumbnail(0.1f)
-                    .override(width, height)
                     .crossFade()
                     .into(holder.ivThumbnail);
         } else {

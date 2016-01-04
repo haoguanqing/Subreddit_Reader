@@ -13,8 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.ui.GifView;
-import com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher;
+import com.guanqing.subredditor.UI.Widgets.GifView;
+import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
 
 /**

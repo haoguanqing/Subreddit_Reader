@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.ui;
+package com.guanqing.subredditor.UI.Widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

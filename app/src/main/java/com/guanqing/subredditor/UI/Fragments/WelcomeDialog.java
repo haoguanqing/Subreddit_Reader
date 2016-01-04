@@ -26,7 +26,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.ui.CircleTransformation;
+import com.guanqing.subredditor.UI.Widgets.CircleTransformation;
 import com.guanqing.subredditor.Utils.ImageUtil;
 import com.guanqing.subredditor.Utils.SharedPrefUtil;
 import com.guanqing.subredditor.Utils.ToastUtil;
