@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit.Models;
+package com.guanqing.subredditor.Retrofit.Imgur.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

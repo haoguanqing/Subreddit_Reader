@@ -8,11 +8,11 @@ import android.util.Log;
 import android.view.View;
 
 import com.guanqing.subredditor.FrontPageModel;
-import com.guanqing.subredditor.Retrofit.ImgurClient;
-import com.guanqing.subredditor.Retrofit.ImgurService;
-import com.guanqing.subredditor.Retrofit.Models.GalleryModel;
-import com.guanqing.subredditor.Retrofit.Models.ImageData;
-import com.guanqing.subredditor.Retrofit.Models.ImageModel;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
+import com.guanqing.subredditor.Retrofit.Imgur.Models.GalleryModel;
+import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageData;
+import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageModel;
 import com.guanqing.subredditor.UI.Fragments.ZoomDialog;
 import com.squareup.okhttp.ResponseBody;
 
@@ -54,7 +54,7 @@ public class ListenerUtil {
         //detect link type
         ImgurUtil.LinkType linkType = ImgurUtil.getLinkType(link);
         switch (linkType){
-            case NOT_IMGUR:
+            case OTHER:
                 onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -162,7 +162,7 @@ public class ListenerUtil {
                 };
                 break;
 
-            case GIF:
+            case IMGUR_GIF:
                 if(link.contains("imgur")) {
                     //change the gif link to mp4 if the GIF is from imgur.com
                     if (link.endsWith(".gifv")) {

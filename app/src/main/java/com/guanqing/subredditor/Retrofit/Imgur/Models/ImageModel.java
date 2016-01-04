@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit.Models;
+package com.guanqing.subredditor.Retrofit.Imgur.Models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,27 +6,28 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Guanqing on 2016/1/1.
  */
-public class GalleryModel extends BaseModel{
+public class ImageModel extends BaseModel{
 
     @SerializedName("data")
     @Expose
-    private GalleryData data;
+    private ImageData data;
 
     /**
      *
      * @return
-     * The data
+     * The imageData
      */
-    public GalleryData getData() {
+    public ImageData getData() {
         return data;
     }
 
     /**
      *
      * @param data
-     * The data
+     * The imageData
      */
-    public void setData(GalleryData data) {
+    public void setData(ImageData data) {
         this.data = data;
     }
+
 }

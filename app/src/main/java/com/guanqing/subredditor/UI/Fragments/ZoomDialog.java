@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.Retrofit.ImgurClient;
-import com.guanqing.subredditor.Retrofit.ImgurService;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
 import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Util.Constants;
 
