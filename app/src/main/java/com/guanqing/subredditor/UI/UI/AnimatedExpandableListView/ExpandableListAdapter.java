@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.UI.AnimatedExpandableListView;
+package com.guanqing.subredditor.ui.ui.animatedExpandableListView;
 
 import android.content.Context;
 import android.view.LayoutInflater;

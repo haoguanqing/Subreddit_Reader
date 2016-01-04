@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Data;
+package com.guanqing.subredditor.data;
 
 import android.content.ContentUris;
 import android.net.Uri;

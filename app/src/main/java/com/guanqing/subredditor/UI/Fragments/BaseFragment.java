@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Fragments;
+package com.guanqing.subredditor.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.guanqing.subredditor.UI.Activities.BaseActivity;
+import com.guanqing.subredditor.ui.activities.BaseActivity;
 import com.guanqing.subredditor.App;
-import com.guanqing.subredditor.Util.NetworkUtil;
+import com.guanqing.subredditor.util.NetworkUtil;
 
 import de.greenrobot.event.EventBus;
 

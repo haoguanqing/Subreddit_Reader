@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.UI;
+package com.guanqing.subredditor.ui.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,7 +7,7 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.Util.ToastUtil;
+import com.guanqing.subredditor.util.ToastUtil;
 
 /**
  * Created by Guanqing on 2015/12/1.

@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Activities;
+package com.guanqing.subredditor.ui.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,12 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
-import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.events.LoginEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.Util.ImageUtil;
-import com.guanqing.subredditor.Util.SharedPrefUtil;
-import com.guanqing.subredditor.Util.ToastUtil;
+import com.guanqing.subredditor.util.ImageUtil;
+import com.guanqing.subredditor.util.SharedPrefUtil;
+import com.guanqing.subredditor.util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkException;

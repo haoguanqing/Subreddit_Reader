@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Fragments;
+package com.guanqing.subredditor.ui.fragments;
 
 
 import android.os.AsyncTask;
@@ -9,11 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
-import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.FrontPageModel;
-import com.guanqing.subredditor.Util.ToastUtil;
+import com.guanqing.subredditor.util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Listing;

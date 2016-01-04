@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Fragments;
+package com.guanqing.subredditor.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,17 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.UI.Activities.LoginActivity;
-import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.ui.activities.LoginActivity;
+import com.guanqing.subredditor.events.LoginEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.AnimatedExpandableListView;
-import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.ChildItem;
-import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.ExpandableListAdapter;
-import com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.GroupItem;
-import com.guanqing.subredditor.UI.UI.CircleTransformation;
-import com.guanqing.subredditor.Util.ImageUtil;
-import com.guanqing.subredditor.Util.SharedPrefUtil;
-import com.guanqing.subredditor.Util.ToastUtil;
+import com.guanqing.subredditor.ui.ui.animatedExpandableListView.AnimatedExpandableListView;
+import com.guanqing.subredditor.ui.ui.animatedExpandableListView.ChildItem;
+import com.guanqing.subredditor.ui.ui.animatedExpandableListView.ExpandableListAdapter;
+import com.guanqing.subredditor.ui.ui.animatedExpandableListView.GroupItem;
+import com.guanqing.subredditor.ui.ui.CircleTransformation;
+import com.guanqing.subredditor.util.ImageUtil;
+import com.guanqing.subredditor.util.SharedPrefUtil;
+import com.guanqing.subredditor.util.ToastUtil;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 
 import java.util.ArrayList;

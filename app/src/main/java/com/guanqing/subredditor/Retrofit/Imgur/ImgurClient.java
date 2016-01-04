@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit.Imgur;
+package com.guanqing.subredditor.retrofit.imgur;
 
 import java.util.HashMap;
 import java.util.Map;

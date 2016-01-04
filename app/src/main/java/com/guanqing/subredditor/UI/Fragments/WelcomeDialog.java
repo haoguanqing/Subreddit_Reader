@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Fragments;
+package com.guanqing.subredditor.ui.fragments;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -23,12 +23,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.UI.UI.CircleTransformation;
-import com.guanqing.subredditor.Util.ImageUtil;
-import com.guanqing.subredditor.Util.SharedPrefUtil;
-import com.guanqing.subredditor.Util.ToastUtil;
+import com.guanqing.subredditor.ui.ui.CircleTransformation;
+import com.guanqing.subredditor.util.ImageUtil;
+import com.guanqing.subredditor.util.SharedPrefUtil;
+import com.guanqing.subredditor.util.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkException;
@@ -98,8 +98,9 @@ public class WelcomeDialog extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.dialog_welcome, container, false);
         ButterKnife.bind(this, view);
-
+        //setup circular profile avatar
         setupProfileIcon();
+        //login using dummy account
         login();
         return view;
     }

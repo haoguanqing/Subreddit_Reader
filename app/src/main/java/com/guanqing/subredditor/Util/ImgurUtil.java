@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Util;
+package com.guanqing.subredditor.util;
 
 /**
  * Created by Guanqing on 2015/12/29.

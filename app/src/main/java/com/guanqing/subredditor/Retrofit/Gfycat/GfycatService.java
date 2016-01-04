@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit.Gfycat;
+package com.guanqing.subredditor.retrofit.gfycat;
 
 import retrofit.Call;
 import retrofit.http.GET;

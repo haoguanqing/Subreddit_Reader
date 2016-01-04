@@ -15,11 +15,11 @@
         app:itemTextColor="#666666"
         app:menu="@menu/drawer_menu">
 
-        <com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.AnimatedExpandableListView
+        <com.guanqing.subredditor.ui.ui.animatedExpandableListView.AnimatedExpandableListView
             android:id="@+id/lvExpandable"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="88dp">
-        </com.guanqing.subredditor.UI.UI.AnimatedExpandableListView.AnimatedExpandableListView>
+        </com.guanqing.subredditor.ui.ui.animatedExpandableListView.AnimatedExpandableListView>
     </android.support.design.widget.NavigationView>
 </RelativeLayout>

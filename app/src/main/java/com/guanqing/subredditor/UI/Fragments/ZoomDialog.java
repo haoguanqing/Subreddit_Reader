@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.UI.Fragments;
+package com.guanqing.subredditor.ui.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
-import com.guanqing.subredditor.UI.UI.UpvoteTextSwitcher;
-import com.guanqing.subredditor.Util.Constants;
+import com.guanqing.subredditor.retrofit.imgur.ImgurClient;
+import com.guanqing.subredditor.retrofit.imgur.ImgurService;
+import com.guanqing.subredditor.ui.ui.UpvoteTextSwitcher;
+import com.guanqing.subredditor.util.Constants;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

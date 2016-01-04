@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Retrofit.Gfycat;
+package com.guanqing.subredditor.retrofit.gfycat;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

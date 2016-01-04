@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Util;
+package com.guanqing.subredditor.util;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -8,12 +8,14 @@ import android.util.Log;
 import android.view.View;
 
 import com.guanqing.subredditor.FrontPageModel;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
-import com.guanqing.subredditor.Retrofit.Imgur.Models.GalleryModel;
-import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageData;
-import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageModel;
-import com.guanqing.subredditor.UI.Fragments.ZoomDialog;
+import com.guanqing.subredditor.retrofit.gfycat.GfycatClient;
+import com.guanqing.subredditor.retrofit.gfycat.GfycatService;
+import com.guanqing.subredditor.retrofit.imgur.ImgurClient;
+import com.guanqing.subredditor.retrofit.imgur.ImgurService;
+import com.guanqing.subredditor.retrofit.imgur.models.GalleryModel;
+import com.guanqing.subredditor.retrofit.imgur.models.ImageData;
+import com.guanqing.subredditor.retrofit.imgur.models.ImageModel;
+import com.guanqing.subredditor.ui.fragments.ZoomDialog;
 import com.squareup.okhttp.ResponseBody;
 
 import java.util.ArrayList;
@@ -28,6 +30,69 @@ import retrofit.Retrofit;
  * Created by Guanqing on 2016/1/1.
  */
 public class ListenerUtil {
+
+    public static void frontPageOnClick(Context context, final FrontPageModel frontpageModel){
+        //dismiss any dialog currently showing on top (if any)
+        final FragmentManager fm = ((FragmentActivity)context).getSupportFragmentManager();
+        Fragment prev = fm.findFragmentByTag(ZoomDialog.DIALOG_FLAG);
+        if (prev != null){
+            ZoomDialog df = (ZoomDialog) prev;
+            df.dismiss();
+            fm.beginTransaction().remove(prev);
+        }
+
+        // initialize Imgur client & service
+        ImgurClient imgurClient = ImgurClient.getInstance();
+        imgurClient.configureRestAdapter();
+        ImgurService imgurService;
+
+        // initialize Gfycat client & service
+        GfycatClient gfycatClient = GfycatClient.getInstance();
+        gfycatClient.configureRestAdapter();
+        GfycatService gfycatService;
+
+        //detect link type
+        final String link = frontpageModel.getLink();
+        ImgurUtil.LinkType linkType = ImgurUtil.getLinkType(link);
+
+        switch (linkType){
+            case OTHER:
+                //open link in webview
+
+                break;
+
+            case GFYCAT:
+
+                break;
+
+            case IMGUR_GALLERY:
+                //get the links of the images in the gallery using Imgur API
+
+                break;
+
+            case IMGUR_LINK:
+                //get the link of the image using Imgur API
+
+                break;
+
+            case IMGUR_GIF:
+
+                break;
+
+            case IMAGE:
+
+                break;
+
+            default:
+
+                break;
+
+        }
+    }
+
+
+
+
 
     /**
      * get a proper onClickListener for the FrontPageAdapter based on the link type

@@ -1,11 +1,11 @@
-package com.guanqing.subredditor.UI.UI;
+package com.guanqing.subredditor.ui.ui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
-import com.guanqing.subredditor.Util.ImageUtil;
+import com.guanqing.subredditor.util.ImageUtil;
 
 /**
  * Created by Guanqing on 2015/12/6.

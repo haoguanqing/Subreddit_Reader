@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.Util;
+package com.guanqing.subredditor.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
