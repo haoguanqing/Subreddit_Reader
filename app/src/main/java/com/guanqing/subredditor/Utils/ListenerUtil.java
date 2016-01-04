@@ -99,8 +99,10 @@ public class ListenerUtil {
         context.startActivity(intent);
     }
 
-    private static void gfycat(final FrontPageModel frontPageModel, GfycatClient gfycatClient, FragmentManager fm){
-        //get the url of the gif using Imgur API
+    private static void gfycat(final FrontPageModel frontPageModel, final FragmentManager fm){
+        //get the url of the gif with Gfycat REST client
+        GfycatClient gfycatClient = GfycatClient.getInstance();
+        gfycatClient.configureRestAdapter();
         GfycatService gfycatService = gfycatClient.getClient(GfycatService.class);
         Call<GfycatModel> imageCall = gfycatService.getGifData(ImgurUtil.getLinkId(frontPageModel.getLink()));
         imageCall.enqueue(new Callback<GfycatModel>() {
@@ -111,37 +113,36 @@ public class ListenerUtil {
                     //404 or the response cannot be converted to ImageModel.
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        Log.e("HGQ","responseBody = " + responseBody.toString());
+                        Log.e("HGQ", "responseBody = " + responseBody.toString());
                     } else {
-                        Log.e("HGQ","responseBody = null");
+                        Log.e("HGQ", "responseBody = null");
                     }
                 } else {
                     //200 - success
                     //set the correct link in the model
                     frontPageModel.setLink(image.getMp4Url());
+                    showZoomFragment(frontPageModel, fm);
                 }
             }
+
             @Override
             public void onFailure(Throwable t) {
                 Log.e("HGQ", "t = " + t.getMessage());
             }
         });
-
-        ZoomDialog fragment = ZoomDialog.newInstance(frontPageModel);
-        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
     }
 
     private static void image(final FrontPageModel frontPageModel, FragmentManager fm){
-        //show new detailed dialog
-        ZoomDialog fragment = ZoomDialog.newInstance(frontPageModel);
-        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+        //show new zoom dialog
+        showZoomFragment(frontPageModel, fm);
     }
 
     private static void imgur_gif(){
+        //TODO
 
     }
 
-    private static void imgur_link(final FrontPageModel frontPageModel, ImgurClient imgurClient, FragmentManager fm){
+    private static void imgur_link(final FrontPageModel frontPageModel, ImgurClient imgurClient, final FragmentManager fm){
         //get the url of the image using Imgur API
         ImgurService imgurService = imgurClient.getClient(ImgurService.class);
         Call<ImageModel> imageCall = imgurService.getImage(ImgurUtil.getLinkId(frontPageModel.getLink()));
@@ -165,6 +166,7 @@ public class ListenerUtil {
                     }else{
                         frontPageModel.setLink(image.getData().getLink());
                     }
+                    showZoomFragment(frontPageModel, fm);
                 }
             }
             @Override
@@ -172,13 +174,11 @@ public class ListenerUtil {
                 Log.e("HGQ", "t = " + t.getMessage());
             }
         });
-
-        ZoomDialog fragment = ZoomDialog.newInstance(frontPageModel);
-        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
-
     }
 
-    private static void imgur_gallery(final FrontPageModel frontPageModel, ImgurClient imgurClient, FragmentManager fm){
+
+
+    private static void imgur_gallery(final FrontPageModel frontPageModel, ImgurClient imgurClient, final FragmentManager fm){
         //get the links of the images in the gallery using Imgur API
         ImgurService imgurService = imgurClient.getClient(ImgurService.class);
         Call<GalleryModel> galleryCall = imgurService.getGallery(ImgurUtil.getLinkId(frontPageModel.getLink()));
@@ -198,14 +198,16 @@ public class ListenerUtil {
                 } else {
                     //200 - success
                     //set the correct links in the model
-                    if(gallery.getData().isAlbum()){
+                    if (gallery.getData().isAlbum()) {
                         frontPageModel.setImages(gallery.getData().getImages());
-                    }else{
-                        if (gallery.getData().isAnimated()){
+                    } else {
+                        if (gallery.getData().isAnimated()) {
                             frontPageModel.setLink(gallery.getData().getMp4());
-                        }else{
+                        } else {
                             frontPageModel.setLink(gallery.getData().getLink());
                         }
+                        //TODO: new gallery view
+                        showZoomFragment(frontPageModel, fm);
                     }
                 }
             }
@@ -215,9 +217,6 @@ public class ListenerUtil {
                 Log.e("HGQ", "t = " + t.getMessage());
             }
         });
-        //TODO: new gallery view
-        ZoomDialog fragment = ZoomDialog.newInstance(frontPageModel);
-        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
     }
 
 
@@ -403,6 +402,7 @@ public class ListenerUtil {
                                 //200 - success
                                 float aspectRatio = (float) image.getData().getWidth() / image.getData().getHeight();
                                 frontpageModel.setAspectRatio(aspectRatio);
+
                             }
                         }
 
@@ -422,11 +422,27 @@ public class ListenerUtil {
                 };
                 break;
 
+            case GFYCAT:
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gfycat(frontpageModel, fm);
+                    }
+                };
+                break;
+
             default:
                 onClickListener = null;
                 break;
 
         }
         return onClickListener;
+    }
+
+
+
+    private static void showZoomFragment(final FrontPageModel frontPageModel, FragmentManager fm){
+        ZoomDialog fragment = ZoomDialog.newInstance(frontPageModel);
+        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
     }
 }

@@ -104,7 +104,7 @@ public class LoginActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
             // Show the Up button in the action bar.
             if (getSupportActionBar()!=null) {
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         }
     }

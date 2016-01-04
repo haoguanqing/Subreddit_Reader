@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,13 +11,28 @@
         android:layout_height="wrap_content">
 
         <!--suppress AndroidLintContentDescription -->
-        <ImageView
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
             android:id="@+id/ivFeedThumbnail_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:background="@color/photo_placeholder" />
+
+            <com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView
+                android:id="@+id/loadingIndicator_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:indicator="BallSpinFadeLoader"
+                app:indicator_color="@color/primary"/>
+
+        </FrameLayout>
+
 
         <TextView
             android:id="@+id/tvFeedTitle_detail"

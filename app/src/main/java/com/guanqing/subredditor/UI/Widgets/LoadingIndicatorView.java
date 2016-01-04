@@ -77,7 +77,7 @@ import com.guanqing.subredditor.UI.Widgets.Indicators.TriangleSkewSpinIndicator;
  .SemiCircleSpin
  *
  */
-public class AVLoadingIndicatorView extends View{
+public class LoadingIndicatorView extends View{
 
     //indicators
     public static final int BallPulse=0;
@@ -157,32 +157,32 @@ public class AVLoadingIndicatorView extends View{
     private boolean mHasAnimation;
 
 
-    public AVLoadingIndicatorView(Context context) {
+    public LoadingIndicatorView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public AVLoadingIndicatorView(Context context, AttributeSet attrs) {
+    public LoadingIndicatorView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public AVLoadingIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LoadingIndicatorView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs, defStyleAttr);
     }
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public AVLoadingIndicatorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LoadingIndicatorView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(attrs, defStyleAttr);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.AVLoadingIndicatorView);
-        mIndicatorId=a.getInt(R.styleable.AVLoadingIndicatorView_indicator, BallPulse);
-        mIndicatorColor=a.getColor(R.styleable.AVLoadingIndicatorView_indicator_color, Color.WHITE);
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LoadingIndicatorView);
+        mIndicatorId=a.getInt(R.styleable.LoadingIndicatorView_indicator, BallPulse);
+        mIndicatorColor=a.getColor(R.styleable.LoadingIndicatorView_indicator_color, Color.WHITE);
         a.recycle();
         mPaint=new Paint();
         mPaint.setColor(mIndicatorColor);

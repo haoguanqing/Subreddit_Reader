@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <declare-styleable name="AVLoadingIndicatorView">
+  <declare-styleable name="LoadingIndicatorView">
     <attr name="indicator">
       <flag name="BallPulse" value="0"/>
       <flag name="BallGridPulse" value="1"/>

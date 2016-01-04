@@ -11,8 +11,10 @@ import android.util.Log;
 
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
-import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.FrontPageModel;
+import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.Service.DataRetrieveTask;
+import com.guanqing.subredditor.Service.LoadMoreTask;
 import com.guanqing.subredditor.Utils.ToastUtil;
 
 import net.dean.jraw.RedditClient;
@@ -43,6 +45,8 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     private static FrontPageAdapter mAdapter;
     private FragmentManager fm;
     private RedditClient redditClient = null;
+
+    private SubredditPaginator frontPage;
 
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
@@ -88,10 +92,11 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         // refresh and load more data
-
         if (isNetworkEnabled()) {
             // if network is available, load data
-            new AsyncTask<Void, Void, Void>() {
+            frontPage = new SubredditPaginator(redditClient);
+            new DataRetrieveTask(frontPage, mAdapter, mRefreshLayout).execute();
+            /*new AsyncTask<Void, Void, Void>() {
 
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -110,7 +115,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     //mAdapter.setDatas(mDatas);
                 }
             }.execute();
-            new FrontPageRetrieveTask(redditClient).execute();
+            new FrontPageRetrieveTask(redditClient).execute();*/
         } else {
             // network unavailable, finish drag down refreshing
             ToastUtil.show("Network unavailable");
@@ -121,9 +126,9 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     @Override
     public boolean onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
         // load more data
-
         if (isNetworkEnabled()) {
-            new AsyncTask<Void, Void, Void>() {
+            new LoadMoreTask(frontPage, mAdapter, mRefreshLayout).execute();
+            /*new AsyncTask<Void, Void, Void>() {
 
                 @Override
                 protected Void doInBackground(Void... params) {
@@ -141,8 +146,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     mRefreshLayout.endLoadingMore();
                     //mAdapter.addDatas(DataEngine.loadMoreData());
                 }
-            }.execute();
-
+            }.execute();*/
             return true;
         } else {
             // network unavailable, return false
@@ -162,8 +166,8 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
     }
 
 
-    //load some dummy data
-    private static final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
+    //load new data
+    private final class FrontPageRetrieveTask extends AsyncTask<Void, Void, Void> {
         RedditClient redditClient;
         List<FrontPageModel> data = new ArrayList<>();
 
@@ -174,7 +178,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         @Override
         protected Void doInBackground(Void... params) {
             try{
-                SubredditPaginator frontPage = new SubredditPaginator(redditClient);
+                frontPage = new SubredditPaginator(redditClient);
 
                 // Adjust the request parameters
                 frontPage.setLimit(40);                    // Default is 25 (Paginator.DEFAULT_LIMIT)
@@ -193,6 +197,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                             s.getUrl(),
                             s.getCommentCount(),
                             s.getScore(),
+                            s.getId(),
                             s.getSubredditName()
                     );
                     data.add(model);
@@ -218,7 +223,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
 
     public void onEvent(FinishLoginActivityEvent event){
         redditClient = event.getRedditClient();
-        new FrontPageRetrieveTask(redditClient).execute();
+        frontPage = new SubredditPaginator(redditClient);
         beginRefreshing();
     }
 }

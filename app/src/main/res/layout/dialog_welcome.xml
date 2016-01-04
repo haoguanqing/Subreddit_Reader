@@ -30,14 +30,6 @@
             android:textSize="@dimen/abc_text_size_medium_material"
             android:text="Welcome, stranger"/>
 
-        <com.guanqing.subredditor.UI.Widgets.AVLoadingIndicatorView
-            android:id="@+id/avloadingIndicatorView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:indicator="Pacman"
-            app:indicator_color="@color/primary"
-            />
-
     </LinearLayout>
 
 </RelativeLayout>

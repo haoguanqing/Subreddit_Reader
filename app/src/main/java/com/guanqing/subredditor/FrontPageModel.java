@@ -19,6 +19,7 @@ public class FrontPageModel implements Parcelable {
     float aspectRatio;
     int commentCount;
     int karma;
+    String submissionId;
     String subredditName;
     List<ImageData> imageDataList;
 
@@ -30,8 +31,10 @@ public class FrontPageModel implements Parcelable {
      * @param link
      * @param commentCount
      * @param karma
+     * @param submissionId
+     * @param subredditName
      */
-    public FrontPageModel(String id, String title, String thumbnailUrl, String link, int commentCount, int karma, String subredditName){
+    public FrontPageModel(String id, String title, String thumbnailUrl, String link, int commentCount, int karma, String submissionId, String subredditName){
         this.id = id;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;
@@ -39,7 +42,7 @@ public class FrontPageModel implements Parcelable {
         this.commentCount = commentCount;
         this.karma = karma;
         this.subredditName = subredditName;
-
+        this.submissionId = submissionId;
         aspectRatio = -1f;
         this.imageDataList = null;
     }
@@ -52,6 +55,7 @@ public class FrontPageModel implements Parcelable {
         aspectRatio = in.readFloat();
         commentCount = in.readInt();
         karma = in.readInt();
+        submissionId = in.readString();
         subredditName = in.readString();
         if (in.readByte() == 0x01) {
             imageDataList = new ArrayList<ImageData>();
@@ -75,6 +79,7 @@ public class FrontPageModel implements Parcelable {
         dest.writeFloat(aspectRatio);
         dest.writeInt(commentCount);
         dest.writeInt(karma);
+        dest.writeString(submissionId);
         dest.writeString(subredditName);
         if (imageDataList == null) {
             dest.writeByte((byte) (0x00));
@@ -151,6 +156,10 @@ public class FrontPageModel implements Parcelable {
 
     public float getAspectRatio() {
         return aspectRatio;
+    }
+
+    public String getSubmissionId() {
+        return submissionId;
     }
 
     public String getSubredditName() {

@@ -14,8 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
+import com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView;
 import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
 import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
@@ -94,7 +98,6 @@ public class ZoomDialog extends DialogFragment {
             }
         });
 
-
         ImgurService service = ImgurClient.getInstance().getClient(ImgurService.class);
         //inflate the image
         if(model.getAspectRatio() > 0){
@@ -103,14 +106,40 @@ public class ZoomDialog extends DialogFragment {
             Glide.with(getActivity()).load(model.getLink())
                     .placeholder(R.drawable.avatar_loading)
                     .override(width, height)
-                    .error(R.drawable.error_gray)
+                    .error(R.drawable.error)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            holder.loadingIndicatorView.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            holder.loadingIndicatorView.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .thumbnail(0.1f)
                     .crossFade()
                     .into(holder.ivThumbnail);
         } else {
             Glide.with(getActivity()).load(model.getLink())
                     .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error_gray)
+                    .error(R.drawable.error)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            holder.loadingIndicatorView.setVisibility(View.GONE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            holder.loadingIndicatorView.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
                     .thumbnail(0.1f)
                     .crossFade()
                     .into(holder.ivThumbnail);
@@ -157,6 +186,7 @@ public class ZoomDialog extends DialogFragment {
         @Bind(R.id.tvFeedTitle_detail) protected TextView tvTitle;
         @Bind(R.id.tsUpvotesCounter_detail) protected UpvoteTextSwitcher tsUpvote;
         @Bind(R.id.ivUpvotes_detail) protected ImageView ivUpvotes;
+        @Bind(R.id.loadingIndicator_detail) protected LoadingIndicatorView loadingIndicatorView;
 
         public ViewHolder(View view){
             this.view = view;

@@ -59,7 +59,7 @@ public class WebViewActivity extends AppCompatActivity {
             // Show the Up button in the action bar.
             if (getSupportActionBar()!=null) {
                 ActionBar actionBar = getSupportActionBar();
-                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayHomeAsUpEnabled(false);
                 actionBar.setTitle("/r/" + mainTitle);
                 actionBar.setSubtitle(submissionTitle);
             }
