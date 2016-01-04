@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.services;
+package com.guanqing.subredditor.Service;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

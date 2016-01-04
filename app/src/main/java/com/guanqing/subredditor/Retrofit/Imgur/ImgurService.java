@@ -1,7 +1,7 @@
-package com.guanqing.subredditor.retrofit.imgur;
+package com.guanqing.subredditor.Retrofit.Imgur;
 
-import com.guanqing.subredditor.retrofit.imgur.models.GalleryModel;
-import com.guanqing.subredditor.retrofit.imgur.models.ImageModel;
+import com.guanqing.subredditor.Retrofit.Imgur.Models.GalleryModel;
+import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageModel;
 
 import retrofit.Call;
 import retrofit.http.GET;

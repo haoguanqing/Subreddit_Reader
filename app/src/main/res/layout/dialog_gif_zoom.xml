@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <!--suppress AndroidLintContentDescription -->
-    <com.guanqing.subredditor.ui.ui.GifView
+    <com.guanqing.subredditor.UI.ui.GifView
         android:id="@+id/ivGifThumbnail_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:layout_height="32dp"
                 android:src="@drawable/ic_arrow_up" />
 
-            <com.guanqing.subredditor.ui.ui.UpvoteTextSwitcher
+            <com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher
                 android:id="@+id/tsUpvotesCounter_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_gravity="center"
                     android:text="1990 karma"
                     android:textColor="@color/text_upvote_counter" />
-            </com.guanqing.subredditor.ui.ui.UpvoteTextSwitcher>
+            </com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher>
         </LinearLayout>
     </LinearLayout>
 

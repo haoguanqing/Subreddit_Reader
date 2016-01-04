@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.ui.ui.GifView;
-import com.guanqing.subredditor.ui.ui.UpvoteTextSwitcher;
-import com.guanqing.subredditor.util.Constants;
+import com.guanqing.subredditor.UI.ui.GifView;
+import com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher;
+import com.guanqing.subredditor.Utils.Constants;
 
 /**
  * Created by Guanqing on 2015/12/4.

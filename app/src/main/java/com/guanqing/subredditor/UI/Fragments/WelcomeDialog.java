@@ -1,7 +1,8 @@
-package com.guanqing.subredditor.ui.fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -23,12 +24,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.ui.ui.CircleTransformation;
-import com.guanqing.subredditor.util.ImageUtil;
-import com.guanqing.subredditor.util.SharedPrefUtil;
-import com.guanqing.subredditor.util.ToastUtil;
+import com.guanqing.subredditor.UI.ui.CircleTransformation;
+import com.guanqing.subredditor.Utils.ImageUtil;
+import com.guanqing.subredditor.Utils.SharedPrefUtil;
+import com.guanqing.subredditor.Utils.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkException;
@@ -217,6 +218,9 @@ public class WelcomeDialog extends DialogFragment{
             }catch (NetworkException e){
                 ToastUtil.show("No network detected");
                 return null;
+            }catch (Exception e){
+                ToastUtil.show("Request failed");
+                return null;
             }
         }
 
@@ -225,8 +229,16 @@ public class WelcomeDialog extends DialogFragment{
             if(oAuthData!=null){
                 redditClient.authenticate(oAuthData);
                 EventBus.getDefault().post(new FinishLoginActivityEvent(redditClient));
+            } else{
+                onCancelled();
             }
         }
+    }
+
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        EventBus.getDefault().unregister(this);
+        super.onCancel(dialog);
     }
 
     public void onEventMainThread(FinishLoginActivityEvent event){

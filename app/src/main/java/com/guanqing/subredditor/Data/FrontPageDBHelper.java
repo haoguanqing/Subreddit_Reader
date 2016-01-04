@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.data;
+package com.guanqing.subredditor.Data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

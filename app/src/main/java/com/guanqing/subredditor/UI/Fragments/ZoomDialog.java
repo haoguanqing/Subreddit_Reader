@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -16,10 +16,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.retrofit.imgur.ImgurClient;
-import com.guanqing.subredditor.retrofit.imgur.ImgurService;
-import com.guanqing.subredditor.ui.ui.UpvoteTextSwitcher;
-import com.guanqing.subredditor.util.Constants;
+import com.guanqing.subredditor.UI.ui.UpvoteTextSwitcher;
+import com.guanqing.subredditor.Utils.Constants;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
+import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -97,12 +97,24 @@ public class ZoomDialog extends DialogFragment {
 
         ImgurService service = ImgurClient.getInstance().getClient(ImgurService.class);
         //inflate the image
-        Glide.with(getActivity()).load(model.getLink())
-                .placeholder(R.drawable.avatar_loading)
-                .error(R.drawable.error)
-                .crossFade()
-                .thumbnail(0.1f)
-                .into(holder.ivThumbnail);
+        if(model.getAspectRatio() > 0){
+            int width = screenSize[0] *10/11;
+            int height = Float.valueOf(width / model.getAspectRatio()).intValue();
+            Glide.with(getActivity()).load(model.getLink())
+                    .placeholder(R.drawable.avatar_loading)
+                    .error(R.drawable.error_gray)
+                    .thumbnail(0.1f)
+                    .override(width, height)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
+        } else {
+            Glide.with(getActivity()).load(model.getLink())
+                    .placeholder(R.drawable.avatar_loading)
+                    .error(R.drawable.error_gray)
+                    .thumbnail(0.1f)
+                    .crossFade()
+                    .into(holder.ivThumbnail);
+        }
         return view;
     }
 
@@ -134,8 +146,9 @@ public class ZoomDialog extends DialogFragment {
 
 
     protected class ViewHolder{
-        protected View view;
 
+        protected View view;
+        // UI reference
         @Bind(R.id.ivFeedThumbnail_detail) protected ImageView ivThumbnail;
         @Bind(R.id.btnSave_detail) protected ImageButton btnSave;
         @Bind(R.id.btnShare_detail) protected ImageButton btnShare;

@@ -21,10 +21,8 @@
             android:id="@+id/ivFeedThumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@android:color/transparent"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:maxHeight="400dp"
             android:background="@color/photo_placeholder" />
 
         <TextView

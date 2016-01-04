@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.util;
+package com.guanqing.subredditor.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

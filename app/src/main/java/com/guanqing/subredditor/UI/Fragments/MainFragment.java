@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 
 import android.os.AsyncTask;
@@ -9,11 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
-import com.guanqing.subredditor.events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.FrontPageAdapter;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.FrontPageModel;
-import com.guanqing.subredditor.util.ToastUtil;
+import com.guanqing.subredditor.Utils.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.models.Listing;
@@ -110,6 +110,7 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                     //mAdapter.setDatas(mDatas);
                 }
             }.execute();
+            new FrontPageRetrieveTask(redditClient).execute();
         } else {
             // network unavailable, finish drag down refreshing
             ToastUtil.show("Network unavailable");
@@ -191,7 +192,8 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
                             s.getThumbnail(),
                             s.getUrl(),
                             s.getCommentCount(),
-                            s.getScore()
+                            s.getScore(),
+                            s.getSubredditName()
                     );
                     data.add(model);
                     // Print some basic stats about the posts

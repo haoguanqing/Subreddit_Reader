@@ -1,9 +1,8 @@
-package com.guanqing.subredditor.ui.activities;
+package com.guanqing.subredditor.UI.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,12 +20,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.guanqing.subredditor.events.FinishLoginActivityEvent;
-import com.guanqing.subredditor.events.LoginEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.util.ImageUtil;
-import com.guanqing.subredditor.util.SharedPrefUtil;
-import com.guanqing.subredditor.util.ToastUtil;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.Utils.ImageUtil;
+import com.guanqing.subredditor.Utils.SharedPrefUtil;
+import com.guanqing.subredditor.Utils.ToastUtil;
 
 import net.dean.jraw.RedditClient;
 import net.dean.jraw.http.NetworkException;
@@ -45,6 +44,8 @@ import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
@@ -60,53 +61,39 @@ public class LoginActivity extends BaseActivity {
      */
 
     // UI references.
-    private EditText mUsernameView;
-    private EditText mPasswordView;
-    private View mLoginFormView;
-    private ImageView mLoginIcon;
-    private View loginProcessView;
-    private WebView webView;
+    @Bind(R.id.username) EditText mUsernameView;
+    @Bind(R.id.password) EditText mPasswordView;
+    @Bind(R.id.sign_in_button) Button mSignInButton;
+    @Bind(R.id.register_button) Button mRegisterButton;
+    @Bind(R.id.login_form) View mLoginFormView;
+    @Bind(R.id.ivAvatar) ImageView mLoginIcon;
+    @Bind(R.id.login_process) View loginProcessView;
+    @Bind(R.id.login_webview) WebView webView;
 
     //JRAW login instances
     UserAgent mUserAgent;
     static RedditClient redditClient;
 
-    private static String username;
-    private static String password;
-    static Context mContext;
+    private static String username = "";
+    private static String password = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         setupActionBar();
 
         CLIEND_ID  = getString(R.string.client_id);
         REDIRECT_URL = getString(R.string.redirect_url);
 
         // Set up the login form.
-        mUsernameView = (EditText) findViewById(R.id.username);
-
-        mPasswordView = (EditText) findViewById(R.id.password);
-
-        Button mSignInButton = (Button) findViewById(R.id.sign_in_button);
-        Button mRegisterButton = (Button) findViewById(R.id.register_button);
         mSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mLoginIcon = (ImageView)findViewById(R.id.ivAvatar);
-        loginProcessView = findViewById(R.id.login_process);
-        webView = (WebView)findViewById(R.id.login_webview);
-
-        username = "";
-        password = "";
-
-        mContext = this;
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.events;
+package com.guanqing.subredditor.Events;
 
 import net.dean.jraw.RedditClient;
 

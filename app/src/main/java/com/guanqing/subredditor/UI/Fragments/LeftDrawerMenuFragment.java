@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.fragments;
+package com.guanqing.subredditor.UI.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,24 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.ui.activities.LoginActivity;
-import com.guanqing.subredditor.events.LoginEvent;
 import com.guanqing.subredditor.R;
-import com.guanqing.subredditor.ui.ui.animatedExpandableListView.AnimatedExpandableListView;
-import com.guanqing.subredditor.ui.ui.animatedExpandableListView.ChildItem;
-import com.guanqing.subredditor.ui.ui.animatedExpandableListView.ExpandableListAdapter;
-import com.guanqing.subredditor.ui.ui.animatedExpandableListView.GroupItem;
-import com.guanqing.subredditor.ui.ui.CircleTransformation;
-import com.guanqing.subredditor.util.ImageUtil;
-import com.guanqing.subredditor.util.SharedPrefUtil;
-import com.guanqing.subredditor.util.ToastUtil;
+import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.UI.Activities.LoginActivity;
+import com.guanqing.subredditor.UI.ui.CircleTransformation;
+import com.guanqing.subredditor.UI.ui.AnimatedExpandableListView.AnimatedExpandableListView;
+import com.guanqing.subredditor.UI.ui.AnimatedExpandableListView.ChildItem;
+import com.guanqing.subredditor.UI.ui.AnimatedExpandableListView.ExpandableListAdapter;
+import com.guanqing.subredditor.UI.ui.AnimatedExpandableListView.GroupItem;
+import com.guanqing.subredditor.Utils.ImageUtil;
+import com.guanqing.subredditor.Utils.SharedPrefUtil;
+import com.guanqing.subredditor.Utils.ToastUtil;
 import com.mxn.soul.flowingdrawer_core.MenuFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 
 
@@ -40,12 +38,18 @@ public class LeftDrawerMenuFragment extends MenuFragment {
 
     protected Context mContext;
 
-    @Bind(R.id.ivMenuUserProfilePhoto) ImageView ivMenuUserProfilePhoto;
+    /*@Bind(R.id.ivMenuUserProfilePhoto) ImageView ivMenuUserProfilePhoto;
     @Bind(R.id.ivUserProfileName) TextView tvUsername;
     @Bind(R.id.lvExpandable) AnimatedExpandableListView expandableListView;
-    @Bind(R.id.btnLogout) ImageButton btnLogout;
+    @Bind(R.id.btnLogout) ImageButton btnLogout;*/
 
+    private ImageView ivMenuUserProfilePhoto;
+    private TextView tvUsername;
+    private AnimatedExpandableListView expandableListView;
     private ExpandableListAdapter adapter;
+    private ImageButton btnLogout;
+
+    //private ExpandableListAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,7 +67,10 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_drawer, container, false);
-        ButterKnife.bind(this, view);
+        //ButterKnife.bind(this, view);
+        ivMenuUserProfilePhoto = (ImageView) view.findViewById(R.id.ivMenuUserProfilePhoto);
+        tvUsername = (TextView) view.findViewById(R.id.ivUserProfileName);
+        btnLogout = (ImageButton)view.findViewById(R.id.btnLogout);
 
         //create a listener to launch login activity
         View.OnClickListener listener = new View.OnClickListener() {
@@ -86,6 +93,7 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         });
 
         //set contents for expandable listview in the drawer
+        expandableListView = (AnimatedExpandableListView)view.findViewById(R.id.lvExpandable);
         adapter = new ExpandableListAdapter(mContext);
         setAdapterData();
         expandableListView.setAdapter(adapter);

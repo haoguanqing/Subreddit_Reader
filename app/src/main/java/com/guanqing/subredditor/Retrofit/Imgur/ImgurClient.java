@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.retrofit.imgur;
+package com.guanqing.subredditor.Retrofit.Imgur;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,7 @@ public class ImgurClient {
     public static ImgurClient getInstance() {
         if (null == instance) {
             instance = new ImgurClient();
+
         }
         return instance;
     }

@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.util.ListenerUtil;
+import com.guanqing.subredditor.Utils.ListenerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -47,8 +50,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void bindFeedItem(int position, final FrontPageFeedViewHolder holder) throws Exception{
 
         final FrontPageModel frontpageModel = dataSet.get(position);
-        // configure a proper onClickListener for each case
-        // imgur image, gif, gallery, not imgur, etc.
+        // setup a proper onClickListener for each case
         View.OnClickListener onClickListener = ListenerUtil.getProperOnClickListener(mContext, frontpageModel);
         boolean isGif = false;
         //detect whether the content is animated gif
@@ -61,15 +63,27 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.ivThumbnail.setVisibility(View.GONE);
             holder.tvFeedTitle.setMaxLines(5);
         } else {
-            //set image res and onClickListener
-            holder.ivThumbnail.setVisibility(View.VISIBLE);
             holder.tvFeedTitle.setMaxLines(3);
-            Glide.with(mContext).load(frontpageModel.thumbnailUrl)
-                    .placeholder(R.drawable.avatar_loading)
-                    .error(R.drawable.error_gray)
-                    .thumbnail(0.1f)
-                    .crossFade()
-                    .into(holder.ivThumbnail);
+            //set image res
+            holder.ivThumbnail.setVisibility(View.VISIBLE);
+            if(frontpageModel.getAspectRatio() > 0){
+                int width = holder.ivThumbnail.getWidth();
+                int height = Float.valueOf(width / frontpageModel.getAspectRatio()).intValue();
+                Glide.with(mContext).load(frontpageModel.thumbnailUrl)
+                        .placeholder(R.drawable.avatar_loading)
+                        .error(R.drawable.error_gray)
+                        .thumbnail(0.1f)
+                        .override(width, height)
+                        .crossFade()
+                        .into(holder.ivThumbnail);
+            } else {
+                Glide.with(mContext).load(frontpageModel.thumbnailUrl)
+                        .placeholder(R.drawable.avatar_loading)
+                        .error(R.drawable.error_gray)
+                        .thumbnail(0.1f)
+                        .crossFade()
+                        .into(holder.ivThumbnail);
+            }
         }
         //set thumbnail's on click listener
         holder.ivThumbnail.setOnClickListener(onClickListener);
@@ -147,22 +161,16 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 
     public static class FrontPageFeedViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivThumbnail;
-        TextView tvFeedTitle;
-        ImageButton btnComments;
-        TextView tvCommentsNum;
-        TextView tvKarma;
-        ImageView ivGifIcon;
+        @Bind(R.id.ivFeedThumbnail) ImageView ivThumbnail;
+        @Bind(R.id.tvFeedTitle) TextView tvFeedTitle;
+        @Bind(R.id.btnComments) ImageButton btnComments;
+        @Bind(R.id.tvCommentCount) TextView tvCommentsNum;
+        @Bind(R.id.tvKarma) TextView tvKarma;
+        @Bind(R.id.ivGifIcon) ImageView ivGifIcon;
 
         public FrontPageFeedViewHolder(View view) {
             super(view);
-
-            ivThumbnail = (ImageView) view.findViewById(R.id.ivFeedThumbnail);
-            tvFeedTitle = (TextView) view.findViewById(R.id.tvFeedTitle);
-            btnComments = (ImageButton) view.findViewById(R.id.btnComments);
-            tvCommentsNum = (TextView) view.findViewById(R.id.tvCommentCount);
-            tvKarma = (TextView)view.findViewById(R.id.tvKarma);
-            ivGifIcon = (ImageView)view.findViewById(R.id.ivGifIcon);
+            ButterKnife.bind(this, view);
         }
     }
 }

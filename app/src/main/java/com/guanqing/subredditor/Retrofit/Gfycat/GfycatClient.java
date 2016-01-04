@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.retrofit.gfycat;
+package com.guanqing.subredditor.Retrofit.Gfycat;
 
 import java.util.HashMap;
 import java.util.Map;

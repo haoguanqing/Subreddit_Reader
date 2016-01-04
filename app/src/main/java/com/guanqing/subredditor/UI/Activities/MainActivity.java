@@ -1,14 +1,14 @@
-package com.guanqing.subredditor.ui.activities;
+package com.guanqing.subredditor.UI.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.guanqing.subredditor.events.FinishLoginActivityEvent;
-import com.guanqing.subredditor.ui.fragments.LeftDrawerMenuFragment;
-import com.guanqing.subredditor.ui.fragments.MainFragment;
-import com.guanqing.subredditor.ui.fragments.WelcomeDialog;
+import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
+import com.guanqing.subredditor.UI.Fragments.LeftDrawerMenuFragment;
+import com.guanqing.subredditor.UI.Fragments.MainFragment;
+import com.guanqing.subredditor.UI.Fragments.WelcomeDialog;
 import com.guanqing.subredditor.R;
 import com.mxn.soul.flowingdrawer_core.FlowingView;
 import com.mxn.soul.flowingdrawer_core.LeftDrawerLayout;

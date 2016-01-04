@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.ui.animatedExpandableListView;
+package com.guanqing.subredditor.UI.ui.AnimatedExpandableListView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

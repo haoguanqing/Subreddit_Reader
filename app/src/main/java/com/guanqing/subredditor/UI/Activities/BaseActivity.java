@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.ui.activities;
+package com.guanqing.subredditor.UI.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,7 @@ public class BaseActivity extends AppCompatActivity{
 
     protected App mApp;
     protected Resources mResources;
-    protected Context mContext;
+    protected static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

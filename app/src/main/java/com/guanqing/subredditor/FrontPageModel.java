@@ -3,6 +3,8 @@ package com.guanqing.subredditor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageData;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,11 @@ public class FrontPageModel implements Parcelable {
     String title;
     String thumbnailUrl;
     String link;
+    float aspectRatio;
     int commentCount;
     int karma;
-    List<String> links = null;
+    String subredditName;
+    List<ImageData> imageDataList;
 
     /**
      *
@@ -27,13 +31,17 @@ public class FrontPageModel implements Parcelable {
      * @param commentCount
      * @param karma
      */
-    public FrontPageModel(String id, String title, String thumbnailUrl, String link, int commentCount, int karma){
+    public FrontPageModel(String id, String title, String thumbnailUrl, String link, int commentCount, int karma, String subredditName){
         this.id = id;
         this.title = title;
         this.thumbnailUrl = thumbnailUrl;
         this.link = link;
         this.commentCount = commentCount;
         this.karma = karma;
+        this.subredditName = subredditName;
+
+        aspectRatio = -1f;
+        this.imageDataList = null;
     }
 
     protected FrontPageModel(Parcel in) {
@@ -41,13 +49,15 @@ public class FrontPageModel implements Parcelable {
         title = in.readString();
         thumbnailUrl = in.readString();
         link = in.readString();
+        aspectRatio = in.readFloat();
         commentCount = in.readInt();
         karma = in.readInt();
+        subredditName = in.readString();
         if (in.readByte() == 0x01) {
-            links = new ArrayList<String>();
-            in.readList(links, String.class.getClassLoader());
+            imageDataList = new ArrayList<ImageData>();
+            in.readList(imageDataList, ImageData.class.getClassLoader());
         } else {
-            links = null;
+            imageDataList = null;
         }
     }
 
@@ -62,13 +72,15 @@ public class FrontPageModel implements Parcelable {
         dest.writeString(title);
         dest.writeString(thumbnailUrl);
         dest.writeString(link);
+        dest.writeFloat(aspectRatio);
         dest.writeInt(commentCount);
         dest.writeInt(karma);
-        if (links == null) {
+        dest.writeString(subredditName);
+        if (imageDataList == null) {
             dest.writeByte((byte) (0x00));
         } else {
             dest.writeByte((byte) (0x01));
-            dest.writeList(links);
+            dest.writeList(imageDataList);
         }
     }
 
@@ -121,15 +133,27 @@ public class FrontPageModel implements Parcelable {
      * get the image links in the gallery
      * @return galleryLinks
      */
-    public List<String> getLinks() {
-        return links;
+    public List<ImageData> getImages() {
+        return imageDataList;
     }
 
     /**
      * set gallery links data
-     * @param links
+     * @param imageDataList
      */
-    public void setLinks(List<String> links) {
-        this.links = links;
+    public void setImages(List<ImageData> imageDataList) {
+        this.imageDataList = imageDataList;
+    }
+
+    public void setAspectRatio(float aspectRatio) {
+        this.aspectRatio = aspectRatio;
+    }
+
+    public float getAspectRatio() {
+        return aspectRatio;
+    }
+
+    public String getSubredditName() {
+        return subredditName;
     }
 }

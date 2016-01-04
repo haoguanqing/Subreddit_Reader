@@ -1,4 +1,4 @@
-package com.guanqing.subredditor.data;
+package com.guanqing.subredditor.Data;
 
 /**
  * Created by Guanqing on 2015/12/11.
