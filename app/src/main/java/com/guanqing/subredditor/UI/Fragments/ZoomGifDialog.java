@@ -135,6 +135,13 @@ public class ZoomGifDialog extends DialogFragment {
         holder.gifView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
+                //get a suitable width for the zoomed view
+                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
+                //set view size to fit the screen
+                if (getDialog() != null){
+                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
+                }
+
                 holder.loadingIndicator.setVisibility(View.GONE);
                 holder.ivBackground.setVisibility(View.GONE);
 
@@ -144,18 +151,19 @@ public class ZoomGifDialog extends DialogFragment {
                 ratio = (float) width/height;
                 holder.gifView.start();
 
-                //get a suitable width for the zoomed view
-                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
-                //set view size to fit the screen
-                if (getResources().getConfiguration().orientation==1){
-                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
-                }
             }
         });
         //on error:
         holder.gifView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
+                //get a suitable width for the zoomed view
+                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
+                //set view size to fit the screen
+                if (getDialog() != null){
+                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
+                }
+
                 holder.gifView.setVisibility(View.GONE);
                 holder.loadingIndicator.setVisibility(View.GONE);
                 holder.ivBackground.setVisibility(View.VISIBLE);
@@ -166,13 +174,6 @@ public class ZoomGifDialog extends DialogFragment {
                         dismiss();
                     }
                 });
-
-                //get a suitable width for the zoomed view
-                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
-                //set view size to fit the screen
-                if (getResources().getConfiguration().orientation==1){
-                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
-                }
                 return false;
             }
         });

@@ -114,6 +114,9 @@ public class ZoomDialog extends DialogFragment {
         //error check
         if (getDialog() == null) return;
 
+        //load image
+        loadImage();
+
         //get a suitable width for the zoomed view
         int width = ImageUtil.getAppropriateDialogWidth(model.getAspectRatio());
         //set view size to fit the screen
@@ -121,8 +124,6 @@ public class ZoomDialog extends DialogFragment {
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
         }
 
-        //load image
-        loadImage();
     }
 
     //load image into imageview

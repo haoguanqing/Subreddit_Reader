@@ -125,7 +125,7 @@ public class ImageUtil {
     public static int getAppropriateDialogWidth(float ratio){
         int[] screenSize = Constants.getScreenSizeInPixels(App.getInstance());
         int width = screenSize[0] * 10/11;
-        if(ratio>1.1){
+        if(ratio>1){
             width = screenSize[0];
         }
         return width;
@@ -135,10 +135,10 @@ public class ImageUtil {
         int[] screenSize = Constants.getScreenSizeInPixels(App.getInstance());
         float screenRatio = (float) screenSize[0]/screenSize[1];
         int width = screenSize[0];
-        if(ratio>1.1){
+        if(ratio>1){
             return width;
         } else if(ratio<screenRatio * 1.15 && ratio>0) {
-            return width * 8 / 11;
+            return width * 9 / 11;
         } else {
             return width * 10 / 11;
         }

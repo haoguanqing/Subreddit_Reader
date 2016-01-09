@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
         if (mLeftDrawerLayout.isShownMenu()) {
             mLeftDrawerLayout.closeDrawer();
         } else {
-            super.onBackPressed();
+
         }
     }
 
