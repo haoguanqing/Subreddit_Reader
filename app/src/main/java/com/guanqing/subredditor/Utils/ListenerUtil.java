@@ -19,6 +19,7 @@ import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
 import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
 import com.guanqing.subredditor.Retrofit.Imgur.Models.GalleryModel;
 import com.guanqing.subredditor.Retrofit.Imgur.Models.ImageModel;
+import com.guanqing.subredditor.UI.Fragments.ZoomGifDialog;
 import com.squareup.okhttp.ResponseBody;
 
 import retrofit.Call;
@@ -228,7 +229,7 @@ public class ListenerUtil {
      * get a proper onClickListener for the FrontPageAdapter based on the link type
      * @param context
      * @param frontpageModel
-     * @return
+     * @return onClickListener
      */
     public static View.OnClickListener getProperOnClickListener(final Context context, final FrontPageModel frontpageModel){
         //dismiss any dialog which is currently showing on top
@@ -362,21 +363,20 @@ public class ListenerUtil {
                 break;
 
             case IMGUR_GIF:
-                if(url.contains("imgur")) {
-                    //change the gif link to mp4 if the GIF is from imgur.com
-                    if (url.endsWith(".gifv")) {
-                        frontpageModel.setLink(url.substring(0, url.length()-4) + "mp4");
-                    }
-                    if (url.endsWith(".gif")) {
-                        frontpageModel.setLink(url.substring(0, url.length()-3) + "mp4");
-                    }
+                //change the gif link to mp4 if the GIF is from imgur.com
+                if (url.endsWith(".gifv")) {
+                    frontpageModel.setLink(url.substring(0, url.length()-4) + "mp4");
                 }
+                if (url.endsWith(".gif")) {
+                    frontpageModel.setLink(url.substring(0, url.length()-3) + "mp4");
+                }
+
                 onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //show new detailed dialog
-                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
-                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
                     }
                 };
                 break;
@@ -427,6 +427,8 @@ public class ListenerUtil {
                     @Override
                     public void onClick(View v) {
                         gfycat(frontpageModel, fm);
+                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
                     }
                 };
                 break;

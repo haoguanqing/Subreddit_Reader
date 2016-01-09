@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-            android:id="@+id/ivFeedThumbnail_detail"
+            android:id="@+id/ivFeedThumbnail_zoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -24,7 +24,7 @@
             android:background="@color/photo_placeholder" />
 
             <com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView
-                android:id="@+id/loadingIndicator_detail"
+                android:id="@+id/loadingIndicator_zoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -35,7 +35,7 @@
 
 
         <TextView
-            android:id="@+id/tvFeedTitle_detail"
+            android:id="@+id/tvFeedTitle_zoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
@@ -51,7 +51,7 @@
             android:paddingRight="6dp">
 
             <ImageButton
-                android:id="@+id/btnSave_detail"
+                android:id="@+id/btnSave_zoom"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
                 android:layout_width="32dp"
@@ -61,7 +61,7 @@
                 android:src="@drawable/ic_bookmark_border" />
 
             <ImageButton
-                android:id="@+id/btnShare_detail"
+                android:id="@+id/btnShare_zoom"
                 android:padding="4dp"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -70,7 +70,7 @@
                 android:src="@drawable/ic_share" />
 
             <ImageButton
-                android:id="@+id/btnComments_detail"
+                android:id="@+id/btnComments_zoom"
                 android:padding="4dp"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
@@ -79,7 +79,7 @@
                 android:src="@drawable/ic_chat_bubble_outline" />
 
             <TextView
-                android:id="@+id/tvCommentCount_detail"
+                android:id="@+id/tvCommentCount_zoom"
                 android:gravity="center_vertical|end"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
@@ -93,7 +93,7 @@
                 android:gravity="center_vertical|end">
 
                 <ImageView
-                    android:id="@+id/ivUpvotes_detail"
+                    android:id="@+id/ivUpvotes_zoom"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"
                     android:layout_width="32dp"
@@ -101,7 +101,7 @@
                     android:src="@drawable/ic_arrow_up" />
 
                 <com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher
-                    android:id="@+id/tsUpvotesCounter_detail"
+                    android:id="@+id/tsUpvotesCounter_zoom"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:inAnimation="@anim/slide_in_upvotes_counter"

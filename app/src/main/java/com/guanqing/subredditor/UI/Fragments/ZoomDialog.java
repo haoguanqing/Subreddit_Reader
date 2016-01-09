@@ -22,8 +22,6 @@ import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView;
 import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurClient;
-import com.guanqing.subredditor.Retrofit.Imgur.ImgurService;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,8 +54,6 @@ public class ZoomDialog extends DialogFragment {
         super.onCreate(savedInstanceState);
         //get screen size in pixels
         screenSize = Constants.getScreenSizeInPixels(getActivity());
-        //set up imgur REST client
-        ImgurClient.getInstance().configureRestAdapter();
 
         if(getArguments()!=null) {
             //get the data passed in
@@ -98,7 +94,6 @@ public class ZoomDialog extends DialogFragment {
             }
         });
 
-        ImgurService service = ImgurClient.getInstance().getClient(ImgurService.class);
         //inflate the image
         if(model.getAspectRatio() > 0){
             int width = screenSize[0] *10/11;
@@ -178,15 +173,15 @@ public class ZoomDialog extends DialogFragment {
 
         protected View view;
         // UI reference
-        @Bind(R.id.ivFeedThumbnail_detail) protected ImageView ivThumbnail;
-        @Bind(R.id.btnSave_detail) protected ImageButton btnSave;
-        @Bind(R.id.btnShare_detail) protected ImageButton btnShare;
-        @Bind(R.id.btnComments_detail) protected ImageButton btnComments;
-        @Bind(R.id.tvCommentCount_detail) protected TextView tvCommentCount;
-        @Bind(R.id.tvFeedTitle_detail) protected TextView tvTitle;
-        @Bind(R.id.tsUpvotesCounter_detail) protected UpvoteTextSwitcher tsUpvote;
-        @Bind(R.id.ivUpvotes_detail) protected ImageView ivUpvotes;
-        @Bind(R.id.loadingIndicator_detail) protected LoadingIndicatorView loadingIndicatorView;
+        @Bind(R.id.ivFeedThumbnail_zoom) protected ImageView ivThumbnail;
+        @Bind(R.id.btnSave_zoom) protected ImageButton btnSave;
+        @Bind(R.id.btnShare_zoom) protected ImageButton btnShare;
+        @Bind(R.id.btnComments_zoom) protected ImageButton btnComments;
+        @Bind(R.id.tvCommentCount_zoom) protected TextView tvCommentCount;
+        @Bind(R.id.tvFeedTitle_zoom) protected TextView tvTitle;
+        @Bind(R.id.tsUpvotesCounter_zoom) protected UpvoteTextSwitcher tsUpvote;
+        @Bind(R.id.ivUpvotes_zoom) protected ImageView ivUpvotes;
+        @Bind(R.id.loadingIndicator_zoom) protected LoadingIndicatorView loadingIndicatorView;
 
         public ViewHolder(View view){
             this.view = view;
