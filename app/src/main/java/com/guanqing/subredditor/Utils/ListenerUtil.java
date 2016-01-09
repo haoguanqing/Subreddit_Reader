@@ -138,14 +138,22 @@ public class ListenerUtil {
         showZoomFragment(frontPageModel, fm);
     }
 
-    private static void imgur_gif(){
-        //TODO
-
+    private static FrontPageModel imgur_gif(FrontPageModel frontPageModel){
+        String url = frontPageModel.getLink();
+        //change the gif link to mp4 if the GIF is from imgur.com
+        if (url.endsWith(".gifv")) {
+            frontPageModel.setLink(url.substring(0, url.length()-4) + "mp4");
+        }
+        if (url.endsWith(".gif")) {
+            frontPageModel.setLink(url.substring(0, url.length()-3) + "mp4");
+        }
+        return frontPageModel;
     }
 
-    private static void imgur_link(final FrontPageModel frontPageModel, ImgurClient imgurClient, final FragmentManager fm){
+    private static void imgur_link(final FrontPageModel frontPageModel, ImgurClient imgurClient){
         //get the url of the image using Imgur API
         ImgurService imgurService = imgurClient.getClient(ImgurService.class);
+        //make asynchronous REST calls
         Call<ImageModel> imageCall = imgurService.getImage(ImgurUtil.getLinkId(frontPageModel.getLink()));
         imageCall.enqueue(new Callback<ImageModel>() {
             @Override
@@ -155,21 +163,21 @@ public class ListenerUtil {
                     //404 or the response cannot be converted to ImageModel.
                     ResponseBody responseBody = response.errorBody();
                     if (responseBody != null) {
-                        Log.e("HGQ","responseBody = " + responseBody.toString());
+                        Log.e("HGQ", "responseBody = " + responseBody.toString());
                     } else {
-                        Log.e("HGQ","responseBody = null");
+                        Log.e("HGQ", "responseBody = null");
                     }
                 } else {
                     //200 - success
                     //set the correct link in the model
-                    if (image.getData().isAnimated()){
+                    if (image.getData().isAnimated()) {
                         frontPageModel.setLink(image.getData().getMp4());
-                    }else{
+                    } else {
                         frontPageModel.setLink(image.getData().getLink());
                     }
-                    showZoomFragment(frontPageModel, fm);
                 }
             }
+
             @Override
             public void onFailure(Throwable t) {
                 Log.e("HGQ", "t = " + t.getMessage());
@@ -242,7 +250,7 @@ public class ListenerUtil {
         }
 
         View.OnClickListener onClickListener;
-        ImgurClient client = ImgurClient.getInstance();
+        final ImgurClient client = ImgurClient.getInstance();
         client.configureRestAdapter();
         ImgurService service;
         final String url = frontpageModel.getLink();
@@ -318,64 +326,29 @@ public class ListenerUtil {
                 break;
 
             case IMGUR_LINK:
-                //get the link of the image with Imgur API
-                service = client.getClient(ImgurService.class);
-                //make asynchronous REST calls
-                Call<ImageModel> imageCall = service.getImage(ImgurUtil.getLinkId(url));
-                imageCall.enqueue(new Callback<ImageModel>() {
-                    @Override
-                    public void onResponse(Response<ImageModel> response, Retrofit retrofit) {
-                        ImageModel image = response.body();
-                        if (image == null) {
-                            //404 or the response cannot be converted to ImageModel.
-                            ResponseBody responseBody = response.errorBody();
-                            if (responseBody != null) {
-                                Log.e("HGQ","responseBody = " + responseBody.toString());
-                            } else {
-                                Log.e("HGQ","responseBody = null");
-                            }
-                        } else {
-                            //200 - success
-                            //set the correct link and aspectRatio in the model
-                            if (image.getData().isAnimated()){
-                                frontpageModel.setLink(image.getData().getMp4());
-                            }else{
-                                float aspectRatio = (float) image.getData().getWidth() / image.getData().getHeight();
-                                frontpageModel.setLink(image.getData().getLink());
-                                frontpageModel.setAspectRatio(aspectRatio);
-                            }
-                        }
-                    }
-                    @Override
-                    public void onFailure(Throwable t) {
-                        Log.e("HGQ", "t = " + t.getMessage());
-                    }
-                });
+                imgur_link(frontpageModel, client);
 
                 //set on click listener
                 onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
-                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                        if (frontpageModel.getLink().endsWith(".mp4")){
+                            ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
+                            fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
+                        } else{
+                            ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
+                            fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                        }
                     }
                 };
                 break;
 
             case IMGUR_GIF:
-                //change the gif link to mp4 if the GIF is from imgur.com
-                if (url.endsWith(".gifv")) {
-                    frontpageModel.setLink(url.substring(0, url.length()-4) + "mp4");
-                }
-                if (url.endsWith(".gif")) {
-                    frontpageModel.setLink(url.substring(0, url.length()-3) + "mp4");
-                }
-
                 onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //show new detailed dialog
-                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
+                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(imgur_gif(frontpageModel));
                         fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
                     }
                 };

@@ -96,26 +96,6 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
             // if network is available, load data
             frontPage = new SubredditPaginator(redditClient);
             new DataRetrieveTask(frontPage, mAdapter, mRefreshLayout).execute();
-            /*new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    mRefreshLayout.endRefreshing();
-                    //mDatas.addAll(0, DataEngine.loadNewData());
-                    //mAdapter.setDatas(mDatas);
-                }
-            }.execute();
-            new FrontPageRetrieveTask(redditClient).execute();*/
         } else {
             // network unavailable, finish drag down refreshing
             ToastUtil.show("Network unavailable");
@@ -128,25 +108,6 @@ public class MainFragment extends BaseFragment implements BGARefreshLayout.BGARe
         // load more data
         if (isNetworkEnabled()) {
             new LoadMoreTask(frontPage, mAdapter, mRefreshLayout).execute();
-            /*new AsyncTask<Void, Void, Void>() {
-
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    // load more on UI thread
-                    mRefreshLayout.endLoadingMore();
-                    //mAdapter.addDatas(DataEngine.loadMoreData());
-                }
-            }.execute();*/
             return true;
         } else {
             // network unavailable, return false
