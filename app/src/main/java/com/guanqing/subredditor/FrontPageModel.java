@@ -150,6 +150,10 @@ public class FrontPageModel implements Parcelable {
         this.imageDataList = imageDataList;
     }
 
+    /**
+     * set aspect ratio (width/height)
+     * @param aspectRatio
+     */
     public void setAspectRatio(float aspectRatio) {
         this.aspectRatio = aspectRatio;
     }

@@ -11,6 +11,11 @@ import android.view.WindowManager;
  */
 public class Constants {
 
+    /**
+     *
+     * @param context
+     * @return [width, height]
+     */
     public static int[] getScreenSizeInPixels(Context context){
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
@@ -21,6 +26,11 @@ public class Constants {
         return new int[]{width, height};
     }
 
+    /**
+     *
+     * @param context
+     * @return [width, height]
+     */
     public static float[] getScreenSizeInDp(Context context){
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;

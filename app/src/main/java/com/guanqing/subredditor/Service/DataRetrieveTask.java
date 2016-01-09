@@ -42,6 +42,7 @@ public class DataRetrieveTask extends AsyncTask<Void, Void, Void> {
             // This Paginator is now set up to retrieve the highest-scoring links submitted within the past
             // month, 25 at a time
 
+            int i=0;
             Listing<Submission> submissions = frontPage.next();
             for (Submission s : submissions) {
                 FrontPageModel model = new FrontPageModel(
@@ -55,8 +56,13 @@ public class DataRetrieveTask extends AsyncTask<Void, Void, Void> {
                         s.getSubredditName()
                 );
                 data.add(model);
-            }
 
+                // Print some basic stats about the posts
+                if (i++<15) {
+                    Log.e("HGQ", "getFullName:" + s.getFullName() + "getScore: " + s.getScore() + " \ngetTitle: " + s.getTitle() + "\ngetPermalink: https://www.reddit.com" + s.getPermalink() + "\ngetThumbnail: " + s.getThumbnail());
+                    Log.e("HGQ", "getCreated: "+ s.getCreated() + " getUrl: " + s.getUrl());
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
             Log.e("HGQ", "retrieve task failed ");

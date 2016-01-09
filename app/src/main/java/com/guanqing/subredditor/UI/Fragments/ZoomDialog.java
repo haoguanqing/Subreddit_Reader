@@ -22,6 +22,7 @@ import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView;
 import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
+import com.guanqing.subredditor.Utils.ImageUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -39,6 +40,8 @@ public class ZoomDialog extends DialogFragment {
     static int[] screenSize;
     // model containing all data of this submission
     protected FrontPageModel model;
+    //custom view holder
+    private ViewHolder holder;
 
     public static ZoomDialog newInstance(FrontPageModel model){
         ZoomDialog fragment = new ZoomDialog();
@@ -65,7 +68,7 @@ public class ZoomDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //inflate the views and find views by id
         final View view = inflater.inflate(R.layout.dialog_zoom, container, false);
-        final ViewHolder holder = new ViewHolder(view);
+        holder = new ViewHolder(view);
 
         //set title of the submission
         holder.tvTitle.setText(model.getTitle());
@@ -87,13 +90,44 @@ public class ZoomDialog extends DialogFragment {
         });
 
         //dismiss the dialog when user clicks the image
-        holder.ivThumbnail.setOnClickListener(new View.OnClickListener() {
+        holder.ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
             }
         });
 
+        return view;
+    }
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation_zoom;
+        return dialog;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //error check
+        if (getDialog() == null)
+            return;
+
+        //get a suitable width for the zoomed view
+        int width = ImageUtil.getAppropriateDialogWidth(model.getAspectRatio());
+        //set view size to fit the screen
+        if (getResources().getConfiguration().orientation== 1){
+            getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+
+        //load image
+        loadImage();
+    }
+
+    //load image into imageview
+    private void loadImage(){
         //inflate the image
         if(model.getAspectRatio() > 0){
             int width = screenSize[0] *10/11;
@@ -112,12 +146,13 @@ public class ZoomDialog extends DialogFragment {
                         @Override
                         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             holder.loadingIndicatorView.setVisibility(View.GONE);
+                            //holder.ivImage.setLayoutParams());
                             return false;
                         }
                     })
                     .thumbnail(0.1f)
                     .crossFade()
-                    .into(holder.ivThumbnail);
+                    .into(holder.ivImage);
         } else {
             Glide.with(getActivity()).load(model.getLink())
                     .placeholder(R.drawable.avatar_loading)
@@ -137,43 +172,15 @@ public class ZoomDialog extends DialogFragment {
                     })
                     .thumbnail(0.1f)
                     .crossFade()
-                    .into(holder.ivThumbnail);
-        }
-        return view;
-    }
-
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final Dialog dialog = super.onCreateDialog(savedInstanceState);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation_zoom;
-        return dialog;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //calculate suitable width and height for the detailed view
-        int width = screenSize[0] *10/11;
-        int height = screenSize[1] *10/11;
-        //error check
-        if (getDialog() == null)
-            return;
-        //set view size to fit the screen
-        if (getResources().getConfiguration().orientation==1){
-            getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
-        }else{
-            getDialog().getWindow().setLayout(height, WindowManager.LayoutParams.WRAP_CONTENT);
+                    .into(holder.ivImage);
         }
     }
-
-
 
     protected class ViewHolder{
 
         protected View view;
         // UI reference
-        @Bind(R.id.ivFeedThumbnail_zoom) protected ImageView ivThumbnail;
+        @Bind(R.id.ivImage_zoom) protected ImageView ivImage;
         @Bind(R.id.btnSave_zoom) protected ImageButton btnSave;
         @Bind(R.id.btnShare_zoom) protected ImageButton btnShare;
         @Bind(R.id.btnComments_zoom) protected ImageButton btnComments;

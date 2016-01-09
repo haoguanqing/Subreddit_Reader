@@ -3,7 +3,7 @@
         <item
             android:id="@+id/menu_feed"
             android:icon="@drawable/ic_global_menu_feed"
-            android:title="My Feed" />
+            android:title="Front Page" />
         <item
             android:id="@+id/menu_direct"
             android:icon="@drawable/ic_global_menu_direct"

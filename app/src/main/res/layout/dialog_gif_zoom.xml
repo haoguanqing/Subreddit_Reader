@@ -1,141 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/scrollView">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--suppress AndroidLintContentDescription -->
+    <FrameLayout
+        android:id="@+id/gifFrame_zoomgif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true">
+
+        <ImageView
+            android:id="@+id/ivBackground_zoomgif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:visibility="visible"
+            android:src="@drawable/avatar_loading"
+            android:scaleType="fitCenter"
+            android:background="@color/photo_placeholder" />
+
+        <VideoView
+            android:id="@+id/vvGifView_zoomgif"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:visibility="visible"
+            android:layout_gravity="center"
+            android:background="@color/photo_placeholder"/>
+
+        <com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView
+            android:id="@+id/loadingIndicator_zoomgif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:indicator="BallSpinFadeLoader"
+            app:indicator_color="@color/primary"/>
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/tvFeedTitle_zoomgif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:textSize="14sp"
+        android:text="No description"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp">
 
-        <!--suppress AndroidLintContentDescription -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btnSave_zoomgif"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_bookmark_border" />
 
-            <ImageView
-                android:id="@+id/ivBackground_zoomgif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:visibility="gone"
-                android:src="@drawable/error"
-                android:scaleType="fitCenter"
-                android:background="@color/photo_placeholder" />
+        <ImageButton
+            android:id="@+id/btnShare_zoomgif"
+            android:padding="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_share" />
 
-            <VideoView
-                android:id="@+id/vvGifView_zoomgif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:background="@color/photo_placeholder" />
-
-            <com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView
-                android:id="@+id/loadingIndicator_zoomgif"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                app:indicator="BallSpinFadeLoader"
-                app:indicator_color="@color/primary"/>
-
-        </FrameLayout>
-
+        <ImageButton
+            android:id="@+id/btnComments_zoomgif"
+            android:padding="4dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/btn_feed_action"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_chat_bubble_outline" />
 
         <TextView
-            android:id="@+id/tvFeedTitle_zoomgif"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:maxLines="3"
-            android:ellipsize="end"
-            android:textSize="14sp"
-            android:text="No description"/>
+            android:id="@+id/tvCommentCount_zoomgif"
+            android:gravity="center_vertical|end"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:textColor="@android:color/darker_gray"
+            android:text="24"/>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp">
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end">
 
-            <ImageButton
-                android:id="@+id/btnSave_zoomgif"
+            <ImageView
+                android:id="@+id/ivUpvotes_zoomgif"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/btn_feed_action"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_bookmark_border" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_arrow_up" />
 
-            <ImageButton
-                android:id="@+id/btnShare_zoomgif"
-                android:padding="4dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/btn_feed_action"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_share" />
-
-            <ImageButton
-                android:id="@+id/btnComments_zoomgif"
-                android:padding="4dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/btn_feed_action"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_chat_bubble_outline" />
-
-            <TextView
-                android:id="@+id/tvCommentCount_zoomgif"
-                android:gravity="center_vertical|end"
+            <com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher
+                android:id="@+id/tsUpvotesCounter_zoomgif"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:textColor="@android:color/darker_gray"
-                android:text="24"/>
-
-            <LinearLayout
-                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical|end">
+                android:inAnimation="@anim/slide_in_upvotes_counter"
+                android:outAnimation="@anim/slide_out_upvotes_counter">
 
-                <ImageView
-                    android:id="@+id/ivUpvotes_zoomgif"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_arrow_up" />
-
-                <com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher
-                    android:id="@+id/tsUpvotesCounter_zoomgif"
+                <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:inAnimation="@anim/slide_in_upvotes_counter"
-                    android:outAnimation="@anim/slide_out_upvotes_counter">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="0"
+                    android:textColor="@android:color/darker_gray" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:text="0 karma"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:text="1 karma"
-                        android:textColor="@color/text_upvote_counter" />
-                </com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher>
-            </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="1"
+                    android:textColor="@color/text_upvote_counter" />
+            </com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher>
         </LinearLayout>
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
+

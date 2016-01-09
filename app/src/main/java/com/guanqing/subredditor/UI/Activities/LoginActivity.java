@@ -20,9 +20,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Events.FinishLoginActivityEvent;
 import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Utils.ImageUtil;
 import com.guanqing.subredditor.Utils.SharedPrefUtil;
 import com.guanqing.subredditor.Utils.ToastUtil;
@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.login_webview) WebView webView;
 
     //JRAW login instances
-    UserAgent mUserAgent;
+    protected UserAgent mUserAgent;
     static RedditClient redditClient;
 
     private static String username = "";

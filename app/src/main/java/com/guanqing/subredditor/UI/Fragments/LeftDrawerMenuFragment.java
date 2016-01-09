@@ -6,7 +6,11 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
@@ -15,14 +19,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.Events.LoginEvent;
+import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.Activities.LoginActivity;
-import com.guanqing.subredditor.UI.Widgets.CircleTransformation;
 import com.guanqing.subredditor.UI.Widgets.AnimatedExpandableListView.AnimatedExpandableListView;
 import com.guanqing.subredditor.UI.Widgets.AnimatedExpandableListView.ChildItem;
 import com.guanqing.subredditor.UI.Widgets.AnimatedExpandableListView.ExpandableListAdapter;
 import com.guanqing.subredditor.UI.Widgets.AnimatedExpandableListView.GroupItem;
+import com.guanqing.subredditor.UI.Widgets.CircleTransformation;
 import com.guanqing.subredditor.Utils.ImageUtil;
 import com.guanqing.subredditor.Utils.SharedPrefUtil;
 import com.guanqing.subredditor.Utils.ToastUtil;
@@ -38,16 +42,12 @@ public class LeftDrawerMenuFragment extends MenuFragment {
 
     protected Context mContext;
 
-    /*@Bind(R.id.ivMenuUserProfilePhoto) ImageView ivMenuUserProfilePhoto;
-    @Bind(R.id.ivUserProfileName) TextView tvUsername;
-    @Bind(R.id.lvExpandable) AnimatedExpandableListView expandableListView;
-    @Bind(R.id.btnLogout) ImageButton btnLogout;*/
-
     private ImageView ivMenuUserProfilePhoto;
     private TextView tvUsername;
     private AnimatedExpandableListView expandableListView;
     private ExpandableListAdapter adapter;
     private ImageButton btnLogout;
+    private NavigationView navigationView;
 
     //private ExpandableListAdapter adapter;
 
@@ -55,11 +55,16 @@ public class LeftDrawerMenuFragment extends MenuFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         EventBus.getDefault().register(this);
     }
 
     @Override
-    public void onDestroy() {
+    public void onStop() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -71,6 +76,18 @@ public class LeftDrawerMenuFragment extends MenuFragment {
         ivMenuUserProfilePhoto = (ImageView) view.findViewById(R.id.ivMenuUserProfilePhoto);
         tvUsername = (TextView) view.findViewById(R.id.ivUserProfileName);
         btnLogout = (ImageButton)view.findViewById(R.id.btnLogout);
+        navigationView = (NavigationView) view.findViewById(R.id.vNavigation);
+
+        //TODO: add menu items doesn't work from here
+        Menu menu = navigationView.getMenu();
+        SubMenu subMenu = menu.addSubMenu("Subreddits");
+        subMenu.add("Pics");
+        subMenu.add("Gif");
+        subMenu.add("Movie");
+        subMenu.add("AWW");
+
+        MenuItem mi = menu.getItem(menu.size()-1);
+        mi.setTitle(mi.getTitle());
 
         //create a listener to launch login activity
         View.OnClickListener listener = new View.OnClickListener() {

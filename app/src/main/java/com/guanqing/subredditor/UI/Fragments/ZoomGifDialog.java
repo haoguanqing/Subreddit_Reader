@@ -11,16 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.guanqing.subredditor.FrontPageModel;
 import com.guanqing.subredditor.R;
 import com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView;
 import com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher;
 import com.guanqing.subredditor.Utils.Constants;
+import com.guanqing.subredditor.Utils.ImageUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -95,8 +98,6 @@ public class ZoomGifDialog extends DialogFragment {
             }
         });
 
-        loadGif(model.getLink());
-
         return view;
     }
 
@@ -107,31 +108,42 @@ public class ZoomGifDialog extends DialogFragment {
         dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation_zoom;
         return dialog;
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        int width = screenSize[0] * 10/11;
-        int height = screenSize[1] * 10/11;
-
+        //error check
         if (getDialog() == null)
             return;
+
+        //load mp4 video from resource
+        loadGif(model.getLink());
+
+        //get a suitable width for the zoomed view
+        int width = ImageUtil.getAppropriateGifDialogWidth(ratio);
+        //set view size to fit the screen
         if (getResources().getConfiguration().orientation==1){
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
-        }else{
-            getDialog().getWindow().setLayout(height, width);
         }
     }
 
-
+    private float ratio = -1;
+    //load mp4 into VideoView
     private void loadGif(String url){
         Uri uri = Uri.parse(url);
         holder.gifView.setVideoURI(uri);
+        holder.gifView.setZOrderOnTop(true);
         holder.gifView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-                holder.loadingIndicatorView.setVisibility(View.GONE);
+                holder.loadingIndicator.setVisibility(View.GONE);
                 holder.ivBackground.setVisibility(View.GONE);
+
+                mp.setLooping(true);
+                int width = mp.getVideoWidth();
+                int height = mp.getVideoHeight();
+                ratio = (float) width/height;
+                holder.gifView.start();
             }
         });
         //on error:
@@ -139,8 +151,9 @@ public class ZoomGifDialog extends DialogFragment {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
                 holder.gifView.setVisibility(View.GONE);
-                holder.loadingIndicatorView.setVisibility(View.VISIBLE);
-                holder.ivBackground.setVisibility(View.GONE);
+                holder.loadingIndicator.setVisibility(View.GONE);
+                holder.ivBackground.setVisibility(View.VISIBLE);
+                Glide.with(getActivity()).load(R.drawable.error_gray).into(holder.ivBackground);
                 holder.ivBackground.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -150,7 +163,6 @@ public class ZoomGifDialog extends DialogFragment {
                 return false;
             }
         });
-        holder.gifView.start();
     }
 
 
@@ -160,6 +172,9 @@ public class ZoomGifDialog extends DialogFragment {
         // UI reference
         @Bind(R.id.vvGifView_zoomgif) protected VideoView gifView;
         @Bind(R.id.ivBackground_zoomgif) protected ImageView ivBackground;
+        @Bind(R.id.loadingIndicator_zoomgif) protected LoadingIndicatorView loadingIndicator;
+        @Bind(R.id.gifFrame_zoomgif) protected FrameLayout frameLayout;
+
         @Bind(R.id.btnSave_zoomgif) protected ImageButton btnSave;
         @Bind(R.id.btnShare_zoomgif) protected ImageButton btnShare;
         @Bind(R.id.btnComments_zoomgif) protected ImageButton btnComments;
@@ -167,7 +182,6 @@ public class ZoomGifDialog extends DialogFragment {
         @Bind(R.id.tvFeedTitle_zoomgif) protected TextView tvTitle;
         @Bind(R.id.tsUpvotesCounter_zoomgif) protected UpvoteTextSwitcher tsUpvote;
         @Bind(R.id.ivUpvotes_zoomgif) protected ImageView ivUpvotes;
-        @Bind(R.id.loadingIndicator_zoomgif) protected LoadingIndicatorView loadingIndicatorView;
 
         public ViewHolder(View view){
             this.view = view;

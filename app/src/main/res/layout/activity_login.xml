@@ -11,6 +11,12 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:mContext=".UI.Activities.LoginActivity">
 
+    <WebView
+        android:id="@+id/login_webview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
     <!-- Login progress -->
     <LinearLayout
         android:id="@+id/login_process"
@@ -20,25 +26,13 @@
         android:visibility="gone"
         android:gravity="center">
 
-        <WebView
-            android:id="@+id/login_webview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"/>
-
-        <fr.castorflex.android.circularprogressbar.CircularProgressBar
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.guanqing.subredditor.UI.Widgets.LoadingIndicatorView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:indeterminate="true"
-            app:cpb_colors="@array/progressbarColors"
-            app:cpb_rotation_speed="1.0"
-            app:cpb_sweep_speed="1.2"
-            app:cpb_stroke_width="8dp"
-            app:cpb_min_sweep_angle="10"
-            app:cpb_max_sweep_angle="300"
-            />
+            android:layout_gravity="center"
+            android:visibility="visible"
+            app:indicator="Pacman"
+            app:indicator_color="@color/primary"/>
 
         <TextView
             android:layout_width="wrap_content"

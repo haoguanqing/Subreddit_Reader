@@ -2,13 +2,14 @@ package com.guanqing.subredditor.Utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.view.WindowManager;
 
 import com.guanqing.subredditor.App;
 import com.guanqing.subredditor.R;
@@ -16,7 +17,9 @@ import com.guanqing.subredditor.R;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
@@ -96,58 +99,48 @@ public class ImageUtil {
     public static Drawable getAvatarImage(Context context, Uri uri){
         try {
             InputStream inputStream = context.getContentResolver().openInputStream(uri);
-            return Drawable.createFromStream(inputStream, uri.toString() );
+            return Drawable.createFromStream(inputStream, uri.toString());
         } catch (FileNotFoundException e) {
             return context.getResources().getDrawable(R.drawable.avatar);
         }
     }
 
+    /**
+     * get drawable from url on background thread
+     * @param url
+     * @return drawable
+     * @throws IOException
+     */
+    public static Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
 
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
 
-
-
-
-
-
-
-
-
-
-
-
-
-    //define the size of the view to perfectly fit the screen
-    public static int[] getSuitableViewSize(int screenWidth, int screenHeight, int imageWidth, int imageHeight){
-        int adjustW = screenWidth * 10 / 11;
-        int adjustH = screenHeight * 8 / 11;
-        float screenRatio = (float) adjustW / adjustH;
-        float imageRatio = (float) imageWidth / imageHeight;
-
-        if(imageWidth > adjustW && imageRatio>screenRatio){
-            return new int[]{adjustW, WindowManager.LayoutParams.WRAP_CONTENT};
-        }else if (imageWidth > adjustW && imageRatio<screenRatio){
-            return new int[]{WindowManager.LayoutParams.WRAP_CONTENT, adjustH};
-        }else if (imageWidth < adjustW && imageHeight > adjustH){
-            return new int[]{WindowManager.LayoutParams.WRAP_CONTENT, adjustH};
-        }
-        return new int[]{adjustW,adjustH};
-
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(x);
     }
 
-    //define the view size to perfectly fit the horizontal screen
-    public static int[] getSuitableViewSizeHorizontal(int screenWidth, int screenHeight, int imageWidth, int imageHeight){
-        int adjustW = screenWidth * 10 / 11;
-        int adjustH = screenHeight * 8 / 11;
-        float screenRatio = (float) adjustW / adjustH;
-        float imageRatio = (float) imageWidth / imageHeight;
-
-        if(imageWidth > adjustW && imageRatio<screenRatio){
-            return new int[]{adjustW, WindowManager.LayoutParams.WRAP_CONTENT};
-        }else if (imageWidth > adjustW && imageRatio>screenRatio){
-            return new int[]{WindowManager.LayoutParams.WRAP_CONTENT, adjustH};
-        }else if (imageWidth < adjustW && imageHeight > adjustH){
-            return new int[]{WindowManager.LayoutParams.WRAP_CONTENT, adjustH};
+    public static int getAppropriateDialogWidth(float ratio){
+        int[] screenSize = Constants.getScreenSizeInPixels(App.getInstance());
+        int width = screenSize[0] * 10/11;
+        if(ratio>1.2){
+            width = screenSize[0];
         }
-        return new int[]{adjustW,adjustH};
+        return width;
+    }
+
+    public static int getAppropriateGifDialogWidth(float ratio){
+        int[] screenSize = Constants.getScreenSizeInPixels(App.getInstance());
+        float screenRatio = (float) screenSize[0]/screenSize[1];
+        int width = screenSize[0];
+        if(ratio>1.2){
+            return width;
+        } else if(ratio<screenRatio * 1.15 && ratio>0) {
+            return width * 8 / 11;
+        } else {
+            return width * 10 / 11;
+        }
     }
 }

@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-            android:id="@+id/ivFeedThumbnail_zoom"
+            android:id="@+id/ivImage_zoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -52,10 +52,10 @@
 
             <ImageButton
                 android:id="@+id/btnSave_zoom"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/btn_feed_action"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_bookmark_border" />
@@ -63,8 +63,8 @@
             <ImageButton
                 android:id="@+id/btnShare_zoom"
                 android:padding="4dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/btn_feed_action"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_share" />
@@ -72,8 +72,8 @@
             <ImageButton
                 android:id="@+id/btnComments_zoom"
                 android:padding="4dp"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:background="@drawable/btn_feed_action"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_chat_bubble_outline" />
@@ -82,7 +82,7 @@
                 android:id="@+id/tvCommentCount_zoom"
                 android:gravity="center_vertical|end"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="30dp"
                 android:textColor="@android:color/darker_gray"
                 android:text="24"/>
 
@@ -94,10 +94,10 @@
 
                 <ImageView
                     android:id="@+id/ivUpvotes_zoom"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:src="@drawable/ic_arrow_up" />
 
                 <com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher
@@ -113,7 +113,7 @@
                         android:layout_gravity="center"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="0 karma"
+                        android:text="0"
                         android:textColor="@android:color/darker_gray" />
 
                     <TextView
@@ -122,7 +122,7 @@
                         android:layout_gravity="center"
                         android:paddingTop="4dp"
                         android:paddingBottom="4dp"
-                        android:text="1 karma"
+                        android:text="1"
                         android:textColor="@color/text_upvote_counter" />
                 </com.guanqing.subredditor.UI.Widgets.UpvoteTextSwitcher>
             </LinearLayout>

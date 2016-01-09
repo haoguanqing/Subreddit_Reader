@@ -84,7 +84,7 @@ public class ListenerUtil {
             case IMGUR_GIF:
                 //imgur_gif();
                 break;
-            case IMAGE:
+            case IMGUR_IMAGE:
                 //image();
                 break;
             default:
@@ -138,16 +138,18 @@ public class ListenerUtil {
         showZoomFragment(frontPageModel, fm);
     }
 
-    private static FrontPageModel imgur_gif(FrontPageModel frontPageModel){
+    private static void imgur_gif(FrontPageModel frontPageModel){
         String url = frontPageModel.getLink();
         //change the gif link to mp4 if the GIF is from imgur.com
         if (url.endsWith(".gifv")) {
             frontPageModel.setLink(url.substring(0, url.length()-4) + "mp4");
-        }
-        if (url.endsWith(".gif")) {
+        }else if (url.endsWith(".gif")) {
             frontPageModel.setLink(url.substring(0, url.length()-3) + "mp4");
         }
-        return frontPageModel;
+        url = frontPageModel.getLink();
+        if(url.startsWith("http://imgur.com/")){
+            frontPageModel.setLink(url.replace("//imgur", "//i.imgur"));
+        }
     }
 
     private static void imgur_link(final FrontPageModel frontPageModel, ImgurClient imgurClient){
@@ -275,6 +277,7 @@ public class ListenerUtil {
 
             case IMGUR_ALBUM:
                 frontpageModel.setLink(url.replace("/a/", "/gallery/"));
+                ToastUtil.show("Imgur Album");
 
             case IMGUR_GALLERY:
                 //get the data of the images in the gallery with Imgur API
@@ -327,7 +330,6 @@ public class ListenerUtil {
 
             case IMGUR_LINK:
                 imgur_link(frontpageModel, client);
-
                 //set on click listener
                 onClickListener = new View.OnClickListener() {
                     @Override
@@ -347,14 +349,15 @@ public class ListenerUtil {
                 onClickListener = new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        imgur_gif(frontpageModel);
                         //show new detailed dialog
-                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(imgur_gif(frontpageModel));
+                        ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
                         fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
                     }
                 };
                 break;
 
-            case IMAGE:
+            case IMGUR_IMAGE:
                 //get the link of the image using Imgur API
                 service = client.getClient(ImgurService.class);
                 if(ImgurUtil.getImageId(url)!=null) {
@@ -402,6 +405,28 @@ public class ListenerUtil {
                         gfycat(frontpageModel, fm);
                         ZoomGifDialog fragment = ZoomGifDialog.newInstance(frontpageModel);
                         fragment.show(fm, ZoomGifDialog.DIALOG_FLAG);
+                    }
+                };
+                break;
+
+            case GIF:
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //show new detailed dialog
+                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
+                    }
+                };
+                break;
+
+            case IMAGE:
+                onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //show new detailed dialog
+                        ZoomDialog fragment = ZoomDialog.newInstance(frontpageModel);
+                        fragment.show(fm, ZoomDialog.DIALOG_FLAG);
                     }
                 };
                 break;
