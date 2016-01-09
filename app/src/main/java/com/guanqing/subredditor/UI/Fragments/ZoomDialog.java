@@ -112,8 +112,7 @@ public class ZoomDialog extends DialogFragment {
     public void onResume() {
         super.onResume();
         //error check
-        if (getDialog() == null)
-            return;
+        if (getDialog() == null) return;
 
         //get a suitable width for the zoomed view
         int width = ImageUtil.getAppropriateDialogWidth(model.getAspectRatio());
@@ -146,7 +145,11 @@ public class ZoomDialog extends DialogFragment {
                         @Override
                         public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
                             holder.loadingIndicatorView.setVisibility(View.GONE);
-                            //holder.ivImage.setLayoutParams());
+                            float ratio = (float) resource.getIntrinsicWidth()/resource.getIntrinsicHeight();
+                            //get a suitable width for the zoomed view
+                            int width = ImageUtil.getAppropriateDialogWidth(ratio);
+                            holder.ivImage.setMinimumHeight(new Float(width/ratio).intValue());
+
                             return false;
                         }
                     })

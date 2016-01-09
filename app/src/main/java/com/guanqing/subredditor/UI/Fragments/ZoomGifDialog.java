@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -119,12 +118,12 @@ public class ZoomGifDialog extends DialogFragment {
         //load mp4 video from resource
         loadGif(model.getLink());
 
-        //get a suitable width for the zoomed view
+/*        //get a suitable width for the zoomed view
         int width = ImageUtil.getAppropriateGifDialogWidth(ratio);
         //set view size to fit the screen
         if (getResources().getConfiguration().orientation==1){
             getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
-        }
+        }*/
     }
 
     private float ratio = -1;
@@ -144,6 +143,13 @@ public class ZoomGifDialog extends DialogFragment {
                 int height = mp.getVideoHeight();
                 ratio = (float) width/height;
                 holder.gifView.start();
+
+                //get a suitable width for the zoomed view
+                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
+                //set view size to fit the screen
+                if (getResources().getConfiguration().orientation==1){
+                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
+                }
             }
         });
         //on error:
@@ -160,6 +166,13 @@ public class ZoomGifDialog extends DialogFragment {
                         dismiss();
                     }
                 });
+
+                //get a suitable width for the zoomed view
+                int dialogWidth = ImageUtil.getAppropriateGifDialogWidth(ratio);
+                //set view size to fit the screen
+                if (getResources().getConfiguration().orientation==1){
+                    getDialog().getWindow().setLayout(dialogWidth, WindowManager.LayoutParams.WRAP_CONTENT);
+                }
                 return false;
             }
         });
@@ -173,7 +186,6 @@ public class ZoomGifDialog extends DialogFragment {
         @Bind(R.id.vvGifView_zoomgif) protected VideoView gifView;
         @Bind(R.id.ivBackground_zoomgif) protected ImageView ivBackground;
         @Bind(R.id.loadingIndicator_zoomgif) protected LoadingIndicatorView loadingIndicator;
-        @Bind(R.id.gifFrame_zoomgif) protected FrameLayout frameLayout;
 
         @Bind(R.id.btnSave_zoomgif) protected ImageButton btnSave;
         @Bind(R.id.btnShare_zoomgif) protected ImageButton btnShare;
