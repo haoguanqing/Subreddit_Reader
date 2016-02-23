@@ -12,6 +12,5 @@ The app will focus on rendering the best quality image possible in large views i
 
 The project is still in its beta version.
 
-[ScreenShot of the App](http://imgur.com/8HJNsBQ)
+[ScreenShot of the App](http://i.imgur.com/8HJNsBQ.gifv)
 
-![Screenshot of SubRedditor](http://i.imgur.com/8HJNsBQ.gif)
