@@ -14,4 +14,4 @@ The project is still in its beta version.
 
 [ScreenShot of the App](http://imgur.com/8HJNsBQ)
 
-![Screenshot of SubRedditor](http://i.imgur.com/8HJNsBQ.mp4)
+![Screenshot of SubRedditor](http://i.imgur.com/8HJNsBQ.webm)
