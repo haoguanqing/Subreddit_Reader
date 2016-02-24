@@ -33,10 +33,11 @@ public abstract class BaseFragment extends Fragment {
         mIsNetworkEnabled = NetworkUtil.isInternetConnected(getActivity());
     }
 
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         TAG = this.getClass().getSimpleName();
-        mActivity = (BaseActivity) activity;
+        //mActivity = (BaseActivity) getActivity();
         mApp = App.getInstance();
     }
 

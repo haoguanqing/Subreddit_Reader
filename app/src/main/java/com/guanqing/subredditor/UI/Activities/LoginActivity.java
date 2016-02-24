@@ -261,6 +261,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
         webView.loadUrl(authorizationUrl.toExternalForm());
+        Log.e("HGQ", "onPageFinished: " + authorizationUrl.toExternalForm());
     }
 
     class jsInterface{

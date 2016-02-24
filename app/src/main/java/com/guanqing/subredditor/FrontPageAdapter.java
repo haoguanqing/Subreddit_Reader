@@ -72,7 +72,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 int width = holder.ivThumbnail.getWidth();
                 int height = Float.valueOf(width / frontpageModel.getAspectRatio()).intValue();
                 Glide.with(mContext).load(frontpageModel.thumbnailUrl)
-                        .placeholder(R.drawable.avatar_loading)
+                        //.placeholder(R.drawable.avatar_loading)
                         .error(R.drawable.error_gray)
                         .thumbnail(0.1f)
                         .override(width, height)
@@ -80,7 +80,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         .into(holder.ivThumbnail);
             } else {
                 Glide.with(mContext).load(frontpageModel.thumbnailUrl)
-                        .placeholder(R.drawable.avatar_loading)
+                        //.placeholder(R.drawable.avatar_loading)
                         .error(R.drawable.error_gray)
                         .thumbnail(0.1f)
                         .crossFade()

@@ -21,7 +21,7 @@
             android:adjustViewBounds="true"
             android:visibility="visible"
             android:src="@drawable/avatar_loading"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:background="@color/photo_placeholder" />
 
         <VideoView

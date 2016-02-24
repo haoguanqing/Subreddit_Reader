@@ -248,7 +248,7 @@ public class ListenerUtil {
         if (prev != null){
             ZoomDialog df = (ZoomDialog) prev;
             df.dismiss();
-            fm.beginTransaction().remove(prev);
+            fm.beginTransaction().remove(prev).commit();
         }
 
         View.OnClickListener onClickListener;
@@ -378,7 +378,6 @@ public class ListenerUtil {
                                 //200 - success
                                 float aspectRatio = (float) image.getData().getWidth() / image.getData().getHeight();
                                 frontpageModel.setAspectRatio(aspectRatio);
-
                             }
                         }
 

@@ -117,13 +117,6 @@ public class ZoomGifDialog extends DialogFragment {
 
         //load mp4 video from resource
         loadGif(model.getLink());
-
-/*        //get a suitable width for the zoomed view
-        int width = ImageUtil.getAppropriateGifDialogWidth(ratio);
-        //set view size to fit the screen
-        if (getResources().getConfiguration().orientation==1){
-            getDialog().getWindow().setLayout(width, WindowManager.LayoutParams.WRAP_CONTENT);
-        }*/
     }
 
     private float ratio = -1;

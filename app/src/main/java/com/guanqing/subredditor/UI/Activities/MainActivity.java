@@ -2,6 +2,7 @@ package com.guanqing.subredditor.UI.Activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -17,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Bind(R.id.leftDrawer) LeftDrawerLayout mLeftDrawerLayout;
     @Bind(R.id.flowing_view) FlowingView mFlowingView;
