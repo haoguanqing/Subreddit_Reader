@@ -1,8 +1,7 @@
 # SubRedditor
 
-An Android Reddit client optimized for viewing media images/videos.
+*An Android Reddit client optimized for viewing media images/videos.*
 
------------------------------------------
 
 **ABOUT**
 
@@ -12,5 +11,4 @@ The app will focus on rendering the best quality image possible in large views i
 
 The project is still in its beta version.
 
-![ScreenShot of the App](https://thumbs.gfycat.com/JampackedLoathsomeBat-size_restricted.gif)
-
+![ScreenShot of the App](https://thumbs.gfycat.com/SatisfiedCheerfulJumpingbean-size_restricted.gif)
